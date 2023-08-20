@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "font-oxanium";
+@import "font-sourceserif";
+@import "type";
+@import "blogStyles";
+@import "featureStyles";
+@import "headlineStyles";
+
+@layer components {
+}
+
+@layer utilities {
+    body {
+        @apply bg-white font-sans overflow-x-hidden;
+
+    }
+
+    .flip {
+        transform: scaleX(-1);
+    }
+
+    .gradientSuccess {
+        @apply bg-gradient-to-b from-success to-success-dark;
+    }
+
+    .gradientPrimary {
+        @apply bg-gradient-to-b from-primary to-primary-dark;
+    }
+}
+
+* {
+    text-rendering:              optimizeLegibility;
+    -webkit-font-smoothing:      antialiased;
+    -moz-osx-font-smoothing:     grayscale;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+a {
+    &:visited {
+    }
+
+    &:focus {
+        @apply text-white;
+    }
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+
+    @apply focus:ring-0;
+}
+
+.content {
+
+    h1 {
+        @apply text-2xl mb-2 text-primary;
+    }
+
+    h2 {
+        @apply text-xl mb-2;
+    }
+
+    strong {
+        @apply text-primary;
+    }
+
+    p {
+        @apply mb-4 leading-relaxed;
+    }
+
+    ul {
+        li {
+            list-style: circle;
+        }
+    }
+
+}
