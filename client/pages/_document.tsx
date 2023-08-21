@@ -20,7 +20,7 @@ class MyDocument extends Document {
                     <meta name="description" content="JourneyJar" />
                     <meta name="format-detection" content="telephone=no" />
                     <meta name="mobile-web-app-capable" content="yes" />
-                    <meta name="theme-color" content="#119DA4" />
+                    <meta name="theme-color" content="#5B6865" />
 
                     <link rel="apple-touch-icon" href="/manifest/favicon.png" />
                     <link rel="apple-touch-icon" sizes="152x152" href="/manifest/iOS-152.png" />
@@ -45,10 +45,7 @@ class MyDocument extends Document {
 
                     <meta property="og:type" content="website" />
                     <meta property="og:title" content="journeyjar.me" />
-                    <meta
-                        property="og:description"
-                        content="Sealed Memories, Stories Unveiled"
-                    />
+                    <meta property="og:description" content="Sealed Memories, Stories Unveiled" />
                     <meta property="og:site_name" content="JourneyJar.dev" />
                     <meta property="og:url" content="https://JourneyJar.dev" />
                     <meta

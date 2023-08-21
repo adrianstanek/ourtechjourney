@@ -25,5 +25,3 @@ export const Scene: React.FC<IScene> = (props) => {
         </>
     );
 };
-
-Scene.defaultProps = {};

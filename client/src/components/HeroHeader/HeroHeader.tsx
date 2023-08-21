@@ -30,7 +30,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [collapsed]);
 
     const positionTitle = useMemo(() => {
-        return collapsed ? 'left-0 top-7 pl-8' : 'left-0 top-44';
+        return collapsed ? 'left-0 top-7 pl-16' : 'left-0 top-44';
     }, [collapsed]);
 
     const sizeTitle = useMemo(() => {
@@ -38,7 +38,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [collapsed]);
 
     const heightHeader = useMemo(() => {
-        return collapsed ? 'min-h-[80px]' : 'min-h-screen';
+        return collapsed ? 'min-h-[80px]' : 'h-[100svh]';
     }, [collapsed]);
 
     const startJourney = useCallback(() => {
@@ -75,22 +75,11 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                         </Transition>
                     </div>
 
-                    <Transition
-                        as={Fragment}
-                        show={isInit}
-                        enter="transition ease-in duration-500 delay-200"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
+                    <h1
+                        className={`absolute ${positionTitle} w-full text-center font-display ${sizeTitle} uppercase tracking-tight text-secondary transition-all duration-500`}
                     >
-                        <h1
-                            className={`absolute ${positionTitle} w-full text-center font-display ${sizeTitle} uppercase tracking-tight text-secondary transition-all`}
-                        >
-                            Journey Jar
-                        </h1>
-                    </Transition>
+                        Journey Jar
+                    </h1>
 
                     {!collapsed && (
                         <Transition
