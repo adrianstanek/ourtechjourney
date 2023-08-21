@@ -2,6 +2,11 @@ domains:
 - domain: jj.adrianstanek.dev
   type: PRIMARY
   zone: adrianstanek.dev
+envs:
+- key: FONTAWESOME_NPM_AUTH_TOKEN
+  scope: BUILD_TIME
+  type: SECRET
+  value: EV[1:ql4kDIJhpKekd/y9tN9s0WCT/9lNhqlO:7mdfs9KiHvKHL/f99pvW/+XLEWhNyVKDm38L+4Awj02nKZL2DuafdmathhwYfN19yhxTvw==]
 features:
 - enable-kata-build
 ingress:

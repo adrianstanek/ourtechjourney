@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "jj-get": "./scripts/getspec.sh adrian rmc-uboot",
-    "jj-update": "./scripts/updatespec.sh adrian rmc-uboot",
+    "jj-get": "./scripts/getspec.sh adrian journeyjar-stage",
+    "jj-update": "./scripts/updatespec.sh adrian journeyjar-stage",
     "postinstall": "cp -r node_modules/digitaloceanapps/scripts . && chmod -R +x ./scripts "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "digitaloceanapps": "github:webbardev/digitaloceanapps"
+    "digitaloceanapps": "github:webbardev/digitaloceanapps",
+    "fs-extra": "^11.1.1",
+    "shelljs": "^0.8.5"
   }
 }
