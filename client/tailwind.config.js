@@ -19,35 +19,19 @@ module.exports = {
             fontFamily: {
                 sans: ['Oxanium'],
                 serif: ['Source Serif Pro', 'Oxanium'],
-                display: ['Oxanium'],
+                display: ['Zeyada'],
                 body: ['Oxanium'],
             },
             colors: {
                 primary: {
-                    DEFAULT: '#119DA4',
-                    light: '#4CDDE5',
-                    dark: '#002C57',
+                    DEFAULT: '#5B6865',
+                    light: '#5B6865',
+                    dark: '#3a4240',
                 },
                 secondary: {
-                    DEFAULT: '#EBFF00',
-                    light: '#c9d340',
-                    dark: '#EBFF00',
-                },
-                wbLightBlue: {
-                    DEFAULT: '#4CDDE5',
-                    light: '#c9d340',
-                    dark: '#EBFF00',
-                },
-                wbYellow: {
-                    DEFAULT: '#EBFF00',
-                    light: '#c9d340',
-                    dark: '#707a13',
-                },
-                wbOrange: {
-                    DEFAULT: '#FF7F00',
-                },
-                wbGray: {
-                    DEFAULT: '#898989',
+                    DEFAULT: '#E4F9F5',
+                    light: '#E4F9F5',
+                    dark: '#E4F9F5',
                 },
                 tertiary: {
                     DEFAULT: '#898989',

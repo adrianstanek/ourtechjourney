@@ -4,10 +4,10 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "webbar PWA",
-    "app_name": "webbar PWA",
-    "description": "A small team in the middle of Rust, in Germany, enables other European companies to successfully implement #DevOps and eventually become #cloudnative.",
-    "short_name": "webbar PWA",
+    "name": "JourneyJar",
+    "app_name": "JourneyJar",
+    "description": "Sealed Memories, Stories Unveiled",
+    "short_name": "JourneyJar",
     "icons": [
         {
             "src": "/manifest/Manifest-192.png",

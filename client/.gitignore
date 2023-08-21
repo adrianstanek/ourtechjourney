@@ -4,6 +4,7 @@
 .idea/**
 
 /public/sw.js
+/public/service-worker*
 /public/workbox-**
 /public/assets/**/nextImageExportOptimizer/**
 /public/assets/next-image-export-optimizer-hashes.json

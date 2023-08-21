@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
-import { Header } from '../Header/Header';
-import { Footer } from '../Footer/Footer';
+import { useRecoilValue } from 'recoil';
+import { getHeaderCollapsed } from '../../recoil/appState';
 
 interface IScene extends PropsWithChildren {
     testId?: string;
@@ -9,21 +9,19 @@ interface IScene extends PropsWithChildren {
 export const Scene: React.FC<IScene> = (props) => {
     const { testId, children } = props;
 
+    const collapsed = useRecoilValue(getHeaderCollapsed);
+
     return (
         <>
-            <Header />
             <div className="relative flex w-screen flex-col">
                 <div
-                    className="relative h-full min-h-screen w-full"
+                    className={`relative w-full ${collapsed ? '' : 'mt-[300px]'}`}
                     data-test-id={testId ?? undefined}
                     id="headerWrapper"
                 >
-                    <div className="relative z-0 flex w-screen flex-col gap-10 md:gap-14 lg:gap-28">
-                        {children}
-                    </div>
+                    {children}
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

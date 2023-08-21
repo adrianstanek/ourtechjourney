@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="410.232" height="481.163" viewBox="0 0 410.232 481.163">
-  <g id="Group_46" data-name="Group 46" transform="translate(-92.594 -165.341)" style="mix-blend-mode: overlay;isolation: isolate">
-    <g id="Group_18" data-name="Group 18" transform="translate(92.595 165.342)">
-      <path id="Path_3" data-name="Path 3" d="M10876.092,24438.516h-106.548a43.155,43.155,0,0,1-37.341-64.721L10894,24093.582a42.166,42.166,0,0,1,37.342-21.592,42.852,42.852,0,0,1,22.33,6.031l-22.33,38.689-.615,1.109-7.75,13.414-.741,1.352-12.055,20.852-.925,1.6-13.1,22.7-125.187,216.842h51.308l137.614-238.377.43.244q11.35-18.914,22.885-37.768l25.16,43.553-9.533,16.488h0l-124.637,215.8h28.054l-26.208,43.926Z" transform="translate(-10726.253 -24071.988)" fill="#4cdde5" fill-rule="evenodd"/>
-      <path id="Path_4" data-name="Path 4" d="M13697.249,25299.18h0l36.478-63.18,26.516,44.232-36.973,63.975,70.438,121.988a43.154,43.154,0,0,1-37.34,64.719H13564l25.346-43.922h0l43.37-75.174-.43-.24,39.555-68.535h0l25.35-43.924Zm-55.86,187.813h113.563l-56.781-98.367Z" transform="translate(-13389.426 -25164.391)" fill="#fff" fill-rule="evenodd"/>
-    </g>
-    <text id="webbar" transform="translate(137.358 625.504)" fill="#4cdde5" font-size="102" font-family="Oxanium" letter-spacing="-0.06em"><tspan x="0" y="0">web</tspan><tspan y="0" fill="#fff">bar</tspan></text>
-  </g>
-</svg>

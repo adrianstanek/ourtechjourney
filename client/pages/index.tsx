@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import React from 'react';
 import Head from 'next/head';
+import { HeroHeader } from '../src/components/HeroHeader/HeroHeader';
 import { Scene } from '../src/components/Scene/Scene';
 
 const Home: NextPage = () => {
@@ -9,9 +10,13 @@ const Home: NextPage = () => {
     return (
         <div className="relative">
             <Head>
-                <title>Story App</title>
+                <title>JourneyJar</title>
             </Head>
-            <Scene testId="home"></Scene>
+
+            <HeroHeader />
+            <Scene>
+                <div className="block h-[1000px]">1</div>
+            </Scene>
         </div>
     );
 };
