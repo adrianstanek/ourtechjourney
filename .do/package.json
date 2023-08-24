@@ -5,7 +5,7 @@
   "scripts": {
     "jj-get": "./scripts/getspec.sh adrian journeyjar-stage",
     "jj-update": "./scripts/updatespec.sh adrian journeyjar-stage",
-    "postinstall": "cp -r node_modules/digitaloceanapps/scripts . && chmod -R +x ./scripts "
+    "postinstall": "node ./node_modules/digitaloceanapps/copyAndMakeExecutable.js"
   },
   "author": "",
   "license": "ISC",

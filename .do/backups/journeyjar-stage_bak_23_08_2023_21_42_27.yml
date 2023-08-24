@@ -1,0 +1,35 @@
+domains:
+- domain: jj.adrianstanek.dev
+  type: PRIMARY
+  zone: adrianstanek.dev
+envs:
+- key: FONTAWESOME_NPM_AUTH_TOKEN
+  scope: BUILD_TIME
+  type: SECRET
+  value: EV[1:ql4kDIJhpKekd/y9tN9s0WCT/9lNhqlO:7mdfs9KiHvKHL/f99pvW/+XLEWhNyVKDm38L+4Awj02nKZL2DuafdmathhwYfN19yhxTvw==]
+features:
+- enable-kata-build
+ingress:
+  rules:
+  - component:
+      name: client
+    match:
+      path:
+        prefix: /
+name: journeyjar-stage
+region: fra
+services:
+- build_command: npm run build
+  environment_slug: node-js
+  github:
+    branch: develop
+    deploy_on_push: true
+    repo: adrianstanek/journeyjar
+  health_check:
+    http_path: /api/hello
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: client
+  run_command: npm start
+  source_dir: client

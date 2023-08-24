@@ -22,7 +22,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [isInit]);
 
     const positionJar = useMemo(() => {
-        return collapsed ? 'left-16 top-4' : 'left-[calc(50%-60px)] translate-y-12 ';
+        return collapsed ? 'left-4 top-4' : 'left-[calc(50%-60px)] translate-y-12 ';
     }, [collapsed]);
 
     const sizeJar = useMemo(() => {
@@ -30,7 +30,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [collapsed]);
 
     const positionTitle = useMemo(() => {
-        return collapsed ? 'left-0 top-7 pl-8' : 'left-0 top-44';
+        return collapsed ? 'left-0 top-7 pr-20' : 'left-0 top-44';
     }, [collapsed]);
 
     const sizeTitle = useMemo(() => {
