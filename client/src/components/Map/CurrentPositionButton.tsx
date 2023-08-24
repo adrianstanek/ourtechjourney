@@ -2,26 +2,20 @@ import React, { useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationCrosshairs } from '@fortawesome/pro-duotone-svg-icons';
 import useGeolocation from '../../hooks/useGeolocation';
-import { useMap } from 'react-leaflet';
+import { useFlyToPosition } from './hooks/useFlyToPosition';
 
 export interface ICurrentPositionButton {}
 
 export const CurrentPositionButton: React.FC<ICurrentPositionButton> = () => {
     const { latitude, longitude, accuracy } = useGeolocation();
 
-    const map = useMap();
+    const { flyTo } = useFlyToPosition();
 
     const setPosition = useCallback(() => {
         if (accuracy && latitude && longitude) {
-            // Prevent wobbling animation for too short flights
-            const doAnimate = map.getCenter().distanceTo([latitude, longitude]) > 100;
-
-            map.flyTo([latitude, longitude], map.getZoom(), {
-                animate: doAnimate,
-                duration: 1.0,
-            });
+            flyTo(latitude, longitude);
         }
-    }, [accuracy, latitude, longitude, map]);
+    }, [accuracy, flyTo, latitude, longitude]);
 
     return (
         <>
