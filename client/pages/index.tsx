@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { HeroHeader } from '../src/components/HeroHeader/HeroHeader';
 import { Scene } from '../src/components/Scene/Scene';
 import dynamic from 'next/dynamic';
-import { homePosition } from '../src/positions/positions';
 import { AppBar } from '../src/components/AppBar/AppBar';
 
 const Map = dynamic(() => import('../src/components/Map/MapLeaflet'), { ssr: false });
@@ -20,11 +19,7 @@ const Home: NextPage = () => {
 
             <Scene>
                 <div className="relative z-0 flex h-[calc(100svh-80px)] w-full">
-                    <Map
-                        lat={homePosition?.latitude ?? null}
-                        lng={homePosition?.longitude ?? null}
-                        zoom={18 ?? null}
-                    />
+                    <Map zoom={18 ?? null} />
                 </div>
                 <div className="fixed bottom-0 z-10 w-full">
                     <AppBar />

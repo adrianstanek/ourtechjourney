@@ -3,7 +3,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import type { AppProps } from 'next/app';
 import { Flip, ToastContainer } from 'react-toastify';
 import React from 'react';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -27,7 +26,7 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
         <QueryClientProvider client={queryClient}>
             <RecoilRoot>
                 <Component {...pageProps} />
-                <ReactQueryDevtools />
+                {/*<ReactQueryDevtools />*/}
                 <ToastContainer
                     position="top-center"
                     autoClose={3500}

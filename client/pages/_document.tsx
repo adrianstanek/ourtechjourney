@@ -28,7 +28,7 @@ class MyDocument extends Document {
                     <link rel="apple-touch-icon" sizes="167x167" href="/manifest/iOS-167.png" />
 
                     <link rel="manifest" href="/manifest.json" />
-                    <link rel="mask-icon" href="/manifest/iOS-180.png" color="#119DA4" />
+                    <link rel="mask-icon" href="/manifest/iOS-180.png" color="#5B6865" />
                     <link rel="shortcut icon" href="/manifest/favicon.png" />
 
                     <meta name="twitter:card" content="summary" />
