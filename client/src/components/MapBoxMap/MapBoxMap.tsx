@@ -7,6 +7,9 @@ import { CurrentPositionButton } from './CurrentPositionButton';
 import { StoryRenderer } from './StoryRenderer';
 import { StoryMock } from '../../mock/StoryMock';
 import { IStory } from '../../interfaces/Story.interfaces';
+import { MomentDetails } from './MomentDetails';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -15,6 +18,10 @@ export interface IMapBoxMap {
 
 export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     const { latitude, longitude } = props;
+
+    const selectedMoment = useRecoilValue(getSelectedMoment);
+
+    const setAppState = useSetRecoilState(appStateRecoil);
 
     const mapBoxPK = process.env.NEXT_PUBLIC_MAPBOX_PK ?? null;
 
@@ -40,8 +47,13 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     const holdTimeoutRef = useRef<NodeJS.Timeout | number | null>(null);
 
     const handleMouseDown = (event) => {
+        setAppState((currVal) => {
+            return { ...currVal, selectedMoment: null };
+        });
+
         holdTimeoutRef.current = setTimeout(() => {
             // Trigger your hold action here
+            // eslint-disable-next-line no-console,@typescript-eslint/no-unsafe-member-access
             console.log('Map was held.', event.lngLat);
         }, 1000); // 1000ms (1s)
     };
@@ -79,11 +91,16 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                 >
                     <MeMarkerMB />
                     <NavigationControl />
-                    <CurrentPositionButton />
-
+                    {selectedMoment === null && (
+                        <>
+                            <CurrentPositionButton />
+                        </>
+                    )}
                     <StoryRenderer story={story} />
                 </Map>
             )}
+
+            <MomentDetails />
         </>
     );
 };

@@ -6,8 +6,12 @@ import { AppBar } from '../src/components/AppBar/AppBar';
 import { MapBoxMap } from '../src/components/MapBoxMap/MapBoxMap';
 import { homePosition } from '../src/positions/positions';
 import { HeroHeader } from '../src/components/HeroHeader/HeroHeader';
+import { useRecoilValue } from 'recoil';
+import { getSelectedMoment } from '../src/recoil/appState';
 
 const MapBox: NextPage = () => {
+    const selectedMoment = useRecoilValue(getSelectedMoment);
+
     return (
         <div className="relative">
             <Head>
@@ -23,9 +27,11 @@ const MapBox: NextPage = () => {
                         latitude={homePosition.latitude}
                     />
                 </div>
-                <div className="fixed bottom-0 z-10 w-full">
-                    <AppBar />
-                </div>
+                {selectedMoment === null && (
+                    <div className="fixed bottom-0  w-full">
+                        <AppBar />
+                    </div>
+                )}
             </Scene>
         </div>
     );
