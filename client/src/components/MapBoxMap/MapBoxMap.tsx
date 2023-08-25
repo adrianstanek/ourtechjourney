@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Map, { NavigationControl } from 'react-map-gl';
 import { MeMarkerMB } from './MeMarkerMB';
 import useGeolocation from '../../hooks/useGeolocation';
 import { homePosition } from '../../positions/positions';
 import { CurrentPositionButton } from './CurrentPositionButton';
+import { StoryRenderer } from './StoryRenderer';
+import { StoryMock } from '../../mock/StoryMock';
+import { IStory } from '../../interfaces/Story.interfaces';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -34,6 +37,27 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
         }
     }, [accuracy, currentPosition, geoLatitude, geoLongitude, latitude, longitude]);
 
+    const holdTimeoutRef = useRef<NodeJS.Timeout | number | null>(null);
+
+    const handleMouseDown = (event) => {
+        holdTimeoutRef.current = setTimeout(() => {
+            // Trigger your hold action here
+            console.log('Map was held.', event.lngLat);
+        }, 1000); // 1000ms (1s)
+    };
+
+    const handleMouseUp = () => {
+        if (holdTimeoutRef.current !== null) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            clearTimeout(holdTimeoutRef.current);
+        }
+    };
+
+    const story = useMemo(() => {
+        return StoryMock[0] as IStory;
+    }, []);
+
     return (
         <>
             {mapBoxPK && (
@@ -50,10 +74,14 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     style={{ width: '100%', height: '100%' }}
                     // mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
                     mapStyle="mapbox://styles/mapbox/outdoors-v12"
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
                 >
                     <MeMarkerMB />
                     <NavigationControl />
                     <CurrentPositionButton />
+
+                    <StoryRenderer story={story} />
                 </Map>
             )}
         </>
