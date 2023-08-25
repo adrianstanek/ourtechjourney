@@ -36,7 +36,7 @@ export const MeMarkerMB: React.FC = () => {
     }, [hasDeviceOrientation]);
 
     const triangleStyle: React.CSSProperties = {
-        transform: `rotate(${rotation - 90}deg) translate(16px)`,
+        transform: `rotate(-${rotation + 90}deg) translate(16px)`,
         position: 'absolute',
         top: '50%',
         left: '50%',

@@ -9,7 +9,7 @@ export const useFlyToPosition = () => {
             if (map) {
                 map.flyTo({
                     center: [longitude, latitude],
-                    duration: 500, // Animate over 12 seconds
+                    duration: 1500, // Animate over 12 seconds
                     essential: true, // This animation is considered essential with
                     speed: 0.2,
                     zoom: 18,
