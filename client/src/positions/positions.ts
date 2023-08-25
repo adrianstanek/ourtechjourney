@@ -1,4 +1,4 @@
-import { ILngLat } from '../components/Map/MapLeaflet';
+import { ILngLat } from '../components/MapBoxMap/interfaces/ILngLat';
 
 export const homePosition: ILngLat = {
     longitude: 8.10110589489341,

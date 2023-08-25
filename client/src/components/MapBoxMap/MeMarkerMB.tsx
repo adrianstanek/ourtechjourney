@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ILngLat } from './MapLeaflet';
-import MapMarker from './MapMarker';
 import useGeolocation from '../../hooks/useGeolocation';
+import { Marker } from 'react-map-gl';
 import { useHasDeviceOrientation } from './hooks/useHasDeviceOrientation';
+import { ILngLat } from './interfaces/ILngLat';
 
-export const MeMarker: React.FC = () => {
+export const MeMarkerMB: React.FC = () => {
     const geoPos = useGeolocation();
     const [mePos, setMePos] = useState<ILngLat | null>(null);
     const [rotation, setRotation] = useState(0);
@@ -50,7 +50,7 @@ export const MeMarker: React.FC = () => {
     return (
         <>
             {mePos && (
-                <MapMarker latitude={mePos.latitude} longitude={mePos.longitude}>
+                <Marker longitude={mePos.longitude} latitude={mePos.latitude}>
                     <figure className="relative aspect-[1/1] h-4 rounded-full bg-blue-500 ring-1 ring-blue-300 ring-offset-2 ring-offset-white">
                         <div className="aspect-[1/1] h-4 animate-ping rounded-full bg-blue-700 duration-1000" />
 
@@ -65,7 +65,7 @@ export const MeMarker: React.FC = () => {
                             </div>
                         )}
                     </figure>
-                </MapMarker>
+                </Marker>
             )}
         </>
     );

@@ -6,6 +6,7 @@ import React from 'react';
 
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { MapProvider } from 'react-map-gl';
 
 const MyApp = ({ Component, pageProps }: AppProps): unknown => {
     const queryClient = new QueryClient({
@@ -25,20 +26,22 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
     return (
         <QueryClientProvider client={queryClient}>
             <RecoilRoot>
-                <Component {...pageProps} />
-                {/*<ReactQueryDevtools />*/}
-                <ToastContainer
-                    position="top-center"
-                    autoClose={3500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    transition={Flip}
-                />
+                <MapProvider>
+                    <Component {...pageProps} />
+                    {/*<ReactQueryDevtools />*/}
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={3500}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        transition={Flip}
+                    />
+                </MapProvider>
             </RecoilRoot>
         </QueryClientProvider>
     );
