@@ -62,9 +62,7 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                             <figure className="relative flex aspect-[1/1] h-full w-full items-center justify-center overflow-hidden rounded-full bg-primary">
                                 <img
                                     className="relative flex w-[70%]"
-                                    src={
-                                        '/assets/icons/geolocations/noun-landscape-1999043-E4F9F5.svg'
-                                    }
+                                    src="/assets/icons/noun-landscape-1999043-E4F9F5.svg"
                                     alt={'Photo Placeholder'}
                                 />
                             </figure>
