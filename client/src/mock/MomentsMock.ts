@@ -20,8 +20,8 @@ export const momentsMock: IMoment[] = [
                 id: '1',
                 url: '/assets/mocks/outdoors/LandscapeViewBench.jpeg',
                 alt: 'On the bench!',
-                width: 1599,
-                height: 758,
+                width: 1024,
+                height: 485,
                 mimeType: 'image/jpeg',
             },
             {
