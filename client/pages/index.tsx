@@ -21,7 +21,7 @@ const MapBox: NextPage = () => {
             <HeroHeader />
 
             <Scene>
-                <div className="relative z-0 flex h-[calc(100svh-80px)] w-full">
+                <div className="relative z-0 flex h-[calc(100svh-50px)] w-full">
                     <MapBoxMap
                         longitude={homePosition.longitude}
                         latitude={homePosition.latitude}

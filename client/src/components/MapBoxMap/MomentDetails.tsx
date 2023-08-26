@@ -33,7 +33,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                 show={moment !== null}
                 appear={moment !== null}
                 as={'section'}
-                className="fixed bottom-0 left-0 z-[1000] h-[calc(100svh-80px)] w-screen overflow-x-hidden overflow-y-scroll bg-white p-2 duration-1000"
+                className="fixed bottom-0 left-0 z-[1000] h-[calc(100svh-50px)] w-screen overflow-x-hidden overflow-y-scroll bg-white p-2 duration-1000"
                 enter="transition-all ease-in-out duration-1000"
                 enterFrom="opacity-0 translate-y-24"
                 enterTo="opacity-100 translate-y-0"
@@ -41,15 +41,15 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-24"
             >
-                <button className="absolute right-3 top-4" onClick={close}>
+                <button className="absolute right-3 top-5" onClick={close}>
                     <FontAwesomeIcon icon={faXmark} className="h-8 text-neutral-500" />
                 </button>
 
-                <section className="relative z-0 flex w-max flex-row gap-1">
+                <section className="relative z-0 mt-1 flex w-max flex-row gap-1">
                     <ShareRow />
                 </section>
 
-                <section className="mt-1 flex w-full flex-row flex-nowrap gap-x-10">
+                <section className="mt-0 flex w-full flex-row flex-nowrap gap-x-10">
                     <>
                         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                         {/* @ts-ignore */}
@@ -90,7 +90,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                     </>
                 </section>
 
-                <h2 className="mt-2 font-display text-4xl text-primary">{moment?.label}</h2>
+                <h2 className="mt-4 font-display text-4xl text-primary">{moment?.label}</h2>
 
                 <Author author={AuthorMocks.jenny as IAuthor} />
 
