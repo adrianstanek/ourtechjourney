@@ -14,6 +14,7 @@ import ShareRow from '../ShareRow/ShareRow';
 import { Author } from '../Author/Author';
 import { AuthorMocks } from '../../mock/AuthorMocks';
 import { IAuthor } from '../../interfaces/IAuthor';
+import { Button } from '../Buttons/Button';
 
 export interface IMomentDetails {}
 
@@ -50,44 +51,59 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                 </section>
 
                 <section className="mt-0 flex w-full flex-row flex-nowrap gap-x-10">
-                    <>
-                        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                        {/* @ts-ignore */}
-                        <Swiper
-                            className="relative flex h-max w-full flex-row bg-primary-light/10"
-                            modules={[FreeMode, Pagination]}
-                            spaceBetween={10}
-                            loop={false}
-                            centeredSlidesBounds={false}
-                            slidesPerView={1}
-                            freeMode={false}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            // onSlideChange={() => console.log('slide change')}
-                            // onSwiper={(swiper) => {
-                            // }}
-                        >
-                            {moment?.media.map((media) => {
-                                if (!media.url) return undefined;
+                    {moment?.media && moment?.media.length > 0 && (
+                        <>
+                            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                            {/* @ts-ignore */}
+                            <Swiper
+                                className="relative flex h-max w-full flex-row bg-primary-light/10"
+                                modules={[FreeMode, Pagination]}
+                                spaceBetween={10}
+                                loop={false}
+                                centeredSlidesBounds={false}
+                                slidesPerView={1}
+                                freeMode={false}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                // onSlideChange={() => console.log('slide change')}
+                                // onSwiper={(swiper) => {
+                                // }}
+                            >
+                                {moment?.media.map((media) => {
+                                    if (!media.url) return undefined;
 
-                                return (
-                                    <SwiperSlide key={`${moment.id}-${media.id}`}>
-                                        <Image
-                                            className={`relative aspect-[1/1] w-full border-b-neutral-200 object-contain shadow-2xl drop-shadow-lg transition-all`}
-                                            src={media?.url ?? ''}
-                                            alt=""
-                                            width={media?.width}
-                                            height={media?.height}
-                                            placeholder="blur"
-                                            // https://png-pixel.com/
-                                            blurDataURL="/assets/blur/1x1-dcdcdc51.png"
-                                        />
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </Swiper>
-                    </>
+                                    return (
+                                        <SwiperSlide key={`${moment.id}-${media.id}`}>
+                                            <Image
+                                                className={`relative aspect-[1/1] w-full border-b-neutral-200 object-contain shadow-2xl drop-shadow-lg transition-all`}
+                                                src={media?.url ?? ''}
+                                                alt=""
+                                                width={media?.width}
+                                                height={media?.height}
+                                                placeholder="blur"
+                                                // https://png-pixel.com/
+                                                blurDataURL="/assets/blur/1x1-dcdcdc51.png"
+                                            />
+                                        </SwiperSlide>
+                                    );
+                                })}
+                            </Swiper>
+                        </>
+                    )}
+
+                    {moment?.media && moment?.media.length === 0 && (
+                        <div className="relative flex aspect-[1/1] w-full flex-col items-center justify-center gap-4 border-4 border-dotted border-primary bg-primary-light/20">
+                            <img
+                                src="/assets/icons/noun-photo-6015903-527970.svg"
+                                alt="camera"
+                                className="h-24"
+                            />
+                            <Button onClick={() => {}} color="primary">
+                                Hochladen
+                            </Button>
+                        </div>
+                    )}
                 </section>
 
                 <h2 className="mt-4 font-display text-4xl text-primary">{moment?.label}</h2>
