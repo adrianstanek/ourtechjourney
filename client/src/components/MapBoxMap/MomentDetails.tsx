@@ -83,7 +83,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                                     {/* @ts-ignore */}
                                     <Swiper
-                                        className="relative flex h-max w-full flex-row bg-primary-light/10"
+                                        className="relative flex h-max max-h-[70svh] w-full flex-row bg-primary-light/10"
                                         modules={[FreeMode, Pagination]}
                                         spaceBetween={10}
                                         loop={false}
@@ -103,7 +103,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                             return (
                                                 <SwiperSlide key={`${moment.id}-${media.id}`}>
                                                     <Image
-                                                        className={`relative aspect-[1/1] w-full border-b-neutral-200 object-contain shadow-2xl drop-shadow-lg transition-all`}
+                                                        className={`relative aspect-[1/1] max-h-[70svh] w-full border-b-neutral-200 object-contain transition-all`}
                                                         src={media?.url ?? ''}
                                                         alt=""
                                                         width={media?.width}
