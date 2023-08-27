@@ -22,7 +22,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [isInit]);
 
     const positionJar = useMemo(() => {
-        return collapsed ? 'left-2 top-1' : 'left-[calc(50%-60px)] translate-y-12 ';
+        return collapsed ? 'left-2 top-1' : 'left-[calc(50%-60px)] translate-y-24 ';
     }, [collapsed]);
 
     const sizeJar = useMemo(() => {
@@ -30,7 +30,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [collapsed]);
 
     const positionTitle = useMemo(() => {
-        return collapsed ? 'left-0 top-4 pr-20' : 'left-0 top-44';
+        return collapsed ? 'left-0 top-4 pr-20' : 'left-0 top-56';
     }, [collapsed]);
 
     const sizeTitle = useMemo(() => {
@@ -76,7 +76,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                     </div>
 
                     <h1
-                        className={`absolute ${positionTitle} w-full text-center font-display ${sizeTitle} uppercase tracking-tight text-secondary transition-all duration-500`}
+                        className={`absolute ${positionTitle} w-full text-center font-display ${sizeTitle} rotate-2 uppercase tracking-tight text-secondary transition-all duration-500`}
                     >
                         Journey Jar
                     </h1>
