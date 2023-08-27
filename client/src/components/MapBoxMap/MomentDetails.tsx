@@ -2,8 +2,6 @@ import { Transition } from '@headlessui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/pro-thin-svg-icons';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -15,6 +13,7 @@ import { Author } from '../Author/Author';
 import { AuthorMocks } from '../../mock/AuthorMocks';
 import { IAuthor } from '../../interfaces/IAuthor';
 import { AddMediaBox } from './AddMediaBox';
+import { ModalPopUp } from '../Modals/ModalPopUp';
 
 export interface IMomentDetails {}
 
@@ -37,7 +36,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
 
         setTimeout(() => {
             setShowContent(true);
-        }, 800);
+        }, 250);
 
         return () => {
             setShowContent(false);
@@ -46,22 +45,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
 
     return (
         <>
-            <Transition
-                show={moment !== null}
-                appear={moment !== null}
-                as={'section'}
-                className="duration-750 fixed bottom-0 left-0 z-[1000] h-[calc(100svh-50px)] w-screen overflow-x-hidden overflow-y-scroll bg-white p-2"
-                enter="transition-all ease-in-out duration-1000"
-                enterFrom="opacity-0 translate-y-24"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-24"
-            >
-                <button className="absolute right-3 top-5" onClick={close}>
-                    <FontAwesomeIcon icon={faXmark} className="h-8 text-neutral-500" />
-                </button>
-
+            <ModalPopUp show={moment !== null} closeButton={true} closeAction={close}>
                 <section className="relative z-0 mt-1 flex w-max flex-row gap-1">
                     <ShareRow />
                 </section>
@@ -141,7 +125,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         )}
                     </Transition>
                 )}
-            </Transition>
+            </ModalPopUp>
         </>
     );
 };
