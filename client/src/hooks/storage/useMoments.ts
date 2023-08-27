@@ -19,7 +19,7 @@ export const useMoments = () => {
         });
 
         return moments;
-    }, [momentDb, selectedStory?.id]);
+    }, [momentDb, selectedStory]);
 
     const [currentMoments, setCurrentMoments] = useState<null | IMoment[]>(null);
 

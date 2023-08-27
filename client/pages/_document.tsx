@@ -20,7 +20,7 @@ class MyDocument extends Document {
                     <meta name="description" content="JourneyJar" />
                     <meta name="format-detection" content="telephone=no" />
                     <meta name="mobile-web-app-capable" content="yes" />
-                    <meta name="theme-color" content="#5B6865" />
+                    <meta name="theme-color" content="#478577" />
 
                     <link rel="apple-touch-icon" href="/manifest/favicon.png" />
                     <link rel="apple-touch-icon" sizes="152x152" href="/manifest/iOS-152.png" />
@@ -28,7 +28,7 @@ class MyDocument extends Document {
                     <link rel="apple-touch-icon" sizes="167x167" href="/manifest/iOS-167.png" />
 
                     <link rel="manifest" href="/manifest.json" />
-                    <link rel="mask-icon" href="/manifest/iOS-180.png" color="#5B6865" />
+                    <link rel="mask-icon" href="/manifest/iOS-180.png" color="#478577" />
                     <link rel="shortcut icon" href="/manifest/favicon.png" />
 
                     <meta name="twitter:card" content="summary" />

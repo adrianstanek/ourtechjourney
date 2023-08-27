@@ -15,7 +15,7 @@ const withPWA = require('next-pwa')({
     reloadOnOnline: false, // Prevents reloads on offline/online switch
     sourcemap: true,
     sw: 'service-worker.js',
-    maximumFileSizeToCacheInBytes: 5014572,
+    maximumFileSizeToCacheInBytes: 10000000,
     buildExcludes: [
         /middleware-manifest\.json$/,
         /_middleware\.js$/,
