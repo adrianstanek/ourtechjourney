@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MapProvider } from 'react-map-gl';
 import { SWUpdater } from '../src/components/pwa/SWUpdater';
 import { useStorage } from '../src/hooks/storage/useStorage';
+import { StoryListModal } from '../src/components/Stories/StoryListModal';
 
 const MyApp = ({ Component, pageProps }: AppProps): unknown => {
     const queryClient = new QueryClient({
@@ -47,6 +48,7 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
                         pauseOnHover
                         transition={Flip}
                     />
+                    <StoryListModal />
                 </MapProvider>
             </RecoilRoot>
         </QueryClientProvider>

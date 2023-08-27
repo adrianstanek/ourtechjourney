@@ -8,6 +8,7 @@ export interface IAppState {
     headerCollapsed: boolean;
     selectedMoment: IMoment | null;
     selectedStory: IStory | null;
+    showStories: boolean;
 }
 
 export const appStateRecoil = atom<IAppState>({
@@ -16,6 +17,7 @@ export const appStateRecoil = atom<IAppState>({
         headerCollapsed: false,
         selectedMoment: null,
         selectedStory: StoryMock[0] as IStory,
+        showStories: false,
     },
 });
 
@@ -37,5 +39,12 @@ export const getSelectedStory = selector<IStory | null>({
     key: `/get-selected-story-${nanoid()}`,
     get: ({ get }): IStory | null => {
         return get(appStateRecoil).selectedStory;
+    },
+});
+
+export const getShowStories = selector<boolean>({
+    key: `get-show-stories/${nanoid()}`,
+    get: ({ get }): boolean => {
+        return get(appStateRecoil).showStories;
     },
 });

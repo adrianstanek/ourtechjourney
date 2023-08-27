@@ -10,6 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStories } from '../../hooks/storage/useStories';
 import { MomentsRenderer } from './MomentsRenderer';
+import { StoryCloser } from '../Stories/StoryCloser';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -100,6 +101,7 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
             )}
 
             <MomentDetails />
+            <StoryCloser />
         </>
     );
 };

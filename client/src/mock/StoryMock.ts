@@ -7,7 +7,7 @@ export const StoryMock: IStory[] = [
         id: '1',
         moments: [...momentsMock],
         created: dayjs().toISOString(),
-        label: '',
+        label: 'Hinterzarten Family Trip',
         description: '',
     },
     {

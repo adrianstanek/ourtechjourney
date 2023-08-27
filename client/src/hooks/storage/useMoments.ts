@@ -13,7 +13,7 @@ export const useMoments = () => {
         const moments: IMoment[] = [];
 
         await momentDb.iterate((value: IMoment) => {
-            if (value.parentStory !== selectedStory?.id) {
+            if (value.parentStory !== selectedStory?.id || selectedStory === null) {
                 moments.push(value);
             }
         });
