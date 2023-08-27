@@ -32,11 +32,20 @@ export const StoryListModal: React.FC<IStoryListModal> = () => {
                                     setAppState((currVal) => {
                                         return {
                                             ...currVal,
-                                            selectedStory: story,
-                                            selectedMoment: null,
-                                            showStories: false,
+                                            selectedStory: null,
                                         };
                                     });
+
+                                    setTimeout(() => {
+                                        setAppState((currVal) => {
+                                            return {
+                                                ...currVal,
+                                                selectedMoment: null,
+                                                selectedStory: story,
+                                                showStories: false,
+                                            };
+                                        });
+                                    }, 100);
                                 }}
                                 key={`story-select-button-${story.id}`}
                             >
