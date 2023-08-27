@@ -8,6 +8,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MapProvider } from 'react-map-gl';
 import { SWUpdater } from '../src/components/pwa/SWUpdater';
+import { useStorage } from '../src/hooks/storage/useStorage';
 
 const MyApp = ({ Component, pageProps }: AppProps): unknown => {
     const queryClient = new QueryClient({
@@ -23,6 +24,9 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
             },
         },
     });
+
+    // Initialize Storage and Mock Data
+    useStorage();
 
     return (
         <QueryClientProvider client={queryClient}>

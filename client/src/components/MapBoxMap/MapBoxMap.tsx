@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Map, { NavigationControl } from 'react-map-gl';
 import { MeMarkerMB } from './MeMarkerMB';
 import useGeolocation from '../../hooks/useGeolocation';
 import { homePosition } from '../../positions/positions';
 import { CurrentPositionButton } from './CurrentPositionButton';
 import { StoryRenderer } from './StoryRenderer';
-import { StoryMock } from '../../mock/StoryMock';
-import { IStory } from '../../interfaces/Story.interfaces';
 import { MomentDetails } from './MomentDetails';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
+import { useStories } from '../../hooks/storage/useStories';
+import { MomentsRenderer } from './MomentsRenderer';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -18,6 +18,8 @@ export interface IMapBoxMap {
 
 export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     const { latitude, longitude } = props;
+
+    const { currentStory } = useStories();
 
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
@@ -66,10 +68,6 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
         }
     };
 
-    const story = useMemo(() => {
-        return StoryMock[0] as IStory;
-    }, []);
-
     return (
         <>
             {mapBoxPK && (
@@ -96,7 +94,8 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                             <CurrentPositionButton />
                         </>
                     )}
-                    <StoryRenderer story={story} />
+                    {currentStory && <StoryRenderer story={currentStory} />}
+                    <MomentsRenderer />
                 </Map>
             )}
 

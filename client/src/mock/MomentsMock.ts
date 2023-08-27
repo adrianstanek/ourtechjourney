@@ -6,6 +6,7 @@ export const momentsMock: IMoment[] = [
         type: 'place',
         latitude: 47.90243188821165,
         longitude: 8.103891370819525,
+        parentStory: '1',
         direction: 60,
         description:
             '🗺 Explore the Wonders of Rocky Peak\n' +
@@ -49,6 +50,7 @@ export const momentsMock: IMoment[] = [
         type: 'vista',
         latitude: 47.90052969099884,
         longitude: 8.1028543997364,
+        parentStory: '1',
         direction: 240,
         label: 'Blick über Hinterzarten',
         description:

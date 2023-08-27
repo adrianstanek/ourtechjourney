@@ -10,4 +10,11 @@ export const StoryMock: IStory[] = [
         label: '',
         description: '',
     },
+    {
+        id: '2',
+        moments: [],
+        created: dayjs().toISOString(),
+        label: '',
+        description: '',
+    },
 ];

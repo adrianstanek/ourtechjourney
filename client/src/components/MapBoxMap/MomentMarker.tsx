@@ -8,10 +8,11 @@ import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 
 interface IMomentMarker {
     moment: IMoment;
+    inactive?: boolean;
 }
 
 export const MomentMarker: React.FC<IMomentMarker> = (props) => {
-    const { moment } = props;
+    const { moment, inactive } = props;
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const selectedMoment = useRecoilValue(getSelectedMoment);
@@ -38,13 +39,17 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         });
     }, [moment, setAppState]);
 
+    const activeStyles = useMemo(() => {
+        return inactive ? 'opacity-50 ring-1 ' : 'opacity-100 ring-2';
+    }, [inactive]);
+
     return (
         <>
             {moment.latitude && moment.longitude && (
                 <Marker longitude={moment.longitude} latitude={moment.latitude}>
                     <button
                         onClick={click}
-                        className={`relative aspect-[1/1] rounded-full bg-neutral-200 ring-1 ring-offset-2  transition-all ${size}`}
+                        className={`relative aspect-[1/1] rounded-full bg-neutral-200  ring-offset-2  transition-all ${size} ${activeStyles}`}
                     >
                         {heroImage && heroImage.url && (
                             <figure className="relative flex aspect-[1/1] h-full w-full overflow-hidden rounded-full">
