@@ -1,18 +1,25 @@
 import { useCallback } from 'react';
 import { useMap } from 'react-map-gl';
 
+export interface IFlyToOptions {
+    zoom?: number;
+    speed?: number;
+    duration?: number;
+    essential?: boolean;
+}
+
 export const useFlyToPosition = () => {
     const { current: map } = useMap();
 
     const flyTo = useCallback(
-        (latitude: number, longitude: number) => {
+        (latitude: number, longitude: number, options?: IFlyToOptions) => {
             if (map) {
                 map.flyTo({
                     center: [longitude, latitude],
-                    duration: 1500, // Animate over 12 seconds
-                    essential: true, // This animation is considered essential with
-                    speed: 0.2,
-                    zoom: 18,
+                    essential: options?.essential ?? true,
+                    duration: options?.duration ?? 1500,
+                    speed: options?.speed ?? 0.2,
+                    zoom: options?.zoom ?? 18,
                 });
             }
         },

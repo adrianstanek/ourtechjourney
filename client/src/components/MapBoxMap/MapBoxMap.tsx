@@ -11,6 +11,7 @@ import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStories } from '../../hooks/storage/useStories';
 import { MomentsRenderer } from './MomentsRenderer';
 import { StoryCloser } from '../Stories/StoryCloser';
+import { FlyToStory } from './FlyToStory';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -90,13 +91,10 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                 >
                     <MeMarkerMB />
                     <NavigationControl />
-                    {selectedMoment === null && (
-                        <>
-                            <CurrentPositionButton />
-                        </>
-                    )}
+                    {selectedMoment === null && <CurrentPositionButton />}
                     {currentStory && <StoryRenderer story={currentStory} />}
                     <MomentsRenderer />
+                    <FlyToStory />
                 </Map>
             )}
 
