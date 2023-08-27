@@ -12,6 +12,7 @@ import { useStories } from '../../hooks/storage/useStories';
 import { MomentsRenderer } from './MomentsRenderer';
 import { StoryCloser } from '../Stories/StoryCloser';
 import { FlyToStory } from './FlyToStory';
+import { StoryConnectorRenderer } from './StoryConnectorRenderer';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -95,6 +96,7 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     {currentStory && <StoryRenderer story={currentStory} />}
                     <MomentsRenderer />
                     <FlyToStory />
+                    <StoryConnectorRenderer />
                 </Map>
             )}
 
