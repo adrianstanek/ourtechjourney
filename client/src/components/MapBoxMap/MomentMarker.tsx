@@ -40,7 +40,7 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
     }, [moment, setAppState]);
 
     const activeStyles = useMemo(() => {
-        return inactive ? 'opacity-50 ring-1 ' : 'opacity-100 ring-2';
+        return inactive ? 'opacity-30 ring-1 ' : 'opacity-100 ring-2';
     }, [inactive]);
 
     return (
