@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 export const momentsMock: IMoment[] = [
     {
         id: '1',
+        type: 'place',
         latitude: 47.90243188821165,
         longitude: 8.103891370819525,
         direction: 60,
@@ -45,6 +46,7 @@ export const momentsMock: IMoment[] = [
     },
     {
         id: '2',
+        type: 'vista',
         latitude: 47.90052969099884,
         longitude: 8.1028543997364,
         direction: 240,
@@ -71,6 +73,7 @@ export const momentsMock: IMoment[] = [
     },
     {
         id: '3',
+        type: 'place',
         latitude: 47.9017782301,
         longitude: 8.10162940423,
         direction: 181,

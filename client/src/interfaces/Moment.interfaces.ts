@@ -1,5 +1,7 @@
 import { IMedia } from './Media.interfaces';
 
+export type IMomentType = 'vista' | 'place';
+
 export interface IMoment {
     id: string;
     parentStory?: string;
@@ -10,4 +12,5 @@ export interface IMoment {
     media: IMedia[];
     description: string;
     created: string;
+    type: IMomentType | null;
 }
