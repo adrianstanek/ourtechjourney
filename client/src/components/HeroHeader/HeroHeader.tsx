@@ -93,7 +93,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                             leaveTo="opacity-0 translate-y-1"
                         >
                             <div>
-                                <span className="itemc absolute bottom-3 left-0 flex w-full justify-center text-center text-xs uppercase text-secondary transition-all">
+                                <span className="absolute bottom-3 left-0 flex w-full justify-center text-center text-xs uppercase text-secondary transition-all">
                                     Sealed Memories. Stories unveiled.
                                 </span>
 
