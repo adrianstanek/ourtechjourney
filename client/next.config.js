@@ -10,7 +10,7 @@ const withPWA = require('next-pwa')({
     dest: 'public', // this will use the "public" directory for the service worker and assets
     disable: process.env.NODE_ENV === 'development', // Disable PWA for development
     register: true,
-    skipWaiting: true, // installs new SW when available without a prompt, we only need to send a reload request to user.
+    skipWaiting: false, // installs new SW when available without a prompt, we only need to send a reload request to user.
     dynamicStartUrl: false, // recommend: set to false if your start url always returns same HTML document, then start url will be precached, this will help to speed up first load.
     reloadOnOnline: false, // Prevents reloads on offline/online switch
     sourcemap: true,

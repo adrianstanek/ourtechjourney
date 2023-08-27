@@ -43,6 +43,7 @@
     "axios": "^0.25.0",
     "dayjs": "^1.10.7",
     "eslint-config-airbnb-typescript": "^16.1.0",
+    "@types/wicg-file-system-access": "^2020.9.5",
     "exif-auto-rotate": "^0.3.5",
     "graphql": "^16.6.0",
     "graphql-request": "^4.0.0",
@@ -69,6 +70,7 @@
     "striptags": "^3.2.0",
     "swiper": "^9.4.1",
     "tailwindcss": "^3.2.4",
+    "workbox-window": "^7.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

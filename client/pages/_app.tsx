@@ -7,6 +7,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MapProvider } from 'react-map-gl';
+import { SWUpdater } from '../src/components/pwa/SWUpdater';
 
 const MyApp = ({ Component, pageProps }: AppProps): unknown => {
     const queryClient = new QueryClient({
@@ -28,6 +29,7 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
             <RecoilRoot>
                 <MapProvider>
                     <Component {...pageProps} />
+                    <SWUpdater />
                     {/*<ReactQueryDevtools />*/}
                     <ToastContainer
                         position="top-center"
