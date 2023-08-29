@@ -2,9 +2,10 @@ export type MimeType = 'image/jpeg' | 'image/png' | 'video/x-msvideo' | 'video/m
 
 export interface IMedia {
     id: string;
-    url: string | null;
+    mediaId: string | null;
     width?: number;
     height?: number;
     mimeType?: MimeType;
     alt?: string;
+    url?: string;
 }

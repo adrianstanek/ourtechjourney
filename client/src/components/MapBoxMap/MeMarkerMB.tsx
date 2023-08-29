@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import useGeolocation from '../../hooks/useGeolocation';
 import { Marker } from 'react-map-gl';
-import { useHasDeviceOrientation } from './hooks/useHasDeviceOrientation';
 import { ILngLat } from './interfaces/ILngLat';
+import { useDeviceDirection } from '../../hooks/useDeviceDirection';
 
 export const MeMarkerMB: React.FC = () => {
     const geoPos = useGeolocation();
     const [mePos, setMePos] = useState<ILngLat | null>(null);
-    const [rotation, setRotation] = useState(0);
 
-    const hasDeviceOrientation = useHasDeviceOrientation();
+    const { rotation, hasDeviceOrientation } = useDeviceDirection();
 
     useEffect(() => {
         if (geoPos.accuracy && geoPos.latitude && geoPos.longitude) {
@@ -19,21 +18,6 @@ export const MeMarkerMB: React.FC = () => {
             });
         }
     }, [geoPos]);
-
-    useEffect(() => {
-        if (!hasDeviceOrientation) return undefined;
-
-        const handleOrientation = (event: DeviceOrientationEvent) => {
-            const alpha = event.alpha || 0; // Compass direction in degrees from North
-            setRotation(alpha);
-        };
-
-        window.addEventListener('deviceorientation', handleOrientation);
-
-        return () => {
-            window.removeEventListener('deviceorientation', handleOrientation);
-        };
-    }, [hasDeviceOrientation]);
 
     const triangleStyle: React.CSSProperties = {
         transform: `rotate(-${rotation + 90}deg) translate(16px)`,
@@ -47,11 +31,20 @@ export const MeMarkerMB: React.FC = () => {
         marginTop: '-6px', // Half of height
     };
 
+    const color = useMemo(() => {
+        if (!geoPos.accuracy) return 'bg-neutral-300';
+        if (geoPos.accuracy > 150) return 'bg-red-500';
+        if (geoPos.accuracy <= 150 && geoPos.accuracy > 50) return 'bg-orange-500';
+        return 'bg-blue-500';
+    }, [geoPos.accuracy]);
+
     return (
         <>
             {mePos && (
                 <Marker longitude={mePos.longitude} latitude={mePos.latitude}>
-                    <figure className="relative aspect-[1/1] h-4 rounded-full bg-blue-500 ring-1 ring-blue-300 ring-offset-2 ring-offset-white">
+                    <figure
+                        className={`relative aspect-[1/1] h-4 rounded-full ${color} ring-1 ring-blue-300 ring-offset-2 ring-offset-white`}
+                    >
                         <div className="aspect-[1/1] h-4 animate-ping rounded-full bg-blue-700 duration-1000" />
 
                         {/* This is the Triangle */}

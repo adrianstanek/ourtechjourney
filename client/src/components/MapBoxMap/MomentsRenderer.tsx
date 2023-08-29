@@ -8,7 +8,6 @@ export interface IMomentsRenderer {}
 
 export const MomentsRenderer: React.FC<IMomentsRenderer> = () => {
     const { currentMoments } = useMoments();
-
     const selectedStory = useRecoilValue(getSelectedStory);
 
     return (

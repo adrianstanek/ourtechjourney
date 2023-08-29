@@ -29,9 +29,9 @@ module.exports = {
                     dark: '#35423f',
                 },
                 secondary: {
-                    DEFAULT: '#E4F9F5',
-                    light: '#E4F9F5',
-                    dark: '#E4F9F5',
+                    DEFAULT: '#E4F9F4',
+                    light: '#E4F9F4',
+                    dark: '#E4F9F4',
                 },
                 tertiary: {
                     DEFAULT: '#898989',

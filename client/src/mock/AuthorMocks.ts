@@ -10,6 +10,7 @@ export const AuthorMocks: { [key: string]: IAuthor } = {
             url: 'https://instagram.com',
         },
         avatar: {
+            mediaId: '999',
             id: '999',
             url: '/assets/avatar/wanderwoman.jpg',
             width: 2208,

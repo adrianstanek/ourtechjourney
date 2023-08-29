@@ -2,7 +2,6 @@ import { Transition } from '@headlessui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
-import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -14,6 +13,7 @@ import { AuthorMocks } from '../../mock/AuthorMocks';
 import { IAuthor } from '../../interfaces/IAuthor';
 import { AddMediaBox } from './AddMediaBox';
 import { ModalPopUp } from '../Modals/ModalPopUp';
+import { MediaImage } from '../MediaImage';
 
 export interface IMomentDetails {}
 
@@ -42,6 +42,27 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
             setShowContent(false);
         };
     }, [moment]);
+
+    // const [assets, setAssets] = useState<{ [key: string]: string }>({});
+    // const [assetsSet, setAssetsSet] = useState(false);
+    //
+    // useEffect(() => {
+    //     if (assetsSet) return undefined;
+    //
+    //     moment?.media.forEach((media) => {
+    //         if (!media.mediaId) return undefined;
+    //
+    //         void getMediaAsset(media.mediaId).then((asset: string | null) => {
+    //             setAssets((prevState) => {
+    //                 const oldState = { ...prevState };
+    //                 if (media.mediaId && asset) oldState[media.mediaId] = asset;
+    //                 return { ...prevState, ...oldState };
+    //             });
+    //         });
+    //
+    //         setAssetsSet(true);
+    //     });
+    // }, [assets, assetsSet, getMediaAsset, moment?.media]);
 
     return (
         <>
@@ -82,20 +103,9 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                         // }}
                                     >
                                         {moment?.media.map((media) => {
-                                            if (!media.url) return undefined;
-
                                             return (
                                                 <SwiperSlide key={`${moment.id}-${media.id}`}>
-                                                    <Image
-                                                        className={`relative aspect-[1/1] max-h-[70svh] w-full border-b-neutral-200 object-contain transition-all`}
-                                                        src={media?.url ?? ''}
-                                                        alt=""
-                                                        width={media?.width}
-                                                        height={media?.height}
-                                                        placeholder="blur"
-                                                        // https://png-pixel.com/
-                                                        blurDataURL="/assets/blur/1x1-dcdcdc51.png"
-                                                    />
+                                                    <MediaImage media={media} />
                                                 </SwiperSlide>
                                             );
                                         })}

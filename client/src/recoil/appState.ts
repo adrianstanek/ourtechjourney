@@ -2,13 +2,14 @@ import { atom, selector } from 'recoil';
 import { nanoid } from 'nanoid';
 import { IMoment } from '../interfaces/Moment.interfaces';
 import { IStory } from '../interfaces/Story.interfaces';
-import { StoryMock } from '../mock/StoryMock';
+import dayjs from 'dayjs';
 
 export interface IAppState {
     headerCollapsed: boolean;
     selectedMoment: IMoment | null;
     selectedStory: IStory | null;
     showStories: boolean;
+    storageUpdate: string;
 }
 
 export const appStateRecoil = atom<IAppState>({
@@ -16,8 +17,10 @@ export const appStateRecoil = atom<IAppState>({
     default: {
         headerCollapsed: false,
         selectedMoment: null,
-        selectedStory: StoryMock[0] as IStory,
+        selectedStory: null,
+        // selectedStory: StoryMock[0] as IStory,
         showStories: false,
+        storageUpdate: dayjs().toISOString(),
     },
 });
 
@@ -46,5 +49,12 @@ export const getShowStories = selector<boolean>({
     key: `get-show-stories/${nanoid()}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).showStories;
+    },
+});
+
+export const getStorageUpdate = selector<string>({
+    key: `/get-storage-update${nanoid()}`,
+    get: ({ get }): string => {
+        return get(appStateRecoil).storageUpdate;
     },
 });

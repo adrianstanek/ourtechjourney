@@ -4,10 +4,10 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "JourneyJar",
-    "app_name": "JourneyJar",
+    "name": "Storyfiy",
+    "app_name": "Storyfiy",
     "description": "Sealed Memories, Stories Unveiled",
-    "short_name": "JourneyJar",
+    "short_name": "Storyfiy",
     "icons": [
         {
             "src": "/manifest/Manifest-192.png",

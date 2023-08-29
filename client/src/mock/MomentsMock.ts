@@ -20,7 +20,8 @@ export const momentsMock: IMoment[] = [
         media: [
             {
                 id: '1',
-                url: '/assets/mocks/outdoors/LandscapeViewBench.jpeg',
+                mediaId: '1',
+                // url: '/assets/mocks/outdoors/LandscapeViewBench.jpeg',
                 alt: 'On the bench!',
                 width: 1024,
                 height: 485,
@@ -28,7 +29,8 @@ export const momentsMock: IMoment[] = [
             },
             {
                 id: '2',
-                url: '/assets/mocks/outdoors/LandscapeViewBench2.jpeg',
+                mediaId: '2',
+                // url: '/assets/mocks/outdoors/LandscapeViewBench2.jpeg',
                 alt: 'Emi!',
                 width: 2048,
                 height: 970,
@@ -36,7 +38,8 @@ export const momentsMock: IMoment[] = [
             },
             {
                 id: '233',
-                url: '/assets/mocks/outdoors/20230820_182735.jpg',
+                mediaId: '1',
+                // url: '/assets/mocks/outdoors/20230820_182735.jpg',
                 alt: 'Emi!',
                 width: 2184,
                 height: 4608,
@@ -64,7 +67,8 @@ export const momentsMock: IMoment[] = [
         media: [
             {
                 id: '21',
-                url: '/assets/mocks/outdoors/20230820_181143.jpg',
+                mediaId: '1',
+                // url: '/assets/mocks/outdoors/20230820_181143.jpg',
                 alt: 'Emi!',
                 width: 4608,
                 height: 2184,

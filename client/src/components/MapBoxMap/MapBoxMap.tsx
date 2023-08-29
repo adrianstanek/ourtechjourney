@@ -89,6 +89,8 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     mapStyle="mapbox://styles/mapbox/outdoors-v12"
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
+                    onTouchStart={handleMouseDown}
+                    onTouchEnd={handleMouseUp}
                 >
                     <MeMarkerMB />
                     <NavigationControl />

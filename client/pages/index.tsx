@@ -15,7 +15,7 @@ const MapBox: NextPage = () => {
     return (
         <div className="relative">
             <Head>
-                <title>JourneyJar</title>
+                <title>Storyfiy</title>
             </Head>
 
             <HeroHeader />

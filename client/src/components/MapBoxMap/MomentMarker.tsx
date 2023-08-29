@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Marker } from 'react-map-gl';
 import { IMoment } from '../../interfaces/Moment.interfaces';
 import Image from 'next/image';
 import { IMedia } from '../../interfaces/Media.interfaces';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
+import { useStorage } from '../../hooks/storage/useStorage';
 
 interface IMomentMarker {
     moment: IMoment;
@@ -16,6 +17,8 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const selectedMoment = useRecoilValue(getSelectedMoment);
+
+    const { mediaDb } = useStorage();
 
     const heroImage = useMemo(() => {
         if (moment.media.length === 0) return null;
@@ -43,6 +46,15 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         return inactive ? 'opacity-30 ring-1 ' : 'opacity-100 ring-2';
     }, [inactive]);
 
+    const [base64Url, setBase64Url] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (base64Url || !heroImage?.mediaId) return undefined;
+        void mediaDb.getItem(heroImage?.mediaId).then((value) => {
+            setBase64Url(value as string);
+        });
+    }, [base64Url, heroImage?.mediaId, mediaDb]);
+
     return (
         <>
             {moment.latitude && moment.longitude && (
@@ -51,11 +63,11 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                         onClick={click}
                         className={`relative aspect-[1/1] rounded-full bg-neutral-200  ring-offset-2  transition-all ${size} ${activeStyles}`}
                     >
-                        {heroImage && heroImage.url && (
+                        {heroImage && base64Url && (
                             <figure className="relative flex aspect-[1/1] h-full w-full overflow-hidden rounded-full">
                                 <Image
                                     className="h-full w-full object-cover"
-                                    src={heroImage.url}
+                                    src={base64Url}
                                     alt={heroImage.alt ?? ''}
                                     height={heroImage.height}
                                     width={heroImage.width}
