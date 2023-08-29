@@ -43,7 +43,7 @@ export const MeMarkerMB: React.FC = () => {
             {mePos && (
                 <Marker longitude={mePos.longitude} latitude={mePos.latitude}>
                     <figure
-                        className={`relative aspect-[1/1] h-4 rounded-full ${color} ring-1 ring-blue-300 ring-offset-2 ring-offset-white`}
+                        className={`relative aspect-[1/1] h-4 rounded-full ${color} pointer-events-none ring-1 ring-blue-300 ring-offset-2 ring-offset-white`}
                     >
                         <div className="aspect-[1/1] h-4 animate-ping rounded-full bg-blue-700 duration-1000" />
 

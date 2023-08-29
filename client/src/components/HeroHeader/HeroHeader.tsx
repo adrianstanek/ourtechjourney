@@ -22,19 +22,19 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [isInit]);
 
     const positionJar = useMemo(() => {
-        return collapsed ? 'left-2 top-1' : 'left-[calc(50%-60px)] translate-y-24 ';
+        return collapsed ? 'left-2 top-3' : 'left-[calc(50%-60px)] translate-y-24 ';
     }, [collapsed]);
 
     const sizeJar = useMemo(() => {
-        return collapsed ? 'w-[50px]' : 'w-[120px]';
+        return collapsed ? 'w-[30px]' : 'w-[120px]';
     }, [collapsed]);
 
     const positionTitle = useMemo(() => {
-        return collapsed ? 'left-0 top-4 pr-20' : 'left-0 top-56';
+        return collapsed ? 'left-12 top-4' : 'left-0 top-60';
     }, [collapsed]);
 
     const sizeTitle = useMemo(() => {
-        return collapsed ? 'text-2xl' : 'text-5xl';
+        return collapsed ? 'w-[130px]' : 'text-5xl';
     }, [collapsed]);
 
     const heightHeader = useMemo(() => {
@@ -53,7 +53,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                 className={`gradientPrimary sticky left-0 top-0 z-20 flex ${heightHeader} duration-750 w-full gap-1 transition-all delay-200`}
             >
                 {/* Wrapper */}
-                <div className="relative mx-auto flex w-full max-w-[360px] flex-col items-center justify-center gap-1">
+                <div className="relative mx-auto flex w-full max-w-[360px] flex-col  items-center justify-center gap-1 md:max-w-full">
                     <div
                         className={`absolute top-0 ${positionJar} flex aspect-[1/1] ${sizeJar} items-center justify-center gap-1 transition-all duration-700`}
                     >
@@ -68,18 +68,22 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                             leaveTo="opacity-0 translate-y-4 scale-100"
                         >
                             <img
-                                src="/assets/logos/jjlogo-invert.svg"
+                                src="/assets/logos/Logo.svg"
                                 alt="logo"
                                 className={`${sizeJar} transition-all duration-500`}
                             />
                         </Transition>
                     </div>
 
-                    <h1
-                        className={`absolute ${positionTitle} w-full text-center font-display ${sizeTitle} rotate-2 uppercase tracking-tight text-secondary transition-all duration-500`}
+                    <div
+                        className={`absolute flex w-full items-center justify-center transition-all ${positionTitle} ${sizeTitle}`}
                     >
-                        Journey Jar
-                    </h1>
+                        <img
+                            src="/assets/logos/LogoTypo.svg"
+                            alt="logo"
+                            className="relative w-[200px]"
+                        />
+                    </div>
 
                     {!collapsed && (
                         <Transition

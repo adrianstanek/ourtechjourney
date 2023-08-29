@@ -17,10 +17,10 @@ module.exports = {
         },
         extend: {
             fontFamily: {
-                sans: ['Oxanium'],
-                serif: ['Source Serif Pro', 'Oxanium'],
-                display: ['Zeyada'],
-                body: ['Oxanium'],
+                sans: ['Merriweather Sans'],
+                serif: ['Merriweather Sans'],
+                display: ['Merriweather Sans'],
+                body: ['Merriweather Sans'],
             },
             colors: {
                 primary: {
