@@ -34,7 +34,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     }, [collapsed]);
 
     const sizeTitle = useMemo(() => {
-        return collapsed ? 'w-[130px]' : 'text-5xl';
+        return collapsed ? 'w-[130px]' : 'w-full';
     }, [collapsed]);
 
     const heightHeader = useMemo(() => {
@@ -76,7 +76,7 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                     </div>
 
                     <div
-                        className={`absolute flex w-full items-center justify-center transition-all ${positionTitle} ${sizeTitle}`}
+                        className={`absolute flex items-center justify-center transition-all ${positionTitle} ${sizeTitle}`}
                     >
                         <img
                             src="/assets/logos/LogoTypo.svg"
