@@ -73,6 +73,7 @@ export const useMomentCreate = () => {
                         description: '',
                         label: '',
                         direction: currentRotation,
+                        order: 0,
                     };
 
                     void createMoment(newMoment);

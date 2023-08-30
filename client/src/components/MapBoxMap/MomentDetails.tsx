@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
+import { appStateRecoil, getSelectedMoment, getStorageUpdate } from '../../recoil/appState';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -20,6 +20,8 @@ export interface IMomentDetails {}
 export const MomentDetails: React.FC<IMomentDetails> = () => {
     const setAppState = useSetRecoilState(appStateRecoil);
     const moment = useRecoilValue(getSelectedMoment);
+
+    const storageUpdate = useRecoilValue(getStorageUpdate);
 
     const [showContent, setShowContent] = useState(false);
 
@@ -64,6 +66,12 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
     //     });
     // }, [assets, assetsSet, getMediaAsset, moment?.media]);
 
+    const media = useMemo(() => {
+        if (storageUpdate) {
+            return moment?.media ?? [];
+        }
+    }, [moment?.media, storageUpdate]);
+
     return (
         <>
             <ModalPopUp show={moment !== null} closeButton={true} closeAction={close}>
@@ -83,7 +91,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         leaveTo="opacity-0"
                     >
                         <section className="mt-0 flex w-full flex-row flex-nowrap gap-x-10">
-                            {moment?.media && moment?.media.length > 0 && (
+                            {moment && media && media.length > 0 && (
                                 <>
                                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                                     {/* @ts-ignore */}
@@ -102,10 +110,10 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                         // onSwiper={(swiper) => {
                                         // }}
                                     >
-                                        {moment?.media.map((media) => {
+                                        {media.map((mediaItem) => {
                                             return (
-                                                <SwiperSlide key={`${moment.id}-${media.id}`}>
-                                                    <MediaImage media={media} />
+                                                <SwiperSlide key={`${moment.id}-${mediaItem.id}`}>
+                                                    <MediaImage media={mediaItem} />
                                                 </SwiperSlide>
                                             );
                                         })}

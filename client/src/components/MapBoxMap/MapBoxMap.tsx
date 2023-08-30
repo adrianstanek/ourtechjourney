@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Map, { NavigationControl } from 'react-map-gl';
 import { MeMarkerMB } from './MeMarkerMB';
 import useGeolocation from '../../hooks/useGeolocation';
@@ -13,16 +13,28 @@ import { MomentsRenderer } from './MomentsRenderer';
 import { StoryCloser } from '../Stories/StoryCloser';
 import { FlyToStory } from './FlyToStory';
 import { StoryConnectorRenderer } from './StoryConnectorRenderer';
+import { useMoments } from '../../hooks/storage/useMoments';
+import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
 
 export interface IMapBoxMap {
     longitude: number;
     latitude: number;
 }
 
+interface IMapBoxEvent {
+    lngLat: {
+        lng: number;
+        lat: number;
+    };
+}
+
 export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     const { latitude, longitude } = props;
 
     const { currentStory } = useStories();
+
+    const { createMoment } = useMoments();
 
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
@@ -51,17 +63,41 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
 
     const holdTimeoutRef = useRef<NodeJS.Timeout | number | null>(null);
 
-    const handleMouseDown = (event) => {
-        setAppState((currVal) => {
-            return { ...currVal, selectedMoment: null };
-        });
+    const handleMouseDown = useCallback(
+        (event: IMapBoxEvent) => {
+            if (sessionStorage.getItem('isDragging') !== null) return undefined;
 
-        holdTimeoutRef.current = setTimeout(() => {
-            // Trigger your hold action here
-            // eslint-disable-next-line no-console,@typescript-eslint/no-unsafe-member-access
-            console.log('Map was held.', event.lngLat);
-        }, 1000); // 1000ms (1s)
-    };
+            setAppState((currVal) => {
+                return { ...currVal, selectedMoment: null };
+            });
+
+            holdTimeoutRef.current = setTimeout(() => {
+                if (sessionStorage.getItem('isDragging') !== null) return undefined;
+
+                // Trigger your hold action here
+                // eslint-disable-next-line no-console,@typescript-eslint/no-unsafe-member-access
+                console.log('Map was held.', event.lngLat);
+
+                const id = nanoid();
+
+                const order = currentStory?.moments.length ?? 0;
+
+                void createMoment({
+                    id: id,
+                    media: [],
+                    longitude: event.lngLat.lng,
+                    latitude: event.lngLat.lat,
+                    label: 'Neuer Moment',
+                    type: 'vista',
+                    created: dayjs().toISOString(),
+                    parentStory: currentStory?.id ?? null,
+                    description: '',
+                    order: order,
+                });
+            }, 1000); // 1000ms (1s)
+        },
+        [createMoment, currentStory?.id, currentStory?.moments.length, setAppState]
+    );
 
     const handleMouseUp = () => {
         if (holdTimeoutRef.current !== null) {

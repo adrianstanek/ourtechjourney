@@ -46,9 +46,33 @@ export const useMoments = () => {
         async (moment: IMoment) => {
             const id = moment.id ?? nanoid();
 
+            // Add Moment to DB
             await momentDb.setItem(id, moment).then(() => {
                 setAppState((currVal) => {
                     return { ...currVal, storageUpdate: dayjs().toISOString() };
+                });
+            });
+        },
+        [momentDb, setAppState]
+    );
+
+    const updateMoment = useCallback(
+        async (moment: IMoment) => {
+            await momentDb.setItem(moment.id, moment).then(() => {
+                // Fire Updates
+                setAppState((currVal) => {
+                    if (currVal.selectedMoment) {
+                        return {
+                            ...currVal,
+                            storageUpdate: dayjs().toISOString(),
+                            selectedMoment: moment,
+                        };
+                    }
+
+                    return {
+                        ...currVal,
+                        storageUpdate: dayjs().toISOString(),
+                    };
                 });
             });
         },
@@ -83,6 +107,8 @@ export const useMoments = () => {
 
     const getCloseMoments = useCallback(
         async (target: ILngLat) => {
+            // TODO maybe implement storageUpdate here as well?
+
             const moments: IMoment[] = [];
 
             const distanceInMeter = 100;
@@ -116,5 +142,5 @@ export const useMoments = () => {
         [momentDb, momentIsNearExisting]
     );
 
-    return { currentMoments, createMoment, getCloseMoments };
+    return { currentMoments, createMoment, getCloseMoments, updateMoment };
 };

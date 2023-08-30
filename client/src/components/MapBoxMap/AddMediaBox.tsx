@@ -1,8 +1,11 @@
 import React, { useCallback, useRef } from 'react';
 import { Button } from '../Buttons/Button';
 import { IMoment } from '../../interfaces/Moment.interfaces';
-import useDownsampling from '../../hooks/useDownsampling';
-import Rotator from 'exif-auto-rotate';
+import { useUploader } from '../../hooks/useUploader';
+import { useMoments } from '../../hooks/storage/useMoments';
+import { useRecoilValue } from 'recoil';
+import { getSelectedMoment } from '../../recoil/appState';
+import { IMedia, MimeType } from '../../interfaces/Media.interfaces';
 
 export interface IAddMediaBox {
     moment: IMoment;
@@ -11,10 +14,13 @@ export interface IAddMediaBox {
 export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
     const { moment } = props;
 
+    const { updateMoment } = useMoments();
+    const { uploadMediaAsset } = useUploader();
+
+    const selectedMoment = useRecoilValue(getSelectedMoment);
+
     const uploadRef = useRef<null | HTMLInputElement>(null);
     const captureRef = useRef<null | HTMLInputElement>(null);
-
-    const { downsamplePhoto } = useDownsampling();
 
     const openCamera = useCallback(() => {
         // eslint-disable-next-line no-console
@@ -29,19 +35,37 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
     }, [moment]);
 
     const preparePhoto = useCallback(
-        async (file: File) => {
-            // Correct orientation
-            const image = await Rotator.createRotatedImageAsync(file, 'blob').catch(() => false);
+        (file: File) => {
+            void uploadMediaAsset(file, (fileProcessed) => {
+                // eslint-disable-next-line no-console
+                console.log('uploaded', fileProcessed);
 
-            const buffer = await (!image ? file : (image as Blob)).arrayBuffer();
+                return true;
+            }).then((mediaData) => {
+                // eslint-disable-next-line no-console
+                console.log('result mediaId:', mediaData);
 
-            // Downsample
-            const imageSampled = await downsamplePhoto(buffer);
+                // TODO Add Media to Moment
 
-            // eslint-disable-next-line no-console
-            console.log(imageSampled);
+                const media: IMedia[] = [...(selectedMoment?.media ?? [])];
+
+                media.push({
+                    id: mediaData.mediaId,
+                    mediaId: mediaData.mediaId,
+                    height: mediaData.height,
+                    width: mediaData.width,
+                    mimeType: mediaData.mimeType as MimeType,
+                    alt: '',
+                } as IMedia);
+
+                if (selectedMoment) {
+                    const updatedMoment: IMoment = { ...selectedMoment, media };
+
+                    void updateMoment(updatedMoment);
+                }
+            });
         },
-        [downsamplePhoto]
+        [selectedMoment, updateMoment, uploadMediaAsset]
     );
 
     return (

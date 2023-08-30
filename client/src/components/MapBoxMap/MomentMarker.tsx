@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Marker } from 'react-map-gl';
+import { Marker, MarkerDragEvent } from 'react-map-gl';
 import { IMoment } from '../../interfaces/Moment.interfaces';
 import Image from 'next/image';
 import { IMedia } from '../../interfaces/Media.interfaces';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStorage } from '../../hooks/storage/useStorage';
+import { useMoments } from '../../hooks/storage/useMoments';
 
 interface IMomentMarker {
     moment: IMoment;
@@ -14,6 +15,8 @@ interface IMomentMarker {
 
 export const MomentMarker: React.FC<IMomentMarker> = (props) => {
     const { moment, inactive } = props;
+
+    const { updateMoment } = useMoments();
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const selectedMoment = useRecoilValue(getSelectedMoment);
@@ -55,10 +58,54 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         });
     }, [base64Url, heroImage?.mediaId, mediaDb]);
 
+    const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
+        // Implement any logic you need here
+        // TODO Hide current Marker; because of flickering
+        // TODO Tell state that there's a drag in progress, otherwise a marker will be created
+    }, []);
+
+    const onMarkerDrag = useCallback(
+        (event: MarkerDragEvent) => {
+            // Implement any logic you need here
+
+            sessionStorage.setItem('isDragging', moment.id);
+        },
+        [moment.id]
+    );
+
+    const onMarkerDragEnd = useCallback(
+        (event: MarkerDragEvent) => {
+            const longitude = event.lngLat.lng;
+            const latitude = event.lngLat.lat;
+
+            if (longitude !== undefined && latitude !== undefined) {
+                void updateMoment({
+                    ...moment,
+                    longitude,
+                    latitude,
+                } as IMoment).then(() => {
+                    // TODO Show current Marker again
+
+                    setTimeout(() => {
+                        sessionStorage.removeItem('isDragging');
+                    }, 250);
+                });
+            }
+        },
+        [moment, updateMoment]
+    );
+
     return (
         <>
             {moment.latitude && moment.longitude && (
-                <Marker longitude={moment.longitude} latitude={moment.latitude}>
+                <Marker
+                    longitude={moment.longitude}
+                    latitude={moment.latitude}
+                    draggable
+                    onDragStart={onMarkerDragStart}
+                    onDrag={onMarkerDrag}
+                    onDragEnd={onMarkerDragEnd}
+                >
                     <button
                         onClick={click}
                         className={`relative aspect-[1/1] rounded-full bg-neutral-200  ring-offset-2  transition-all ${size} ${activeStyles}`}

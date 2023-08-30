@@ -1,51 +1,45 @@
-import { useCallback } from 'react';
-import Jimp from 'jimp';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export interface IImageDimesions {
     width: number;
     height: number;
     mime: string;
-    arrayBuffer: () => Promise<ArrayBuffer>;
+    arrayBuffer: ArrayBuffer;
 }
 
 const useDownsampling = () => {
-    const downsamplePhoto = useCallback(async (input: ArrayBuffer | string) => {
-        const maxWidth = Number(process.env.NEXT_PUBLIC_DOWNSAMPLE_TARGET_WIDTH) ?? 0;
-        const maxHeight = Number(process.env.NEXT_PUBLIC_DOWNSAMPLE_TARGET_WIDTH) ?? 0;
+    const [worker, setWorker] = useState<Worker | null>(null);
 
-        if (!input) return false;
+    useEffect(() => {
+        const newWorker = new Worker('/worker/imageProcessor.js'); // The path should be relative to the public directory
+        setWorker(newWorker);
 
-        const image = await Jimp.read(input as Buffer).catch((e: Error) => {
-            toast.error(`Fehler beim runterrechnen des Bildes: ${e.message ?? 'unbekannt'}`);
-        });
-
-        if (!image) return false;
-
-        const imageLoaded = image as Jimp;
-
-        // Reduce Quality
-        imageLoaded.quality(Number(process.env.NEXT_PUBLIC_DOWNSAMPLE_TARGET_QUALITY) * 90);
-
-        // Resize if too large
-        if (imageLoaded.bitmap.width > maxWidth || imageLoaded.bitmap.height > maxHeight) {
-            // eslint-disable-next-line no-console
-            console.log(`Downsampling image to ${maxWidth} px ...`);
-
-            if (imageLoaded.bitmap.width > maxWidth && maxWidth > 0)
-                imageLoaded.resize(maxWidth, Jimp.AUTO);
-            if (imageLoaded.bitmap.height > maxHeight && maxHeight > 0)
-                imageLoaded.resize(Jimp.AUTO, maxHeight);
-        }
-
-        return {
-            width: imageLoaded.bitmap.width,
-            height: imageLoaded.bitmap.height,
-            arrayBuffer: () =>
-                imageLoaded.getBufferAsync(imageLoaded.getMIME()).then((res) => res.buffer),
-            mime: imageLoaded.getMIME(),
-        } as IImageDimesions;
+        return () => {
+            newWorker.terminate();
+        };
     }, []);
+
+    const downsamplePhoto = useCallback(
+        async (input: ArrayBuffer | string): Promise<IImageDimesions | null> => {
+            if (!worker) return null;
+
+            return new Promise((resolve, reject) => {
+                worker.onmessage = (event) => {
+                    const downsampledData: IImageDimesions = event.data as IImageDimesions;
+                    resolve(downsampledData);
+                };
+
+                worker.onerror = (error) => {
+                    toast.error(`Error during downsampling: ${error.message ?? 'unknown'}`);
+                    reject(error);
+                };
+
+                worker.postMessage({ data: input });
+            });
+        },
+        [worker]
+    );
 
     return { downsamplePhoto };
 };

@@ -8,6 +8,7 @@
 /public/workbox-**
 /public/assets/**/nextImageExportOptimizer/**
 /public/assets/next-image-export-optimizer-hashes.json
+/public/worker/imageProcessor.js
 
 .firebase
 .firebase/**

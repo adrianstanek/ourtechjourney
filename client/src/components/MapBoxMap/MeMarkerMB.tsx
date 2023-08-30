@@ -45,13 +45,13 @@ export const MeMarkerMB: React.FC = () => {
                     <figure
                         className={`relative aspect-[1/1] h-4 rounded-full ${color} pointer-events-none ring-1 ring-blue-300 ring-offset-2 ring-offset-white`}
                     >
-                        <div className="aspect-[1/1] h-4 animate-ping rounded-full bg-blue-700 duration-1000" />
+                        <div className="pointer-events-none aspect-[1/1] h-4 animate-ping rounded-full bg-blue-700 duration-1000" />
 
                         {/* This is the Triangle */}
                         {hasDeviceOrientation && (
-                            <div style={triangleStyle}>
+                            <div style={triangleStyle} className="pointer-events-none">
                                 <img
-                                    className="rotate-[91deg] transform"
+                                    className="pointer-events-none rotate-[91deg] transform"
                                     src="/assets/icons/geoLocations/noun-triangle-6011603-12B0FB.svg"
                                     alt="pointer"
                                 />

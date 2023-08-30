@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useStorage } from './useStorage';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { appStateRecoil, getSelectedStory } from '../../recoil/appState';
+import { appStateRecoil, getSelectedStory, getStorageUpdate } from '../../recoil/appState';
 import { IStory } from '../../interfaces/Story.interfaces';
 import { IMoment } from '../../interfaces/Moment.interfaces';
 
@@ -10,6 +10,8 @@ export const useStories = () => {
 
     const selectedStory = useRecoilValue(getSelectedStory);
     const setAppState = useSetRecoilState(appStateRecoil);
+
+    const storageUpdate = useRecoilValue(getStorageUpdate);
 
     const getStory = useCallback(
         async (storyId: string): Promise<IStory | null> => {
@@ -23,6 +25,11 @@ export const useStories = () => {
                 if (moment.parentStory === storyId) {
                     moments.push(moment);
                 }
+            });
+
+            // Sort Moments by order
+            moments.sort((a, b) => {
+                return a.order - b.order;
             });
 
             return { ...story, moments: moments };
@@ -52,18 +59,20 @@ export const useStories = () => {
     useEffect(() => {
         if (!selectedStory) setCurrentStory(null);
 
-        if (selectedStory) {
+        if (selectedStory && storageUpdate) {
             void getStory(selectedStory.id).then((story) => {
                 setCurrentStory(story);
             });
         }
-    }, [getStory, selectedStory]);
+    }, [getStory, selectedStory, storageUpdate]);
 
     useEffect(() => {
-        void getStories().then((stories) => {
-            setCurrentStories(stories);
-        });
-    }, [getStories]);
+        if (storageUpdate) {
+            void getStories().then((stories) => {
+                setCurrentStories(stories);
+            });
+        }
+    }, [getStories, storageUpdate]);
 
     return { getStory, currentStory, currentStories, resetStory };
 };

@@ -14,4 +14,5 @@ export interface IMoment {
     created: string;
     type: IMomentType | null;
     distanceToCurrent?: number;
+    order: number;
 }
