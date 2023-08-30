@@ -1,7 +1,6 @@
 import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import type { AppProps } from 'next/app';
-import { Flip, ToastContainer } from 'react-toastify';
 import React from 'react';
 
 import { RecoilRoot } from 'recoil';
@@ -36,18 +35,18 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
                     <Component {...pageProps} />
                     <SWUpdater />
                     {/*/!*<ReactQueryDevtools />*!/*/}
-                    <ToastContainer
-                        position="top-center"
-                        autoClose={3500}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        transition={Flip}
-                    />
+                    {/*<ToastContainer*/}
+                    {/*    position="top-center"*/}
+                    {/*    autoClose={3500}*/}
+                    {/*    hideProgressBar={false}*/}
+                    {/*    newestOnTop={false}*/}
+                    {/*    closeOnClick*/}
+                    {/*    rtl={false}*/}
+                    {/*    pauseOnFocusLoss*/}
+                    {/*    draggable*/}
+                    {/*    pauseOnHover*/}
+                    {/*    transition={Flip}*/}
+                    {/*/>*/}
                     <StoryListModal />
                 </MapProvider>
             </RecoilRoot>

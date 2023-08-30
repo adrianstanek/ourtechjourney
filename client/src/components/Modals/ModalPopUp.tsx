@@ -1,14 +1,15 @@
 import { Transition } from '@headlessui/react';
 import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { faCompress, faExpand } from '@fortawesome/pro-duotone-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IModalPopUp extends PropsWithChildren {
     show: boolean;
-    closeButton: boolean;
     closeAction: () => void;
 }
 
 export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
-    const { show, children, closeButton, closeAction } = props;
+    const { show, children, closeAction } = props;
 
     const [previewMode, setPreviewMode] = useState(true);
 
@@ -34,7 +35,7 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
     }, [closeAction]);
 
     const height = useMemo(() => {
-        return previewMode ? 'h-[calc(100svh-250px)]' : 'h-[calc(100svh-40px)]';
+        return previewMode ? 'h-[calc(100svh-250px)]' : 'h-[calc(100svh-60px)]';
     }, [previewMode]);
 
     return (
@@ -42,8 +43,9 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
             <Transition
                 show={show}
                 appear={show}
+                id="test1"
                 as={'div'}
-                className={`duration-750 fixed bottom-0 left-0 z-[1000] w-screen overflow-x-hidden overflow-y-scroll bg-white p-2 ${height}`}
+                className={`duration-750 fixed bottom-0 left-0 z-[1000] h-max w-screen overflow-x-hidden overflow-y-scroll bg-white p-2 transition-all`}
                 enter="transition-all ease-in-out"
                 enterFrom="opacity-0 translate-y-24"
                 enterTo="opacity-100 translate-y-0"
@@ -51,18 +53,24 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-24"
             >
-                {/*{previewMode && (*/}
-                {/*    <div className="relative flex w-full flex-row gap-1">*/}
-                {/*        <div className="w-max bg-white px-4 py-1">*/}
-                {/*            <FontAwesomeIcon*/}
-                {/*                icon={faChevronDoubleUp}*/}
-                {/*                className="h-4 text-neutral-500"*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*)}*/}
+                <div
+                    className={`relative flex w-full flex-col gap-1 transition-all ${height} drop-shadow`}
+                >
+                    {/* Fullscreen Button (Preview-Off) */}
+                    <button
+                        className="absolute right-1 top-3 z-50 flex h-8 w-8 flex-row items-center justify-center gap-1"
+                        onClick={() => setPreviewMode(!previewMode)}
+                    >
+                        {previewMode && (
+                            <FontAwesomeIcon icon={faExpand} className="h-6 text-neutral-500" />
+                        )}
+                        {!previewMode && (
+                            <FontAwesomeIcon icon={faCompress} className="h-6 text-neutral-500" />
+                        )}
+                    </button>
 
-                {children}
+                    {children}
+                </div>
             </Transition>
         </>
     );

@@ -16,7 +16,6 @@ export const StoryListModal: React.FC<IStoryListModal> = () => {
         <>
             <ModalPopUp
                 show={show}
-                closeButton={true}
                 closeAction={() => {
                     setAppState((currVal) => {
                         return { ...currVal, showStories: false };

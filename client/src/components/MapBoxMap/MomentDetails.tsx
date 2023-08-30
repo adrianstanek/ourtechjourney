@@ -74,7 +74,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
 
     return (
         <>
-            <ModalPopUp show={moment !== null} closeButton={true} closeAction={close}>
+            <ModalPopUp show={moment !== null} closeAction={close}>
                 <section className="relative z-0 mt-1 flex w-max flex-row gap-1">
                     <ShareRow />
                 </section>
@@ -129,7 +129,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                             )}
                         </section>
 
-                        <h2 className="mt-4 font-display text-4xl text-primary">{moment?.label}</h2>
+                        <h2 className="mt-4 font-display text-2xl text-primary">{moment?.label}</h2>
 
                         <Author author={AuthorMocks.jenny as IAuthor} />
 

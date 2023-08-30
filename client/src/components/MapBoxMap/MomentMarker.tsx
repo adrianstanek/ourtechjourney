@@ -165,6 +165,12 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                             </figure>
                         )}
                     </button>
+
+                    {moment.media.length > 1 && !inactive && (
+                        <div className="absolute -bottom-[5px] -right-[5px] flex aspect-[1/1] h-4 w-4 items-center justify-center rounded-full bg-primary p-1 text-[8px] text-white">
+                            {moment.media.length}
+                        </div>
+                    )}
                 </Marker>
             )}
         </>
