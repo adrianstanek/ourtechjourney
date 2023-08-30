@@ -90,7 +90,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         leaveFrom="opacity-100 "
                         leaveTo="opacity-0"
                     >
-                        <section className="mt-0 flex w-full flex-row flex-nowrap gap-x-10">
+                        <section className="relative mt-0 flex w-full flex-row flex-nowrap gap-x-10">
                             {moment && media && media.length > 0 && (
                                 <>
                                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}

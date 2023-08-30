@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStorage } from '../../hooks/storage/useStorage';
 import { useMoments } from '../../hooks/storage/useMoments';
+import { useFlyToPosition } from './hooks/useFlyToPosition';
 
 interface IMomentMarker {
     moment: IMoment;
@@ -17,6 +18,8 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
     const { moment, inactive } = props;
 
     const { updateMoment } = useMoments();
+
+    const { flyTo } = useFlyToPosition();
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const selectedMoment = useRecoilValue(getSelectedMoment);
@@ -35,7 +38,7 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
 
     const size = useMemo(() => {
         return isSelected
-            ? 'h-12 ring-blue-500 ring-offset-white'
+            ? 'h-8 ring-blue-500 ring-offset-white'
             : 'h-6 ring-primary-light ring-offset-white';
     }, [isSelected]);
 
@@ -43,7 +46,37 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         setAppState((currVal) => {
             return { ...currVal, selectedMoment: moment };
         });
-    }, [moment, setAppState]);
+
+        // Target Zoom
+        const zoom = 16;
+
+        const referenceFactor = 380;
+        const referenceScreenHeight = 660;
+
+        const windowHeight = window.innerHeight;
+        // const factor = innerHeight
+
+        let newFactor = (windowHeight / referenceScreenHeight) * referenceFactor;
+        if (windowHeight >= 800 && windowHeight < 1000) {
+            newFactor += 70;
+        } else if (windowHeight >= 1000 && windowHeight < 1200) {
+            newFactor += 100;
+        } else if (windowHeight >= 1200) {
+            newFactor += 190;
+        }
+
+        const calculateOffsetLatitude = (latitude: number, zoomUsed: number) => {
+            const latOffset = (1 / Math.pow(2, zoomUsed)) * newFactor; // The factor 40 can be adjusted based on your specific needs
+            return latitude - latOffset / 4;
+        };
+
+        flyTo(calculateOffsetLatitude(moment?.latitude ?? 0, zoom), moment?.longitude ?? 0, {
+            zoom: zoom,
+            essential: true,
+            duration: 500,
+            speed: 0.2,
+        });
+    }, [flyTo, moment, setAppState]);
 
     const activeStyles = useMemo(() => {
         return inactive ? 'opacity-30 ring-1 ' : 'opacity-100 ring-2';

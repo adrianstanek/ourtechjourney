@@ -1,7 +1,5 @@
 import { Transition } from '@headlessui/react';
-import React, { PropsWithChildren, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/pro-thin-svg-icons';
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 export interface IModalPopUp extends PropsWithChildren {
     show: boolean;
@@ -11,6 +9,8 @@ export interface IModalPopUp extends PropsWithChildren {
 
 export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
     const { show, children, closeButton, closeAction } = props;
+
+    const [previewMode, setPreviewMode] = useState(true);
 
     useEffect(() => {
         // Push the current state to create a new history entry
@@ -33,13 +33,17 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
         };
     }, [closeAction]);
 
+    const height = useMemo(() => {
+        return previewMode ? 'h-[calc(100svh-250px)]' : 'h-[calc(100svh-40px)]';
+    }, [previewMode]);
+
     return (
         <>
             <Transition
                 show={show}
                 appear={show}
                 as={'div'}
-                className="duration-750 fixed bottom-0 left-0 z-[1000] h-[calc(100svh-50px)] w-screen overflow-x-hidden overflow-y-scroll bg-white p-2"
+                className={`duration-750 fixed bottom-0 left-0 z-[1000] w-screen overflow-x-hidden overflow-y-scroll bg-white p-2 ${height}`}
                 enter="transition-all ease-in-out"
                 enterFrom="opacity-0 translate-y-24"
                 enterTo="opacity-100 translate-y-0"
@@ -47,11 +51,17 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-24"
             >
-                {closeButton && (
-                    <button className="absolute right-3 top-5" onClick={closeAction}>
-                        <FontAwesomeIcon icon={faXmark} className="h-8 text-neutral-500" />
-                    </button>
-                )}
+                {/*{previewMode && (*/}
+                {/*    <div className="relative flex w-full flex-row gap-1">*/}
+                {/*        <div className="w-max bg-white px-4 py-1">*/}
+                {/*            <FontAwesomeIcon*/}
+                {/*                icon={faChevronDoubleUp}*/}
+                {/*                className="h-4 text-neutral-500"*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*)}*/}
+
                 {children}
             </Transition>
         </>

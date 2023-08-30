@@ -35,7 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps): unknown => {
                 <MapProvider>
                     <Component {...pageProps} />
                     <SWUpdater />
-                    {/*<ReactQueryDevtools />*/}
+                    {/*/!*<ReactQueryDevtools />*!/*/}
                     <ToastContainer
                         position="top-center"
                         autoClose={3500}
