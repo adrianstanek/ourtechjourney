@@ -81,6 +81,11 @@ module.exports = withPWA({
     webpack: (config) => {
         config.resolve.fallback = { fs: false };
 
+        // config.module.rules.push({
+        //     test: /\.worker\.ts$/,
+        //     use: { loader: 'worker-loader' },
+        // });
+
         return config;
     },
     env: {

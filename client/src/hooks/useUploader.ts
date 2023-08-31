@@ -1,8 +1,7 @@
-import { useCallback } from 'react';
-import Jimp from 'jimp';
+import { useCallback, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useStorage } from './storage/useStorage';
-import Rotator from 'exif-auto-rotate';
+import Jimp from 'jimp';
 
 export interface IUploaderResponse {
     mediaId: string;
@@ -14,44 +13,56 @@ export interface IUploaderResponse {
 export const useUploader = () => {
     const { mediaDb } = useStorage();
 
+    const [worker, setWorker] = useState<Worker | null>(null);
+
+    useEffect(() => {
+        const workerNew = new Worker(
+            new URL('../workers/imageProcessor.worker.ts', import.meta.url)
+            // new URL('../workers/test.worker.ts', import.meta.url)
+        );
+
+        setWorker(workerNew);
+    }, []);
+
     const uploadMediaAsset = useCallback(
-        async (file: File, onProcess: (fileProcessed: File) => boolean) => {
+        (file: File, onProcess: (fileProcessed: File, mediaData: IUploaderResponse) => boolean) => {
             const mediaId = nanoid();
 
-            // Remove Rotation
-            const imageRotationRemoved = await Rotator.createRotatedImageAsync(file, 'blob').catch(
-                () => false
-            );
-            const arrayBuffer = await (!imageRotationRemoved
-                ? file
-                : (imageRotationRemoved as Blob)
-            ).arrayBuffer();
+            if (!worker) return undefined;
 
-            // Get Jimp Image
-            // const arrayBuffer = await file.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
-            const image = await Jimp.read(buffer);
+            worker.postMessage({ file });
 
-            // Store in mediaDb
-            const result = await mediaDb
-                .setItem(mediaId, image.getBase64Async(image.getMIME()))
-                .then((): IUploaderResponse => {
-                    // TODO Error Catching
+            worker.onerror = (e) => {
+                console.error(e);
+            };
 
-                    // eslint-disable-next-line no-console
-                    console.log('onProcess');
-                    onProcess(file);
-                    return {
-                        mediaId: mediaId,
-                        height: image.getHeight(),
-                        width: image.getWidth(),
-                        mimeType: image.getMIME(),
-                    };
-                });
+            worker.onmessage = async (e: MessageEvent<{ base64: string }>) => {
+                const base64 = e.data.base64;
 
-            return result;
+                // Convert base64 to Jimp object if you need Jimp functionalities
+                const image = await Jimp.read(base64);
+
+                // Store in mediaDb
+                const result = await mediaDb
+                    .setItem(mediaId, base64)
+                    .then(() => {
+                        // TODO Error Catching
+                        onProcess(file, {
+                            mediaId: mediaId,
+                            height: image.getHeight(),
+                            width: image.getWidth(),
+                            mimeType: image.getMIME(),
+                        });
+                    })
+                    .catch((err) => {
+                        // Handle the error here
+                        console.error('An error occurred:', err);
+                    });
+
+                return result;
+            };
         },
-        [mediaDb]
+        [mediaDb, worker]
     );
 
     return { uploadMediaAsset };

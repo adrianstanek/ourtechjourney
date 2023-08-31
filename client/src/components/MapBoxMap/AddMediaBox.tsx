@@ -36,12 +36,10 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
 
     const preparePhoto = useCallback(
         (file: File) => {
-            void uploadMediaAsset(file, (fileProcessed) => {
+            void uploadMediaAsset(file, (fileProcessed, mediaData) => {
                 // eslint-disable-next-line no-console
                 console.log('uploaded', fileProcessed);
 
-                return true;
-            }).then((mediaData) => {
                 // eslint-disable-next-line no-console
                 console.log('result mediaId:', mediaData);
 
@@ -63,6 +61,8 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
 
                     void updateMoment(updatedMoment);
                 }
+
+                return true;
             });
         },
         [selectedMoment, updateMoment, uploadMediaAsset]
