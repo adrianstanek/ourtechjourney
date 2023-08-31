@@ -11,8 +11,7 @@
     "test": "jest",
     "test:update": "jest -u",
     "test:watch": "jest --watchAll --verbose",
-    "coverage": "jest --coverage && make-coverage-badge --output-path coverage-badge.svg",
-    "postbuild": "tsc --project ./public/worker/tsconfig.worker.json"
+    "coverage": "jest --coverage && make-coverage-badge --output-path coverage-badge.svg"
   },
   "resolutions": {
     "webpack": "^5"
