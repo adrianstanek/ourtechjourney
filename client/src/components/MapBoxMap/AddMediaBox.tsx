@@ -43,8 +43,6 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
                 // eslint-disable-next-line no-console
                 console.log('result mediaId:', mediaData);
 
-                // TODO Add Media to Moment
-
                 const media: IMedia[] = [...(selectedMoment?.media ?? [])];
 
                 media.push({

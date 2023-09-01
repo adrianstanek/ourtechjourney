@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
-import { useStorage } from './storage/useStorage';
-import Jimp from 'jimp';
 
 export interface IUploaderResponse {
     mediaId: string;
@@ -11,8 +9,6 @@ export interface IUploaderResponse {
 }
 
 export const useUploader = () => {
-    const { mediaDb } = useStorage();
-
     const [worker, setWorker] = useState<Worker | null>(null);
 
     useEffect(() => {
@@ -30,39 +26,20 @@ export const useUploader = () => {
 
             if (!worker) return undefined;
 
-            worker.postMessage({ file });
+            worker.postMessage({ file, mediaId });
 
             worker.onerror = (e) => {
                 console.error(e);
             };
 
-            worker.onmessage = async (e: MessageEvent<{ base64: string }>) => {
-                const base64 = e.data.base64;
+            worker.onmessage = (e: MessageEvent<{ mediaData: IUploaderResponse }>) => {
+                const mediaResponse = e.data.mediaData;
 
-                // Convert base64 to Jimp object if you need Jimp functionalities
-                const image = await Jimp.read(base64);
-
-                // Store in mediaDb
-                const result = await mediaDb
-                    .setItem(mediaId, base64)
-                    .then(() => {
-                        // TODO Error Catching
-                        onProcess(file, {
-                            mediaId: mediaId,
-                            height: image.getHeight(),
-                            width: image.getWidth(),
-                            mimeType: image.getMIME(),
-                        });
-                    })
-                    .catch((err) => {
-                        // Handle the error here
-                        console.error('An error occurred:', err);
-                    });
-
-                return result;
+                // Receives file and mediaResponse
+                onProcess(file, mediaResponse);
             };
         },
-        [mediaDb, worker]
+        [worker]
     );
 
     return { uploadMediaAsset };
