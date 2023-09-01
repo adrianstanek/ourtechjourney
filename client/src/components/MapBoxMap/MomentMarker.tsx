@@ -128,6 +128,25 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         [moment, updateMoment]
     );
 
+    const [mediaCount, setMediaCount] = useState(0);
+    const [mediaCountBlink, setMediaCountBlink] = useState(false);
+
+    const mediaCountBlinkStyles = useMemo(() => {
+        return mediaCountBlink ? 'duration-250 scale-150 opacity-50' : 'scale-100';
+    }, [mediaCountBlink]);
+
+    useEffect(() => {
+        if (mediaCount !== moment.media.length) {
+            setMediaCountBlink(true);
+
+            setTimeout(() => {
+                setMediaCountBlink(false);
+            }, 500);
+        }
+
+        setMediaCount(moment.media.length);
+    }, [mediaCount, moment.media.length]);
+
     return (
         <>
             {moment.latitude && moment.longitude && (
@@ -166,9 +185,12 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                         )}
                     </button>
 
-                    {moment.media.length > 1 && !inactive && (
-                        <div className="absolute -bottom-[5px] -right-[5px] flex aspect-[1/1] h-4 w-4 items-center justify-center rounded-full bg-primary p-1 text-[8px] text-white">
-                            {moment.media.length}
+                    {/* Count Tag */}
+                    {mediaCount > 1 && !inactive && (
+                        <div
+                            className={`absolute -bottom-[5px] -right-[5px] flex  aspect-[1/1] h-4 w-4  items-center justify-center rounded-full bg-primary p-1  text-[8px] text-white transition-all ${mediaCountBlinkStyles}`}
+                        >
+                            {mediaCount}
                         </div>
                     )}
                 </Marker>

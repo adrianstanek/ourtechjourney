@@ -21,7 +21,7 @@ export const useUploader = () => {
     }, []);
 
     const uploadMediaAsset = useCallback(
-        (file: File, onProcess: (fileProcessed: File, mediaData: IUploaderResponse) => boolean) => {
+        (file: File, onProcess: (fileProcessed: File, mediaData: IUploaderResponse) => unknown) => {
             const mediaId = nanoid();
 
             if (!worker) return undefined;

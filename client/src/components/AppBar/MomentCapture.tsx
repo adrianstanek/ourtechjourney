@@ -8,8 +8,6 @@ export const MomentCapture: React.FC<IMomentCapture> = () => {
     const { accuracy } = useGeolocation();
     const { saveMoment } = useMomentCreate();
 
-    // TODO Change to Worker
-
     const captureRef = useRef<null | HTMLInputElement>(null);
 
     return (

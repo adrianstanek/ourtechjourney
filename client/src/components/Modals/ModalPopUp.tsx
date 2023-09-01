@@ -53,9 +53,7 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-24"
             >
-                <div
-                    className={`relative flex w-full flex-col gap-1 transition-all ${height} drop-shadow`}
-                >
+                <div className={`relative flex w-full flex-col gap-1 transition-all ${height}`}>
                     {/* Fullscreen Button (Preview-Off) */}
                     <button
                         className="absolute right-1 top-3 z-50 flex h-8 w-8 flex-row items-center justify-center gap-1"

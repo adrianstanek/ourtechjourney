@@ -6,16 +6,15 @@ import { useMoments } from '../../hooks/storage/useMoments';
 import { useRecoilValue } from 'recoil';
 import { getSelectedMoment } from '../../recoil/appState';
 import { IMedia, MimeType } from '../../interfaces/Media.interfaces';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/pro-duotone-svg-icons';
 
-export interface IAddMediaBox {
-    moment: IMoment;
-}
+interface IAddMediaButton {}
 
-export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
-    const { moment } = props;
-
+export const AddMediaButton: React.FC<IAddMediaButton> = () => {
     const { updateMoment } = useMoments();
     const { uploadMediaAsset } = useUploader();
+    const moment = useRecoilValue(getSelectedMoment);
 
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
@@ -68,17 +67,17 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
     );
 
     return (
-        <div className="relative flex aspect-[1/1] w-full flex-col items-center justify-center gap-4 border-4 border-dotted border-primary bg-primary-light/20">
+        <div className="relative flex w-full flex-row items-center gap-4">
             <button onClick={openCamera}>
                 <img
                     src="/assets/icons/noun-photo-6015903-527970.svg"
                     alt="camera"
-                    className="h-24"
+                    className="h-6"
                 />
             </button>
-            <Button onClick={upload} color="primary">
-                Hochladen
-            </Button>
+            <button onClick={upload}>
+                <FontAwesomeIcon icon={faUpload} className="relative top-[1px] h-5 text-primary" />
+            </button>
 
             <div className="hidden">
                 <input

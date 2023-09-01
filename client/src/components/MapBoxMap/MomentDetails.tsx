@@ -14,6 +14,7 @@ import { IAuthor } from '../../interfaces/IAuthor';
 import { AddMediaBox } from './AddMediaBox';
 import { ModalPopUp } from '../Modals/ModalPopUp';
 import { MediaImage } from '../MediaImage';
+import { AddMediaButton } from './AddMediaButton';
 
 export interface IMomentDetails {}
 
@@ -45,27 +46,6 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
         };
     }, [moment]);
 
-    // const [assets, setAssets] = useState<{ [key: string]: string }>({});
-    // const [assetsSet, setAssetsSet] = useState(false);
-    //
-    // useEffect(() => {
-    //     if (assetsSet) return undefined;
-    //
-    //     moment?.media.forEach((media) => {
-    //         if (!media.mediaId) return undefined;
-    //
-    //         void getMediaAsset(media.mediaId).then((asset: string | null) => {
-    //             setAssets((prevState) => {
-    //                 const oldState = { ...prevState };
-    //                 if (media.mediaId && asset) oldState[media.mediaId] = asset;
-    //                 return { ...prevState, ...oldState };
-    //             });
-    //         });
-    //
-    //         setAssetsSet(true);
-    //     });
-    // }, [assets, assetsSet, getMediaAsset, moment?.media]);
-
     const media = useMemo(() => {
         if (storageUpdate) {
             return moment?.media ?? [];
@@ -75,9 +55,6 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
     return (
         <>
             <ModalPopUp show={moment !== null} closeAction={close}>
-                <section className="relative z-0 mt-1 flex w-max flex-row gap-1">
-                    <ShareRow />
-                </section>
                 {showContent && (
                     <Transition
                         show={showContent}
@@ -90,6 +67,10 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         leaveFrom="opacity-100 "
                         leaveTo="opacity-0"
                     >
+                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1 py-2 pb-4">
+                            <AddMediaButton />
+                        </section>
+
                         <section className="relative mt-0 flex w-full flex-row flex-nowrap gap-x-10">
                             {moment && media && media.length > 0 && (
                                 <>
@@ -110,13 +91,20 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                         // onSwiper={(swiper) => {
                                         // }}
                                     >
-                                        {media.map((mediaItem) => {
-                                            return (
-                                                <SwiperSlide key={`${moment.id}-${mediaItem.id}`}>
-                                                    <MediaImage media={mediaItem} />
-                                                </SwiperSlide>
-                                            );
-                                        })}
+                                        {media
+                                            .slice()
+                                            .reverse()
+                                            .map((mediaItem) => {
+                                                return (
+                                                    <SwiperSlide
+                                                        key={`${moment.id}-${mediaItem.id}`}
+                                                        id={`slide-${mediaItem.id}`}
+                                                    >
+                                                        <MediaImage media={mediaItem} />
+                                                    </SwiperSlide>
+                                                );
+                                            })}
+
                                         <SwiperSlide key={`${moment.id}-new`}>
                                             <AddMediaBox moment={moment} />
                                         </SwiperSlide>
@@ -127,6 +115,10 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                             {moment?.media && moment?.media.length === 0 && (
                                 <AddMediaBox moment={moment} />
                             )}
+                        </section>
+
+                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1">
+                            <ShareRow />
                         </section>
 
                         <h2 className="mt-4 font-display text-2xl text-primary">{moment?.label}</h2>
