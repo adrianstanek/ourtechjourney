@@ -45,7 +45,7 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 appear={show}
                 id="test1"
                 as={'div'}
-                className={`duration-750 fixed bottom-0 left-0 z-[1000] h-max w-screen overflow-x-hidden overflow-y-scroll bg-white p-2 transition-all`}
+                className={`duration-750 fixed bottom-0 left-0 z-[1000] h-max w-screen overflow-x-hidden overflow-y-scroll bg-white py-2 transition-all`}
                 enter="transition-all ease-in-out"
                 enterFrom="opacity-0 translate-y-24"
                 enterTo="opacity-100 translate-y-0"

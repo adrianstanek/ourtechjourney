@@ -1,12 +1,12 @@
 import { Transition } from '@headlessui/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment, getStorageUpdate } from '../../recoil/appState';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
-import { FreeMode, Pagination } from 'swiper';
+import { Autoplay, FreeMode, Pagination } from 'swiper';
 import ShareRow from '../ShareRow/ShareRow';
 import { Author } from '../Author/Author';
 import { AuthorMocks } from '../../mock/AuthorMocks';
@@ -52,6 +52,15 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
         }
     }, [moment?.media, storageUpdate]);
 
+    const swiperRef =
+        useRef<
+            React.MutableRefObject<
+                | SwiperRef
+                | React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>
+                | null
+            >
+        >(null); // Create a ref to hold the swiper instance
+
     return (
         <>
             <ModalPopUp show={moment !== null} closeAction={close}>
@@ -67,7 +76,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         leaveFrom="opacity-100 "
                         leaveTo="opacity-0"
                     >
-                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1 py-2 pb-4">
+                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1 px-2 py-2 pb-4">
                             <AddMediaButton />
                         </section>
 
@@ -77,8 +86,9 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                                     {/* @ts-ignore */}
                                     <Swiper
+                                        ref={swiperRef as never}
                                         className="relative flex h-max max-h-[70svh] w-full flex-row bg-primary-light/10"
-                                        modules={[FreeMode, Pagination]}
+                                        modules={[FreeMode, Pagination, Autoplay]}
                                         spaceBetween={10}
                                         loop={false}
                                         centeredSlidesBounds={false}
@@ -87,9 +97,37 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                         pagination={{
                                             clickable: true,
                                         }}
-                                        // onSlideChange={() => console.log('slide change')}
-                                        // onSwiper={(swiper) => {
-                                        // }}
+                                        onSwiper={(swiper) => {
+                                            swiper.wrapperEl.addEventListener('mousedown', (e) => {
+                                                if (swiper.autoplay) {
+                                                    swiper.autoplay.stop();
+                                                }
+                                                e.preventDefault();
+                                            });
+                                            swiper.wrapperEl.addEventListener('touchstart', (e) => {
+                                                if (swiper.autoplay) {
+                                                    swiper.autoplay.stop();
+                                                }
+                                                e.preventDefault();
+                                            });
+                                            swiper.wrapperEl.addEventListener('mouseup', (e) => {
+                                                if (swiper.autoplay) {
+                                                    swiper.autoplay.start();
+                                                }
+                                                e.preventDefault();
+                                            });
+                                            swiper.wrapperEl.addEventListener('touchend', (e) => {
+                                                if (swiper.autoplay) {
+                                                    swiper.autoplay.start();
+                                                }
+                                                e.preventDefault();
+                                            });
+                                        }}
+                                        autoplay={{
+                                            delay: 5000, // 5 seconds
+                                            disableOnInteraction: false,
+                                            pauseOnMouseEnter: true,
+                                        }}
                                     >
                                         {media
                                             .slice()
@@ -104,35 +142,37 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                                     </SwiperSlide>
                                                 );
                                             })}
-
-                                        <SwiperSlide key={`${moment.id}-new`}>
-                                            <AddMediaBox moment={moment} />
-                                        </SwiperSlide>
                                     </Swiper>
                                 </>
                             )}
 
                             {moment?.media && moment?.media.length === 0 && (
-                                <AddMediaBox moment={moment} />
+                                <div className="px-2">
+                                    <AddMediaBox moment={moment} />
+                                </div>
                             )}
                         </section>
 
-                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1">
+                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1 px-2">
                             <ShareRow />
                         </section>
 
-                        <h2 className="mt-4 font-display text-2xl text-primary">{moment?.label}</h2>
+                        <section className="relative flex flex-col gap-1 px-2">
+                            <h2 className="mt-4 font-display text-2xl text-primary">
+                                {moment?.label}
+                            </h2>
 
-                        <Author author={AuthorMocks.jenny as IAuthor} />
+                            <Author author={AuthorMocks.jenny as IAuthor} />
 
-                        {moment?.description && (
-                            <section
-                                className="relative mt-4 flex flex-col gap-3"
-                                dangerouslySetInnerHTML={{
-                                    __html: moment?.description.replace(/\n/gi, '<br/>'),
-                                }}
-                            />
-                        )}
+                            {moment?.description && (
+                                <div
+                                    className="relative mt-4 flex flex-col gap-3"
+                                    dangerouslySetInnerHTML={{
+                                        __html: moment?.description.replace(/\n/gi, '<br/>'),
+                                    }}
+                                />
+                            )}
+                        </section>
                     </Transition>
                 )}
             </ModalPopUp>
