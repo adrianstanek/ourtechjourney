@@ -7,7 +7,7 @@
     "start_url": "/",
     "name": "Storyfiy",
     "app_name": "Storyfiy",
-    "offline_page": "/",
+    "offline_page": "/_offline",
     "description": "Sealed Memories, Stories Unveiled",
     "short_name": "Storyfiy",
     "icons": [
