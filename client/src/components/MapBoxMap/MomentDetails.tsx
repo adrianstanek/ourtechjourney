@@ -77,7 +77,8 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         leaveTo="opacity-0"
                     >
                         <section className="relative z-0 mt-1 flex w-full flex-row items-center justify-center gap-1 px-2 py-2 pb-4">
-                            <AddMediaButton />
+                            {media && media.length > 0 && <AddMediaButton />}
+                            {media && media.length === 0 && <div className="block h-8" />}
                         </section>
 
                         <section className="relative mt-0 flex w-full flex-row flex-nowrap gap-x-10">
