@@ -95,12 +95,14 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
 
                 void createMoment(newMoment);
 
-                // Open moment
-                // Off the place mode
+                setAppState((currVal) => {
+                    return { ...currVal, placeMode: false };
+                });
 
+                // Off the place mode
                 setTimeout(() => {
                     setAppState((currVal) => {
-                        return { ...currVal, placeMode: false, selectedMoment: newMoment };
+                        return { ...currVal, selectedMoment: newMoment };
                     });
                 }, 250);
             }
