@@ -3,6 +3,7 @@
     "background_color": "#478577",
     "display": "standalone",
     "scope": "/",
+    "orientation": "landscape",
     "start_url": "/",
     "name": "Storyfiy",
     "app_name": "Storyfiy",
