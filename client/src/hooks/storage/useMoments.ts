@@ -6,9 +6,12 @@ import { appStateRecoil, getSelectedStory, getStorageUpdate } from '../../recoil
 import { nanoid } from 'nanoid';
 import { ILngLat } from '../../components/MapBoxMap/interfaces/ILngLat';
 import dayjs from 'dayjs';
+import { useFlyToPosition } from '../../components/MapBoxMap/hooks/useFlyToPosition';
 
 export const useMoments = () => {
     const { momentDb } = useStorage();
+
+    const { flyTo } = useFlyToPosition();
 
     const selectedStory = useRecoilValue(getSelectedStory);
 
@@ -142,5 +145,40 @@ export const useMoments = () => {
         [momentDb, momentIsNearExisting]
     );
 
-    return { currentMoments, createMoment, getCloseMoments, updateMoment };
+    const flyToMoment = useCallback(
+        (moment: IMoment) => {
+            // Target Zoom
+            const zoom = 16;
+
+            const referenceFactor = 380;
+            const referenceScreenHeight = 660;
+
+            const windowHeight = window.innerHeight;
+            // const factor = innerHeight
+
+            let newFactor = (windowHeight / referenceScreenHeight) * referenceFactor;
+            if (windowHeight >= 800 && windowHeight < 1000) {
+                newFactor += 70;
+            } else if (windowHeight >= 1000 && windowHeight < 1200) {
+                newFactor += 100;
+            } else if (windowHeight >= 1200) {
+                newFactor += 190;
+            }
+
+            const calculateOffsetLatitude = (latitude: number, zoomUsed: number) => {
+                const latOffset = (1 / Math.pow(2, zoomUsed)) * newFactor; // The factor 40 can be adjusted based on your specific needs
+                return latitude - latOffset / 4;
+            };
+
+            flyTo(calculateOffsetLatitude(moment?.latitude ?? 0, zoom), moment?.longitude ?? 0, {
+                zoom: zoom,
+                essential: true,
+                duration: 500,
+                speed: 0.2,
+            });
+        },
+        [flyTo]
+    );
+
+    return { currentMoments, createMoment, getCloseMoments, updateMoment, flyToMoment };
 };

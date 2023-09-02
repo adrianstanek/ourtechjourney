@@ -1,6 +1,9 @@
 import { Transition } from '@headlessui/react';
 import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
-import { faCompress, faExpand } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faDownLeftAndUpRightToCenter,
+    faUpRightAndDownLeftFromCenter,
+} from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IModalPopUp extends PropsWithChildren {
@@ -35,7 +38,7 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
     }, [closeAction]);
 
     const height = useMemo(() => {
-        return previewMode ? 'h-[calc(100svh-250px)]' : 'h-[calc(100svh-60px)]';
+        return previewMode ? 'h-[calc(100svh-250px)]' : 'h-[calc(100svh-70px)]';
     }, [previewMode]);
 
     return (
@@ -56,14 +59,20 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 <div className={`relative flex w-full flex-col gap-1 transition-all ${height}`}>
                     {/* Fullscreen Button (Preview-Off) */}
                     <button
-                        className="absolute right-1 top-3 z-50 flex h-8 w-8 flex-row items-center justify-center gap-1"
+                        className="absolute right-1 top-1 z-50 flex h-8 w-8 flex-row items-center justify-center gap-1"
                         onClick={() => setPreviewMode(!previewMode)}
                     >
                         {previewMode && (
-                            <FontAwesomeIcon icon={faExpand} className="h-6 text-neutral-500" />
+                            <FontAwesomeIcon
+                                icon={faUpRightAndDownLeftFromCenter}
+                                className="h-4 text-neutral-500"
+                            />
                         )}
                         {!previewMode && (
-                            <FontAwesomeIcon icon={faCompress} className="h-6 text-neutral-500" />
+                            <FontAwesomeIcon
+                                icon={faDownLeftAndUpRightToCenter}
+                                className="h-4 text-neutral-500"
+                            />
                         )}
                     </button>
 

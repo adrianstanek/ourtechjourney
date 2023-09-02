@@ -1,5 +1,4 @@
 import React, { useCallback, useRef } from 'react';
-import { Button } from '../Buttons/Button';
 import { IMoment } from '../../interfaces/Moment.interfaces';
 import { useUploader } from '../../hooks/useUploader';
 import { useMoments } from '../../hooks/storage/useMoments';
@@ -67,7 +66,7 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
     );
 
     return (
-        <div className="relative flex w-full flex-row items-center gap-4">
+        <div className="relative flex w-full flex-row items-center justify-center gap-4">
             <button onClick={openCamera}>
                 <img
                     src="/assets/icons/noun-photo-6015903-527970.svg"

@@ -34,9 +34,9 @@ module.exports = {
                     dark: '#E4F9F4',
                 },
                 tertiary: {
-                    DEFAULT: '#898989',
-                    light: '#898989',
-                    dark: '#898989',
+                    DEFAULT: '#0e64d9',
+                    light: '#3378d5',
+                    dark: '#024196',
                 },
                 success: {
                     DEFAULT: '#368A03',

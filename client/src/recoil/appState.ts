@@ -10,6 +10,7 @@ export interface IAppState {
     selectedStory: IStory | null;
     showStories: boolean;
     storageUpdate: string;
+    placeMode: boolean;
 }
 
 export const appStateRecoil = atom<IAppState>({
@@ -21,6 +22,7 @@ export const appStateRecoil = atom<IAppState>({
         // selectedStory: StoryMock[0] as IStory,
         showStories: false,
         storageUpdate: dayjs().toISOString(),
+        placeMode: false,
     },
 });
 
@@ -56,5 +58,12 @@ export const getStorageUpdate = selector<string>({
     key: `/get-storage-update${nanoid()}`,
     get: ({ get }): string => {
         return get(appStateRecoil).storageUpdate;
+    },
+});
+
+export const getPlaceMode = selector<boolean>({
+    key: `get-place-mode/${nanoid()}`,
+    get: ({ get }): boolean => {
+        return get(appStateRecoil).placeMode;
     },
 });

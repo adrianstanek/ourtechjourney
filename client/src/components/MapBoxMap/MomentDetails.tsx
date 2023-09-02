@@ -76,7 +76,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                         leaveFrom="opacity-100 "
                         leaveTo="opacity-0"
                     >
-                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1 px-2 py-2 pb-4">
+                        <section className="relative z-0 mt-1 flex w-full flex-row items-center justify-center gap-1 px-2 py-2 pb-4">
                             <AddMediaButton />
                         </section>
 
@@ -147,13 +147,13 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                             )}
 
                             {moment?.media && moment?.media.length === 0 && (
-                                <div className="px-2">
+                                <div className="relative mx-auto flex w-full max-w-[300px] px-2">
                                     <AddMediaBox moment={moment} />
                                 </div>
                             )}
                         </section>
 
-                        <section className="relative z-0 mt-1 flex w-max flex-row gap-1 px-2">
+                        <section className="relative z-0 mt-1 flex w-full flex-row items-center justify-center gap-1 px-2">
                             <ShareRow />
                         </section>
 

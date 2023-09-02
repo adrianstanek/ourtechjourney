@@ -7,15 +7,16 @@ import { CurrentPositionButton } from './CurrentPositionButton';
 import { StoryRenderer } from './StoryRenderer';
 import { MomentDetails } from './MomentDetails';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
+import { appStateRecoil, getPlaceMode, getSelectedMoment } from '../../recoil/appState';
 import { useStories } from '../../hooks/storage/useStories';
 import { MomentsRenderer } from './MomentsRenderer';
 import { StoryCloser } from '../Stories/StoryCloser';
 import { FlyToStory } from './FlyToStory';
 import { StoryConnectorRenderer } from './StoryConnectorRenderer';
 import { useMoments } from '../../hooks/storage/useMoments';
-import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
+import { IMoment } from '../../interfaces/Moment.interfaces';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -31,6 +32,8 @@ interface IMapBoxEvent {
 
 export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     const { latitude, longitude } = props;
+
+    const placeMode = useRecoilValue(getPlaceMode);
 
     const { currentStory } = useStories();
 
@@ -71,19 +74,14 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                 return { ...currVal, selectedMoment: null };
             });
 
-            holdTimeoutRef.current = setTimeout(() => {
-                if (sessionStorage.getItem('isDragging') !== null) return undefined;
-
-                // Trigger your hold action here
-                // eslint-disable-next-line no-console,@typescript-eslint/no-unsafe-member-access
-                console.log('Map was held.', event.lngLat);
-
-                const id = nanoid();
+            // Place a new marker; this should be toggled in MomentAddButton.tsx
+            if (placeMode) {
+                const momentId = nanoid();
 
                 const order = currentStory?.moments.length ?? 0;
 
-                void createMoment({
-                    id: id,
+                const newMoment = {
+                    id: momentId,
                     media: [],
                     longitude: event.lngLat.lng,
                     latitude: event.lngLat.lat,
@@ -93,10 +91,31 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     parentStory: currentStory?.id ?? null,
                     description: '',
                     order: order,
-                });
+                } as IMoment;
+
+                void createMoment(newMoment);
+
+                // Open moment
+                // Off the place mode
+
+                setTimeout(() => {
+                    setAppState((currVal) => {
+                        return { ...currVal, placeMode: false, selectedMoment: newMoment };
+                    });
+                }, 250);
+            }
+
+            holdTimeoutRef.current = setTimeout(() => {
+                if (sessionStorage.getItem('isDragging') !== null) return undefined;
+
+                // Trigger your hold action here
+                // eslint-disable-next-line no-console,@typescript-eslint/no-unsafe-member-access
+                console.log('Map was held.', event.lngLat);
+
+                // TODO Removed because it was a bad UX
             }, 1000); // 1000ms (1s)
         },
-        [createMoment, currentStory?.id, currentStory?.moments.length, setAppState]
+        [createMoment, currentStory?.id, currentStory?.moments.length, placeMode, setAppState]
     );
 
     const handleMouseUp = () => {

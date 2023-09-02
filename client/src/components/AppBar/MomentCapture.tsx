@@ -18,9 +18,9 @@ export const MomentCapture: React.FC<IMomentCapture> = () => {
                 onClick={() => {
                     captureRef?.current?.click();
                 }}
-                id="newMomentButton"
+                id="captureMomentButton"
                 role="button"
-                aria-label="Create new Moment"
+                aria-label="Capture new Moment"
             >
                 <img
                     src="/assets/icons/noun-moment-2700515-E4F9F5.svg"

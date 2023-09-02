@@ -7,7 +7,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStorage } from '../../hooks/storage/useStorage';
 import { useMoments } from '../../hooks/storage/useMoments';
-import { useFlyToPosition } from './hooks/useFlyToPosition';
 
 interface IMomentMarker {
     moment: IMoment;
@@ -17,14 +16,14 @@ interface IMomentMarker {
 export const MomentMarker: React.FC<IMomentMarker> = (props) => {
     const { moment, inactive } = props;
 
-    const { updateMoment } = useMoments();
-
-    const { flyTo } = useFlyToPosition();
+    const { updateMoment, flyToMoment } = useMoments();
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
     const { mediaDb } = useStorage();
+
+    const [isFocused, setIsFocused] = useState(false);
 
     const heroImage = useMemo(() => {
         if (moment.media.length === 0) return null;
@@ -47,36 +46,19 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
             return { ...currVal, selectedMoment: moment };
         });
 
-        // Target Zoom
-        const zoom = 16;
+        flyToMoment(moment);
+    }, [flyToMoment, moment, setAppState]);
 
-        const referenceFactor = 380;
-        const referenceScreenHeight = 660;
+    useEffect(() => {
+        if (!isSelected) setIsFocused(false);
 
-        const windowHeight = window.innerHeight;
-        // const factor = innerHeight
+        if (isFocused) return undefined;
 
-        let newFactor = (windowHeight / referenceScreenHeight) * referenceFactor;
-        if (windowHeight >= 800 && windowHeight < 1000) {
-            newFactor += 70;
-        } else if (windowHeight >= 1000 && windowHeight < 1200) {
-            newFactor += 100;
-        } else if (windowHeight >= 1200) {
-            newFactor += 190;
+        if (isSelected) {
+            setIsFocused(true);
+            flyToMoment(moment);
         }
-
-        const calculateOffsetLatitude = (latitude: number, zoomUsed: number) => {
-            const latOffset = (1 / Math.pow(2, zoomUsed)) * newFactor; // The factor 40 can be adjusted based on your specific needs
-            return latitude - latOffset / 4;
-        };
-
-        flyTo(calculateOffsetLatitude(moment?.latitude ?? 0, zoom), moment?.longitude ?? 0, {
-            zoom: zoom,
-            essential: true,
-            duration: 500,
-            speed: 0.2,
-        });
-    }, [flyTo, moment, setAppState]);
+    }, [flyToMoment, isFocused, isSelected, moment]);
 
     const activeStyles = useMemo(() => {
         return inactive ? 'opacity-30 ring-1 ' : 'opacity-100 ring-2';
@@ -147,6 +129,10 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         setMediaCount(moment.media.length);
     }, [mediaCount, moment.media.length]);
 
+    const pulseStyles = useMemo(() => {
+        return !isSelected ? '' : 'bg-tertiary-light animate-ping';
+    }, [isSelected]);
+
     return (
         <>
             {moment.latitude && moment.longitude && (
@@ -158,6 +144,9 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                     onDrag={onMarkerDrag}
                     onDragEnd={onMarkerDragEnd}
                 >
+                    <div
+                        className={`absolute left-0 top-0 aspect-[1/1] w-full rounded-full transition-all ${pulseStyles}`}
+                    />
                     <button
                         onClick={click}
                         className={`relative aspect-[1/1] rounded-full bg-neutral-200  ring-offset-2  transition-all ${size} ${activeStyles}`}
