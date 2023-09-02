@@ -15,6 +15,7 @@ import { AddMediaBox } from './AddMediaBox';
 import { ModalPopUp } from '../Modals/ModalPopUp';
 import { MediaImage } from '../MediaImage';
 import { AddMediaButton } from './AddMediaButton';
+import { useMediaAsset } from '../../hooks/useMediaAsset';
 
 export interface IMomentDetails {}
 
@@ -24,7 +25,13 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
 
     const storageUpdate = useRecoilValue(getStorageUpdate);
 
+    const { moveMediaToTrash } = useMediaAsset();
+
     const [showContent, setShowContent] = useState(false);
+
+    const mediaList = useMemo(() => {
+        return moment?.media.slice().reverse();
+    }, [moment?.media]);
 
     const close = useCallback(() => {
         setAppState((currVal) => {
@@ -61,6 +68,15 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
             >
         >(null); // Create a ref to hold the swiper instance
 
+    const getMediaByIndex = useCallback(
+        (index: number) => {
+            if (!mediaList) return null;
+
+            return mediaList[index];
+        },
+        [mediaList]
+    );
+
     return (
         <>
             <ModalPopUp show={moment !== null} closeAction={close}>
@@ -95,6 +111,12 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                         centeredSlidesBounds={false}
                                         slidesPerView={1}
                                         freeMode={false}
+                                        onDoubleClick={(swiper) => {
+                                            const mediaData = getMediaByIndex(swiper.activeIndex);
+
+                                            // TODO Open Context Menu
+                                            void moveMediaToTrash(moment, mediaData?.id ?? '');
+                                        }}
                                         pagination={{
                                             clickable: true,
                                         }}
@@ -130,10 +152,8 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                             pauseOnMouseEnter: true,
                                         }}
                                     >
-                                        {media
-                                            .slice()
-                                            .reverse()
-                                            .map((mediaItem) => {
+                                        {mediaList &&
+                                            mediaList.map((mediaItem) => {
                                                 return (
                                                     <SwiperSlide
                                                         key={`${moment.id}-${mediaItem.id}`}

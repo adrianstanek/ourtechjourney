@@ -8,4 +8,5 @@ export interface IMedia {
     mimeType?: MimeType;
     alt?: string;
     url?: string;
+    trash?: boolean;
 }
