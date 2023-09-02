@@ -55,6 +55,7 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     });
 
     useEffect(() => {
+        // TODO still necessary
         if (accuracy && !currentPosition && geoLatitude && geoLongitude) {
             setCurrentPosition(true);
             setLatLng({

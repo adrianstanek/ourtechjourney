@@ -3,10 +3,15 @@ import useGeolocation from '../../hooks/useGeolocation';
 import { Marker } from 'react-map-gl';
 import { ILngLat } from './interfaces/ILngLat';
 import { useDeviceDirection } from '../../hooks/useDeviceDirection';
+import { useFlyToPosition } from './hooks/useFlyToPosition';
 
 export const MeMarkerMB: React.FC = () => {
     const geoPos = useGeolocation();
     const [mePos, setMePos] = useState<ILngLat | null>(null);
+
+    const { flyTo } = useFlyToPosition();
+
+    const [markerInit, setMarkerInit] = useState(false);
 
     const { rotation, hasDeviceOrientation } = useDeviceDirection();
 
@@ -18,6 +23,16 @@ export const MeMarkerMB: React.FC = () => {
             });
         }
     }, [geoPos]);
+
+    useEffect(() => {
+        // Set initial Marker setting for the first time
+        if (markerInit) return undefined;
+
+        if (geoPos.accuracy && geoPos.latitude && geoPos.longitude) {
+            setMarkerInit(true);
+            flyTo(geoPos.latitude, geoPos.longitude, { zoom: 14 });
+        }
+    }, [flyTo, geoPos.accuracy, geoPos.latitude, geoPos.longitude, markerInit]);
 
     const triangleStyle: React.CSSProperties = {
         transform: `rotate(-${rotation + 90}deg) translate(16px)`,
