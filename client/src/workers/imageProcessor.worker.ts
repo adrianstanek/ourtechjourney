@@ -3,6 +3,7 @@
 import Jimp from 'jimp';
 import localforage from 'localforage';
 import { nanoid } from 'nanoid';
+import JPEG from 'jpeg-js';
 
 export const sworker: Worker = self as unknown as Worker;
 
@@ -31,6 +32,8 @@ export interface IImageProcessorResponse {
         mimeType: string;
     };
 }
+
+Jimp.decoders['image/jpeg'] = (data: Buffer) => JPEG.decode(data, { maxMemoryUsageInMB: 5000 });
 
 sworker.addEventListener('message', (e: MessageEvent<IInput>) => {
     void (async () => {

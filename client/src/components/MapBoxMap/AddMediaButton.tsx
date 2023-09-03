@@ -3,7 +3,7 @@ import { IMoment } from '../../interfaces/Moment.interfaces';
 import { useUploader } from '../../hooks/useUploader';
 import { useMoments } from '../../hooks/storage/useMoments';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { appStateRecoil, getMediasProcessing, getSelectedMoment } from '../../recoil/appState';
+import { appStateRecoil, getMomentsProcessing, getSelectedMoment } from '../../recoil/appState';
 import { IMedia, MimeType } from '../../interfaces/Media.interfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/pro-duotone-svg-icons';
@@ -17,7 +17,7 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
     const moment = useRecoilValue(getSelectedMoment);
 
     const setAppState = useSetRecoilState(appStateRecoil);
-    const mediasProcessing = useRecoilValue(getMediasProcessing);
+    const momentsProcessing = useRecoilValue(getMomentsProcessing);
 
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
@@ -40,65 +40,75 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
         (file: File) => {
             const mediaId = nanoid();
 
-            const mediaProcessing: string[] = [...mediasProcessing, mediaId];
+            if (moment) {
+                const momentsProcessingNew: string[] = [...momentsProcessing, moment.id ?? ''];
 
-            setAppState((currVal) => {
-                return { ...currVal, mediasProcessing: mediaProcessing };
-            });
+                setAppState((currVal) => {
+                    return { ...currVal, momentsProcessing: momentsProcessingNew };
+                });
+            }
 
             // TODO Rethink if the fileProcessed should be transfered here because of performance
-            void uploadMediaAsset(file, (fileProcessed, mediaData) => {
-                // eslint-disable-next-line no-console
-                console.log('uploaded', fileProcessed);
+            void uploadMediaAsset(
+                file,
+                (fileProcessed, mediaData) => {
+                    // eslint-disable-next-line no-console
+                    console.log('uploaded', fileProcessed);
 
-                // eslint-disable-next-line no-console
-                console.log('result mediaId:', mediaData);
+                    // eslint-disable-next-line no-console
+                    console.log('result mediaId:', mediaData);
 
-                const media: IMedia[] = [...(selectedMoment?.media ?? [])];
+                    const media: IMedia[] = [...(selectedMoment?.media ?? [])];
 
-                media.push({
-                    mediaId: mediaData.image.mediaId,
-                    image: {
+                    media.push({
                         mediaId: mediaData.image.mediaId,
-                        height: mediaData.image.height,
-                        width: mediaData.image.width,
-                        mimeType: mediaData.image.mimeType as MimeType,
-                    },
-                    thumbnail: {
-                        mediaId: mediaData.thumbnail.mediaId,
-                        height: mediaData.thumbnail.height,
-                        width: mediaData.thumbnail.width,
-                        mimeType: mediaData.thumbnail.mimeType as MimeType,
-                    },
-                    original: {
-                        mediaId: mediaData.original.mediaId,
-                        height: mediaData.original.height,
-                        width: mediaData.original.width,
-                        mimeType: mediaData.original.mimeType as MimeType,
-                    },
-                    alt: '',
-                } as IMedia);
+                        image: {
+                            mediaId: mediaData.image.mediaId,
+                            height: mediaData.image.height,
+                            width: mediaData.image.width,
+                            mimeType: mediaData.image.mimeType as MimeType,
+                        },
+                        thumbnail: {
+                            mediaId: mediaData.thumbnail.mediaId,
+                            height: mediaData.thumbnail.height,
+                            width: mediaData.thumbnail.width,
+                            mimeType: mediaData.thumbnail.mimeType as MimeType,
+                        },
+                        original: {
+                            mediaId: mediaData.original.mediaId,
+                            height: mediaData.original.height,
+                            width: mediaData.original.width,
+                            mimeType: mediaData.original.mimeType as MimeType,
+                        },
+                        alt: '',
+                    } as IMedia);
 
-                const mediaProcessingCurrent: string[] = [...mediasProcessing];
-                mediaProcessing.filter((item) => {
-                    return item !== mediaId;
-                });
+                    if (moment) {
+                        // Remove processing
+                        setAppState((currVal) => {
+                            const momentsProcessingCurrent = [...currVal.momentsProcessing];
 
-                // Remove processing
-                setAppState((currVal) => {
-                    return { ...currVal, mediasProcessing: mediaProcessingCurrent };
-                });
+                            momentsProcessingCurrent.splice(
+                                momentsProcessingCurrent.indexOf(moment.id ?? ''),
+                                1
+                            );
 
-                if (selectedMoment) {
-                    const updatedMoment: IMoment = { ...selectedMoment, media };
+                            return { ...currVal, momentsProcessing: momentsProcessingCurrent };
+                        });
+                    }
 
-                    void updateMoment(updatedMoment);
-                }
+                    if (selectedMoment) {
+                        const updatedMoment: IMoment = { ...selectedMoment, media };
 
-                return true;
-            });
+                        void updateMoment(updatedMoment);
+                    }
+
+                    return true;
+                },
+                mediaId
+            );
         },
-        [mediasProcessing, selectedMoment, setAppState, updateMoment, uploadMediaAsset]
+        [moment, momentsProcessing, selectedMoment, setAppState, updateMoment, uploadMediaAsset]
     );
 
     return (

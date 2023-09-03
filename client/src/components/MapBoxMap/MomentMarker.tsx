@@ -76,24 +76,23 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         });
     }, [base64Url, heroImage?.thumbnail.mediaId, mediaDb]);
 
-    const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
+    const onMarkerDragStart = useCallback(() => {
+        // event: MarkerDragEvent
         // Implement any logic you need here
         // TODO Hide current Marker; because of flickering
         // TODO Tell state that there's a drag in progress, otherwise a marker will be created
     }, []);
 
-    const onMarkerDrag = useCallback(
-        (event: MarkerDragEvent) => {
-            // Implement any logic you need here
+    const onMarkerDrag = useCallback(() => {
+        // event: MarkerDragEvent
+        // Implement any logic you need here
 
-            sessionStorage.setItem('isDragging', moment.id);
-        },
-        [moment.id]
-    );
+        sessionStorage.setItem('isDragging', moment.id);
+    }, [moment.id]);
 
     const isProcessing = useMemo(() => {
-        return getMomentHasProcessingMedia(moment.media).length > 0;
-    }, [getMomentHasProcessingMedia, moment.media]);
+        return getMomentHasProcessingMedia(moment);
+    }, [getMomentHasProcessingMedia, moment]);
 
     const onMarkerDragEnd = useCallback(
         (event: MarkerDragEvent) => {

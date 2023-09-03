@@ -4,7 +4,7 @@ import { IMoment } from '../../interfaces/Moment.interfaces';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
     appStateRecoil,
-    getMediasProcessing,
+    getMomentsProcessing,
     getSelectedStory,
     getStorageUpdate,
 } from '../../recoil/appState';
@@ -12,7 +12,6 @@ import { nanoid } from 'nanoid';
 import { ILngLat } from '../../components/MapBoxMap/interfaces/ILngLat';
 import dayjs from 'dayjs';
 import { useFlyToPosition } from '../../components/MapBoxMap/hooks/useFlyToPosition';
-import { IMedia } from '../../interfaces/Media.interfaces';
 
 export const useMoments = () => {
     const { momentDb } = useStorage();
@@ -23,7 +22,7 @@ export const useMoments = () => {
 
     const setAppState = useSetRecoilState(appStateRecoil);
 
-    const mediasProcessing = useRecoilValue(getMediasProcessing);
+    const momentsProcessing = useRecoilValue(getMomentsProcessing);
 
     const storageUpdate = useRecoilValue(getStorageUpdate);
 
@@ -189,17 +188,10 @@ export const useMoments = () => {
     );
 
     const getMomentHasProcessingMedia = useCallback(
-        (media: IMedia[]): IMedia[] => {
-            const processingItems: IMedia[] = [];
-
-            media.forEach((item) => {
-                if (item.mediaId && mediasProcessing.includes(item.mediaId))
-                    processingItems.push(item);
-            });
-
-            return processingItems;
+        (moment: IMoment): boolean => {
+            return momentsProcessing.includes(moment.id ?? '');
         },
-        [mediasProcessing]
+        [momentsProcessing]
     );
 
     return {
