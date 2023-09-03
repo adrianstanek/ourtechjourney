@@ -30,7 +30,7 @@ export const MeMarkerMB: React.FC = () => {
 
         if (geoPos.accuracy && geoPos.latitude && geoPos.longitude) {
             setMarkerInit(true);
-            flyTo(geoPos.latitude, geoPos.longitude, { zoom: 14 });
+            flyTo(geoPos.latitude, geoPos.longitude, { zoom: 18 });
         }
     }, [flyTo, geoPos.accuracy, geoPos.latitude, geoPos.longitude, markerInit]);
 
