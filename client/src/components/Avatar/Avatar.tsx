@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { IAuthor } from '../../interfaces/IAuthor';
-import Image from 'next/image';
+import { ImageCustom } from '../ImageCustom';
 
 export interface IAvatar {
     author: IAuthor;
@@ -27,15 +27,11 @@ export const Avatar: React.FC<IAvatar> = (props) => {
                 <div
                     className={`relative flex aspect-[1/1] flex-col items-center justify-center gap-1 overflow-hidden rounded-full ring-2 ${ringColor} ${size}`}
                 >
-                    <Image
-                        className=""
+                    <ImageCustom
                         src={author?.avatar.url ?? ''}
                         alt=""
-                        width={author?.avatar?.width}
-                        height={author?.avatar?.height}
-                        placeholder="blur"
-                        // https://png-pixel.com/
-                        blurDataURL="/assets/blur/1x1-dcdcdc51.png"
+                        width={author?.avatar?.width ?? 100}
+                        height={author?.avatar?.height ?? 100}
                     />
                 </div>
             )}

@@ -25,30 +25,6 @@ const withPWA = require('next-pwa')({
     ],
     runtimeCaching: [
         {
-            urlPattern: /https:\/\/nominatim\.openstreetmap\.org\/search\?format/,
-            method: 'GET',
-            handler: 'StaleWhileRevalidate',
-            options: {
-                cacheName: 'openstreetmap-search',
-                expiration: {
-                    maxEntries: 5000,
-                    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-                },
-            },
-        },
-        {
-            urlPattern: /https:\/\/([abc])\.tile\.openstreetmap\.org/,
-            method: 'GET',
-            handler: 'NetworkFirst',
-            options: {
-                cacheName: 'tileapi',
-                expiration: {
-                    maxEntries: 5000,
-                    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-                },
-            },
-        },
-        {
             urlPattern: /api\/geo\/search/,
             method: 'GET',
             handler: 'NetworkFirst',
@@ -98,14 +74,10 @@ module.exports = withPWA({
     serverRuntimeConfig: {},
     transpilePackages: ['next-image-export-optimizer'],
     images: {
-        domains: ['www.marketingcenter.remax.eu', 'marketingcenter.remax.eu', 'agent-info.net'],
-        // ... other image config if any
+        loader: 'custom',
+        imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     },
-    // images: {
-    //     loader: 'custom',
-    //     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    //     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    // },
     trailingSlash: true,
     async redirects() {
         return [];
@@ -113,6 +85,9 @@ module.exports = withPWA({
     exportPathMap: async function (defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
         return {
             '/': { page: '/', __nextDefaultLocale: 'de' },
+            '/imprint': { page: '/imprint', __nextDefaultLocale: 'de' },
+            '/privacy': { page: '/privacy', __nextDefaultLocale: 'de' },
+            '/_offline': { page: '/_offline', __nextDefaultLocale: 'de' },
         };
     },
 });

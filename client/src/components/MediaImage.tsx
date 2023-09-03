@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { IMedia } from '../interfaces/Media.interfaces';
-import Image from 'next/image';
 import { useStorage } from '../hooks/storage/useStorage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/pro-duotone-svg-icons';
+import { ImageCustom } from './ImageCustom';
 
 export interface IMediaImage {
     media: IMedia;
@@ -28,17 +28,14 @@ export const MediaImage: React.FC<IMediaImage> = (props) => {
         <>
             {(base64Url ?? media.url) && (
                 <>
-                    <Image
-                        className={`relative z-20 aspect-[1/1] max-h-[70svh] w-full object-contain transition-all ${
+                    <ImageCustom
+                        className={`relative z-20 aspect-[1/1] max-h-[70vh] w-full object-contain transition-all ${
                             media.trash ? 'opacity-30' : 'opacity-100'
                         }`}
                         src={base64Url ?? media.url ?? ''}
                         alt=""
-                        width={media?.width}
-                        height={media?.height}
-                        placeholder="blur"
-                        // https://png-pixel.com/
-                        blurDataURL="/assets/blur/1x1-dcdcdc51.png"
+                        width={media?.width ?? 100}
+                        height={media?.height ?? 100}
                     />
 
                     {media.trash && (

@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Marker, MarkerDragEvent } from 'react-map-gl';
 import { IMoment } from '../../interfaces/Moment.interfaces';
-import Image from 'next/image';
 import { IMedia } from '../../interfaces/Media.interfaces';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStorage } from '../../hooks/storage/useStorage';
 import { useMoments } from '../../hooks/storage/useMoments';
+import { ImageCustom } from '../ImageCustom';
 
 interface IMomentMarker {
     moment: IMoment;
@@ -153,12 +153,12 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                     >
                         {heroImage && base64Url && (
                             <figure className="relative flex aspect-[1/1] h-full w-full overflow-hidden rounded-full">
-                                <Image
+                                <ImageCustom
                                     className="h-full w-full object-cover"
                                     src={base64Url}
                                     alt={heroImage.alt ?? ''}
-                                    height={heroImage.height}
-                                    width={heroImage.width}
+                                    height={heroImage.height ?? 100}
+                                    width={heroImage.width ?? 100}
                                 />
                             </figure>
                         )}
