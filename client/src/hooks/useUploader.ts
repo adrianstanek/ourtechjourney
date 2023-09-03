@@ -1,12 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
-
-export interface IUploaderResponse {
-    mediaId: string;
-    width: number;
-    height: number;
-    mimeType: string;
-}
+import { IImageProcessorResponse } from '../workers/imageProcessor.worker';
 
 export const useUploader = () => {
     const [worker, setWorker] = useState<Worker | null>(null);
@@ -21,7 +15,10 @@ export const useUploader = () => {
     }, []);
 
     const uploadMediaAsset = useCallback(
-        (file: File, onProcess: (fileProcessed: File, mediaData: IUploaderResponse) => unknown) => {
+        (
+            file: File,
+            onProcess: (fileProcessed: File, mediaData: IImageProcessorResponse) => unknown
+        ) => {
             const mediaId = nanoid();
 
             if (!worker) return undefined;
@@ -32,7 +29,7 @@ export const useUploader = () => {
                 console.error(e);
             };
 
-            worker.onmessage = (e: MessageEvent<{ mediaData: IUploaderResponse }>) => {
+            worker.onmessage = (e: MessageEvent<{ mediaData: IImageProcessorResponse }>) => {
                 const mediaResponse = e.data.mediaData;
 
                 // Receives file and mediaResponse

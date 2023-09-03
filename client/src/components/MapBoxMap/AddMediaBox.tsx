@@ -36,7 +36,6 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
 
     const preparePhoto = useCallback(
         (file: File) => {
-            // TODO REthink if the fileProcessed should be transfered here because of performance
             void uploadMediaAsset(file, (fileProcessed, mediaData) => {
                 // eslint-disable-next-line no-console
                 console.log('uploaded', fileProcessed);
@@ -47,11 +46,25 @@ export const AddMediaBox: React.FC<IAddMediaBox> = (props) => {
                 const media: IMedia[] = [...(selectedMoment?.media ?? [])];
 
                 media.push({
-                    id: mediaData.mediaId,
-                    mediaId: mediaData.mediaId,
-                    height: mediaData.height,
-                    width: mediaData.width,
-                    mimeType: mediaData.mimeType as MimeType,
+                    mediaId: mediaData.image.mediaId,
+                    image: {
+                        mediaId: mediaData.image.mediaId,
+                        height: mediaData.image.height,
+                        width: mediaData.image.width,
+                        mimeType: mediaData.image.mimeType as MimeType,
+                    },
+                    thumbnail: {
+                        mediaId: mediaData.thumbnail.mediaId,
+                        height: mediaData.thumbnail.height,
+                        width: mediaData.thumbnail.width,
+                        mimeType: mediaData.thumbnail.mimeType as MimeType,
+                    },
+                    original: {
+                        mediaId: mediaData.original.mediaId,
+                        height: mediaData.original.height,
+                        width: mediaData.original.width,
+                        mimeType: mediaData.original.mimeType as MimeType,
+                    },
                     alt: '',
                 } as IMedia);
 

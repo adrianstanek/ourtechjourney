@@ -28,10 +28,10 @@ export const Avatar: React.FC<IAvatar> = (props) => {
                     className={`relative flex aspect-[1/1] flex-col items-center justify-center gap-1 overflow-hidden rounded-full ring-2 ${ringColor} ${size}`}
                 >
                     <ImageCustom
-                        src={author?.avatar.url ?? ''}
+                        src={author?.avatar.thumbnail.url ?? ''}
                         alt=""
-                        width={author?.avatar?.width ?? 100}
-                        height={author?.avatar?.height ?? 100}
+                        width={author?.avatar?.thumbnail.width ?? 100}
+                        height={author?.avatar?.thumbnail.height ?? 100}
                     />
                 </div>
             )}

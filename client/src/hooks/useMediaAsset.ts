@@ -19,7 +19,7 @@ export const useMediaAsset = () => {
 
     const moveMediaToTrash = useCallback(
         async (moment: IMoment, mediaId: string) => {
-            const mediaIndex = moment.media.findIndex((item) => item.id === mediaId);
+            const mediaIndex = moment.media.findIndex((item) => item.mediaId === mediaId);
 
             if (mediaIndex !== -1) {
                 const newMediaArray = [...moment.media];

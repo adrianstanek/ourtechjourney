@@ -104,7 +104,7 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                     {/* @ts-ignore */}
                                     <Swiper
                                         ref={swiperRef as never}
-                                        className="relative flex h-max max-h-[70svh] w-full flex-row bg-primary-light/10"
+                                        className="h-[70svh]] relative flex max-h-[70svh] w-full flex-row bg-primary-light/10"
                                         modules={[FreeMode, Pagination, Autoplay]}
                                         spaceBetween={10}
                                         loop={false}
@@ -115,7 +115,10 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                             const mediaData = getMediaByIndex(swiper.activeIndex);
 
                                             // TODO Open Context Menu
-                                            void moveMediaToTrash(moment, mediaData?.id ?? '');
+                                            void moveMediaToTrash(
+                                                moment,
+                                                mediaData?.image.mediaId ?? ''
+                                            );
                                         }}
                                         pagination={{
                                             clickable: true,
@@ -153,11 +156,15 @@ export const MomentDetails: React.FC<IMomentDetails> = () => {
                                         }}
                                     >
                                         {mediaList &&
-                                            mediaList.map((mediaItem) => {
+                                            mediaList.map((mediaItem, index) => {
                                                 return (
                                                     <SwiperSlide
-                                                        key={`${moment.id}-${mediaItem.id}`}
-                                                        id={`slide-${mediaItem.id}`}
+                                                        key={`${moment.id}-${
+                                                            mediaItem.image.mediaId ?? index
+                                                        } `}
+                                                        id={`slide-${
+                                                            mediaItem.image.mediaId ?? index
+                                                        }`}
                                                     >
                                                         <MediaImage media={mediaItem} />
                                                     </SwiperSlide>

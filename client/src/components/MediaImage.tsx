@@ -17,25 +17,25 @@ export const MediaImage: React.FC<IMediaImage> = (props) => {
     const [base64Url, setBase64Url] = useState<string | null>(null);
 
     useEffect(() => {
-        if (base64Url || !media.mediaId) return undefined;
+        if (base64Url || !media.image.mediaId) return undefined;
 
-        void mediaDb.getItem(media.mediaId).then((value) => {
+        void mediaDb.getItem(media.image.mediaId).then((value) => {
             setBase64Url(value as string);
         });
-    }, [base64Url, media.mediaId, mediaDb]);
+    }, [base64Url, media.image.mediaId, mediaDb]);
 
     return (
         <>
-            {(base64Url ?? media.url) && (
+            {(base64Url ?? media.image.url) && (
                 <>
                     <ImageCustom
                         className={`relative z-20 aspect-[1/1] max-h-[70vh] w-full object-contain transition-all ${
                             media.trash ? 'opacity-30' : 'opacity-100'
                         }`}
-                        src={base64Url ?? media.url ?? ''}
+                        src={base64Url ?? media.image.url ?? ''}
                         alt=""
-                        width={media?.width ?? 100}
-                        height={media?.height ?? 100}
+                        width={media?.image.width ?? 100}
+                        height={media?.image.height ?? 100}
                     />
 
                     {media.trash && (

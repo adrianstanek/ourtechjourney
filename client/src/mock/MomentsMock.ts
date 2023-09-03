@@ -1,5 +1,8 @@
 import { IMoment } from '../interfaces/Moment.interfaces';
 import dayjs from 'dayjs';
+import { MediaDataMock } from './MediaDataMock';
+import { IMedia } from '../interfaces/Media.interfaces';
+
 export const momentsMock: IMoment[] = [
     {
         id: '1',
@@ -18,35 +21,7 @@ export const momentsMock: IMoment[] = [
             '\n' +
             '🚶‍♀️ Step into a world of natural beauty as you explore our lush forest trails. Walk beneath canopies of towering pine trees and hear the rustle of hidden creatures in the underbrush.',
         label: 'Bench View',
-        media: [
-            {
-                id: '1',
-                mediaId: '1',
-                // url: '/assets/mocks/outdoors/LandscapeViewBench.jpeg',
-                alt: 'On the bench!',
-                width: 1024,
-                height: 485,
-                mimeType: 'image/jpeg',
-            },
-            {
-                id: '2',
-                mediaId: '2',
-                // url: '/assets/mocks/outdoors/LandscapeViewBench2.jpeg',
-                alt: 'Emi!',
-                width: 2048,
-                height: 970,
-                mimeType: 'image/jpeg',
-            },
-            {
-                id: '233',
-                mediaId: '1',
-                // url: '/assets/mocks/outdoors/20230820_182735.jpg',
-                alt: 'Emi!',
-                width: 2184,
-                height: 4608,
-                mimeType: 'image/jpeg',
-            },
-        ],
+        media: [MediaDataMock[0] as IMedia, MediaDataMock[1] as IMedia],
         created: dayjs().toISOString(),
     },
     {
@@ -66,17 +41,7 @@ export const momentsMock: IMoment[] = [
             '🌲 Lush Forest Trails\n' +
             '\n' +
             '🚶‍♀️ Step into a world of natural beauty as you explore our lush forest trails. Walk beneath canopies of towering pine trees and hear the rustle of hidden creatures in the underbrush.',
-        media: [
-            {
-                id: '21',
-                mediaId: '1',
-                // url: '/assets/mocks/outdoors/20230820_181143.jpg',
-                alt: 'Emi!',
-                width: 4608,
-                height: 2184,
-                mimeType: 'image/jpeg',
-            },
-        ],
+        media: [MediaDataMock[2] as IMedia],
         created: dayjs().toISOString(),
     },
     {

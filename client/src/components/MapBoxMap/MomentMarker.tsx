@@ -67,11 +67,12 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
     const [base64Url, setBase64Url] = useState<string | null>(null);
 
     useEffect(() => {
-        if (base64Url || !heroImage?.mediaId) return undefined;
-        void mediaDb.getItem(heroImage?.mediaId).then((value) => {
+        if (base64Url || !heroImage?.thumbnail.mediaId) return undefined;
+
+        void mediaDb.getItem(heroImage?.thumbnail.mediaId).then((value) => {
             setBase64Url(value as string);
         });
-    }, [base64Url, heroImage?.mediaId, mediaDb]);
+    }, [base64Url, heroImage?.thumbnail.mediaId, mediaDb]);
 
     const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
         // Implement any logic you need here
@@ -157,8 +158,8 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                                     className="h-full w-full object-cover"
                                     src={base64Url}
                                     alt={heroImage.alt ?? ''}
-                                    height={heroImage.height ?? 100}
-                                    width={heroImage.width ?? 100}
+                                    height={heroImage.thumbnail.height ?? 100}
+                                    width={heroImage.thumbnail.width ?? 100}
                                 />
                             </figure>
                         )}

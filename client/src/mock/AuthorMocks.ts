@@ -11,12 +11,27 @@ export const AuthorMocks: { [key: string]: IAuthor } = {
         },
         avatar: {
             mediaId: '999',
-            id: '999',
-            url: '/assets/avatar/wanderwoman.jpg',
-            width: 2208,
-            height: 2944,
-            alt: '',
-            mimeType: 'image/jpeg',
+            image: {
+                url: '/assets/avatar/wanderwoman.jpg',
+                mediaId: '999',
+                width: 2208,
+                height: 2944,
+                mimeType: 'image/jpeg',
+            },
+            thumbnail: {
+                mediaId: '999',
+                url: '/assets/avatar/wanderwoman.jpg',
+                width: 2208,
+                height: 2944,
+                mimeType: 'image/jpeg',
+            },
+            original: {
+                url: '/assets/avatar/wanderwoman.jpg',
+                mediaId: '999',
+                width: 2208,
+                height: 2944,
+                mimeType: 'image/jpeg',
+            },
         },
     },
 };
