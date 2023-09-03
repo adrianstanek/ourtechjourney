@@ -94,6 +94,7 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     order: order,
                 } as IMoment;
 
+                // TODO REfactor this into createMoment(moment) and set order correctly for stories
                 void createMoment(newMoment);
 
                 setAppState((currVal) => {

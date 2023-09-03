@@ -10,6 +10,8 @@ export const MomentCapture: React.FC<IMomentCapture> = () => {
 
     const captureRef = useRef<null | HTMLInputElement>(null);
 
+    // TODO Add Moment when File is loaded and the place it, to make sure we have sync symbol
+
     return (
         <>
             <button
