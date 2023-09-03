@@ -11,6 +11,7 @@ export interface IAppState {
     showStories: boolean;
     storageUpdate: string;
     placeMode: boolean;
+    mediasProcessing: string[];
 }
 
 export const appStateRecoil = atom<IAppState>({
@@ -23,6 +24,7 @@ export const appStateRecoil = atom<IAppState>({
         showStories: false,
         storageUpdate: dayjs().toISOString(),
         placeMode: false,
+        mediasProcessing: [],
     },
 });
 
@@ -65,5 +67,12 @@ export const getPlaceMode = selector<boolean>({
     key: `get-place-mode/${nanoid()}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).placeMode;
+    },
+});
+
+export const getMediasProcessing = selector<string[]>({
+    key: `get-medias-processing/${nanoid()}`,
+    get: ({ get }): string[] => {
+        return get(appStateRecoil).mediasProcessing;
     },
 });

@@ -7,6 +7,8 @@ import { appStateRecoil, getSelectedMoment } from '../../recoil/appState';
 import { useStorage } from '../../hooks/storage/useStorage';
 import { useMoments } from '../../hooks/storage/useMoments';
 import { ImageCustom } from '../ImageCustom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
 
 interface IMomentMarker {
     moment: IMoment;
@@ -16,7 +18,7 @@ interface IMomentMarker {
 export const MomentMarker: React.FC<IMomentMarker> = (props) => {
     const { moment, inactive } = props;
 
-    const { updateMoment, flyToMoment } = useMoments();
+    const { updateMoment, flyToMoment, getMomentHasProcessingMedia } = useMoments();
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const selectedMoment = useRecoilValue(getSelectedMoment);
@@ -88,6 +90,10 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
         },
         [moment.id]
     );
+
+    const isProcessing = useMemo(() => {
+        return getMomentHasProcessingMedia(moment.media).length > 0;
+    }, [getMomentHasProcessingMedia, moment.media]);
 
     const onMarkerDragEnd = useCallback(
         (event: MarkerDragEvent) => {
@@ -164,7 +170,16 @@ export const MomentMarker: React.FC<IMomentMarker> = (props) => {
                             </figure>
                         )}
 
-                        {!heroImage && (
+                        {isProcessing && (
+                            <figure className="absolute left-0 top-0 z-30 flex aspect-[1/1] h-full w-full items-center justify-center overflow-hidden rounded-full bg-neutral-400">
+                                <FontAwesomeIcon
+                                    icon={faSync}
+                                    className="h-4 animate-spin text-white"
+                                />
+                            </figure>
+                        )}
+
+                        {!heroImage && !isProcessing && (
                             <figure className="relative flex aspect-[1/1] h-full w-full items-center justify-center overflow-hidden rounded-full bg-primary">
                                 <img
                                     className="relative flex w-[70%]"

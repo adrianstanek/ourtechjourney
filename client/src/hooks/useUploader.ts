@@ -17,13 +17,14 @@ export const useUploader = () => {
     const uploadMediaAsset = useCallback(
         (
             file: File,
-            onProcess: (fileProcessed: File, mediaData: IImageProcessorResponse) => unknown
+            onProcess: (fileProcessed: File, mediaData: IImageProcessorResponse) => unknown,
+            mediaId?: string | undefined
         ) => {
-            const mediaId = nanoid();
+            const mediaIdUsed = mediaId ?? nanoid();
 
             if (!worker) return undefined;
 
-            worker.postMessage({ file, mediaId });
+            worker.postMessage({ file, mediaId: mediaIdUsed });
 
             worker.onerror = (e) => {
                 console.error(e);

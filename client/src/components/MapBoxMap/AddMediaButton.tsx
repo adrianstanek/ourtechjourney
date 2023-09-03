@@ -2,11 +2,12 @@ import React, { useCallback, useRef } from 'react';
 import { IMoment } from '../../interfaces/Moment.interfaces';
 import { useUploader } from '../../hooks/useUploader';
 import { useMoments } from '../../hooks/storage/useMoments';
-import { useRecoilValue } from 'recoil';
-import { getSelectedMoment } from '../../recoil/appState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { appStateRecoil, getMediasProcessing, getSelectedMoment } from '../../recoil/appState';
 import { IMedia, MimeType } from '../../interfaces/Media.interfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/pro-duotone-svg-icons';
+import { nanoid } from 'nanoid';
 
 interface IAddMediaButton {}
 
@@ -14,6 +15,9 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
     const { updateMoment } = useMoments();
     const { uploadMediaAsset } = useUploader();
     const moment = useRecoilValue(getSelectedMoment);
+
+    const setAppState = useSetRecoilState(appStateRecoil);
+    const mediasProcessing = useRecoilValue(getMediasProcessing);
 
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
@@ -34,7 +38,15 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
 
     const preparePhoto = useCallback(
         (file: File) => {
-            // TODO REthink if the fileProcessed should be transfered here because of performance
+            const mediaId = nanoid();
+
+            const mediaProcessing: string[] = [...mediasProcessing, mediaId];
+
+            setAppState((currVal) => {
+                return { ...currVal, mediasProcessing: mediaProcessing };
+            });
+
+            // TODO Rethink if the fileProcessed should be transfered here because of performance
             void uploadMediaAsset(file, (fileProcessed, mediaData) => {
                 // eslint-disable-next-line no-console
                 console.log('uploaded', fileProcessed);
@@ -67,6 +79,16 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
                     alt: '',
                 } as IMedia);
 
+                const mediaProcessingCurrent: string[] = [...mediasProcessing];
+                mediaProcessing.filter((item) => {
+                    return item !== mediaId;
+                });
+
+                // Remove processing
+                setAppState((currVal) => {
+                    return { ...currVal, mediasProcessing: mediaProcessingCurrent };
+                });
+
                 if (selectedMoment) {
                     const updatedMoment: IMoment = { ...selectedMoment, media };
 
@@ -76,7 +98,7 @@ export const AddMediaButton: React.FC<IAddMediaButton> = () => {
                 return true;
             });
         },
-        [selectedMoment, updateMoment, uploadMediaAsset]
+        [mediasProcessing, selectedMoment, setAppState, updateMoment, uploadMediaAsset]
     );
 
     return (
