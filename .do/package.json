@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "jj-get": "./scripts/getspec.sh adrian journeyjar-stage",
-    "jj-update": "./scripts/updatespec.sh adrian journeyjar-stage",
+    "storyfiy-get": "./scripts/getspec.sh adrian storyfiy-stage",
+    "storyfiy-update": "./scripts/updatespec.sh adrian storyfiy-stage",
     "postinstall": "node ./node_modules/digitaloceanapps/copyAndMakeExecutable.js"
   },
   "author": "",

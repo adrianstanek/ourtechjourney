@@ -1,0 +1,30 @@
+domains:
+- domain: stage.storyfiy.app
+  type: PRIMARY
+  zone: storyfiy.app
+envs:
+- key: FONTAWESOME_NPM_AUTH_TOKEN
+  scope: BUILD_TIME
+  type: SECRET
+  value: 51BB0A24-8B72-4DBB-B633-3D574B1CE2FE
+features:
+- enable-kata-build
+ingress:
+  rules:
+  - component:
+      name: client
+    match:
+      path:
+        prefix: /
+name: storyfiy-stage
+region: fra
+static_sites:
+  - build_command: npm run export
+    environment_slug: node-js
+    github:
+      branch: develop
+      deploy_on_push: true
+      repo: adrianstanek/journeyjar
+    name: client
+    output_dir: out
+    source_dir: /client
