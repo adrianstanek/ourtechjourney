@@ -19,7 +19,7 @@ export const CurrentPositionButton: React.FC<ICurrentPositionButton> = () => {
 
     const opacity = useMemo(() => {
         if (!accuracy) return 'opacity-30';
-        return accuracy <= 200 ? 'opacity-100' : 'opacity-30';
+        return accuracy <= 300 ? 'opacity-100' : 'opacity-30';
     }, [accuracy]);
 
     return (
