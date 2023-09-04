@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #output {
+            font-size: 1.2em;
+            max-width: 600px;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+        /* We will put the map in this div */
+        #map {
+            height: 400px;
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+<h1>Geolocation Test</h1>
+<div id="output">Checking location...</div>
+<div id="map"></div>
+
+<script>
+    function isLocationAccurateEnough(position) {
+        const accuracyThresholdWithoutAltitude = 200;  // 200 meters
+        const accuracyThresholdWithAltitude = 80;  // 80 meters
+
+        const accuracy = position.coords.accuracy;
+        const altitude = position.coords.altitude;
+
+        console.log("Received position:", position);
+
+        if (altitude !== null) {
+            // Altitude is provided, check accuracy against first threshold
+            return accuracy <= accuracyThresholdWithAltitude;
+        } else {
+            // Altitude is not provided, check accuracy against second threshold
+            return accuracy <= accuracyThresholdWithoutAltitude;
+        }
+    }
+
+    function likelyDataSource(position) {
+        if (position.coords.altitude !== null) {
+            return 'GPS or similar system';
+        } else if (position.coords.accuracy <= 200) {
+            return 'Possibly Wi-Fi';
+        } else {
+            return 'Possibly IP-based geolocation';
+        }
+    }
+
+    // Initialize the map
+    var map = L.map('map').setView([0, 0], 18);  // Centered at [0, 0] with higher zoom
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Store current marker and circle
+    var currentMarker = null;
+    var currentCircle = null;
+
+    navigator.geolocation.watchPosition((position) => {
+        const outputDiv = document.getElementById('output');
+
+        const accuracy = Math.round(position.coords.accuracy);
+        const altitude = position.coords.altitude;
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const details = `Latitude: ${latitude.toFixed(4)}, Longitude: ${longitude.toFixed(4)}, Altitude: ${altitude ? altitude.toFixed(4) : 'N/A'}, Accuracy: ${accuracy} meters<br> Likely data source: ${likelyDataSource(position)}`;
+
+        // Clear old marker and circle
+        if (currentMarker) {
+            map.removeLayer(currentMarker);
+        }
+        if (currentCircle) {
+            map.removeLayer(currentCircle);
+        }
+
+        // Update the map to the current position
+        map.setView([latitude, longitude], 18);
+        currentMarker = L.marker([latitude, longitude]).addTo(map);
+
+        // Add a circle showing the accuracy
+        currentCircle = L.circle([latitude, longitude], {
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.5,
+            radius: accuracy
+        }).addTo(map);
+
+        if (isLocationAccurateEnough(position)) {
+            outputDiv.innerHTML = `<b>Status:</b> Location is accurate enough for tracking.<br><br><b>Details:</b><br>${details}`;
+            outputDiv.className = 'green';
+            // Continue with time tracking
+        } else {
+            outputDiv.innerHTML = `<b>Status:</b> Location is not accurate enough for tracking.<br><br><b>Details:</b><br>${details}`;
+            outputDiv.className = 'red';
+            // Handle case where location is not accurate enough
+        }
+    }, (error) => {
+        console.log("Error getting location", error);
+        // Handle error getting location
+    }, {
+        maximumAge: 3000,  // Accept cached position if it's up to 3 seconds old
+        timeout: 5000,  // Wait up to 5 seconds for a response
+        enableHighAccuracy: true
+    });
+</script>
+</body>
+</html>

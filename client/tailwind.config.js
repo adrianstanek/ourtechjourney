@@ -17,10 +17,10 @@ module.exports = {
         },
         extend: {
             fontFamily: {
-                sans: ['Merriweather Sans'],
-                serif: ['Merriweather Sans'],
-                display: ['Merriweather Sans'],
-                body: ['Merriweather Sans'],
+                sans: ['Merriweather Sans', 'sans-serif'],
+                serif: ['Merriweather Sans', 'sans-serif'],
+                display: ['Merriweather Sans', 'sans-serif'],
+                body: ['Merriweather Sans', 'sans-serif'],
             },
             colors: {
                 primary: {

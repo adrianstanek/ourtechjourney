@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 interface GeoLocationState {
     latitude: number | null;
     longitude: number | null;
+    altitude?: number | null;
     accuracy: number | null;
     error: string | null;
 }
@@ -11,6 +12,7 @@ const useGeoLocation = (): GeoLocationState => {
     const [location, setLocation] = useState<GeoLocationState>({
         latitude: null,
         longitude: null,
+        altitude: null,
         accuracy: null,
         error: null,
     });
@@ -19,6 +21,7 @@ const useGeoLocation = (): GeoLocationState => {
         setLocation({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
+            altitude: position.coords.altitude,
             accuracy: position.coords.accuracy,
             error: null,
         });
@@ -28,6 +31,7 @@ const useGeoLocation = (): GeoLocationState => {
         setLocation({
             latitude: null,
             longitude: null,
+            altitude: null,
             accuracy: null,
             error: error.message,
         });

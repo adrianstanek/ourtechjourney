@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getHeaderCollapsed } from '../../recoil/appState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket } from '@fortawesome/pro-duotone-svg-icons';
+import { GeoState } from '../GeoState/GeoState';
 
 export interface IHeroHeader {}
 
@@ -75,6 +76,12 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                         </Transition>
                     </div>
 
+                    {/* Button Bar */}
+                    <div className="relative flex flex-row items-end justify-end gap-1 self-end pr-4">
+                        <GeoState />
+                    </div>
+
+                    {/* Type Logo Storyfiy */}
                     <div
                         className={`absolute flex items-center justify-center transition-all ${positionTitle} ${sizeTitle}`}
                     >
@@ -84,7 +91,6 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                             className="relative w-[200px]"
                         />
                     </div>
-
                     {!collapsed && (
                         <Transition
                             as={Fragment}
