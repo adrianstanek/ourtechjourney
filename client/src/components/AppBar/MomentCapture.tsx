@@ -1,16 +1,80 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import useGeolocation from '../../hooks/useGeolocation';
-import { useMomentCreate } from '../../hooks/useMomentCreate';
+import { useSetRecoilState } from 'recoil';
+import { appStateRecoil } from '../../recoil/appState';
+import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
+import { IMoment } from '../../interfaces/Moment.interfaces';
+import { useStories } from '../../hooks/storage/useStories';
+import { useMoments } from '../../hooks/storage/useMoments';
+import { usePrepareForUpload } from '../../hooks/usePrepareForUpload';
 
 interface IMomentCapture {}
 
 export const MomentCapture: React.FC<IMomentCapture> = () => {
-    const { accuracy } = useGeolocation();
-    const { saveMoment } = useMomentCreate();
+    const { accuracy, latitude, longitude } = useGeolocation();
+
+    const { currentStory } = useStories();
+
+    const { prepareAndUploadPhoto } = usePrepareForUpload();
+
+    const { createMoment } = useMoments();
+
+    const setAppState = useSetRecoilState(appStateRecoil);
 
     const captureRef = useRef<null | HTMLInputElement>(null);
 
-    // TODO Add Moment when File is loaded and the place it, to make sure we have sync symbol
+    const capture = useCallback(
+        (file: File) => {
+            setAppState((currVal) => {
+                return { ...currVal, selectedMoment: null };
+            });
+
+            const momentId = nanoid();
+
+            const order = currentStory?.moments.length ?? 0;
+
+            const newMoment = {
+                id: momentId,
+                media: [],
+                longitude: longitude,
+                latitude: latitude,
+                label: 'Neuer Moment',
+                type: 'vista',
+                created: dayjs().toISOString(),
+                parentStory: currentStory?.id ?? null,
+                description: '',
+                order: order,
+            } as IMoment;
+
+            void createMoment(newMoment);
+
+            setAppState((currVal) => {
+                return { ...currVal, placeMode: false };
+            });
+
+            // Off the place mode
+            setTimeout(() => {
+                setAppState((currVal) => {
+                    return { ...currVal, selectedMoment: newMoment };
+                });
+
+                // TODO Double timeout callback instead?
+                setTimeout(() => {
+                    void prepareAndUploadPhoto(file, newMoment);
+                }, 550);
+            }, 250);
+        },
+        [
+            createMoment,
+            currentStory?.id,
+            currentStory?.moments.length,
+            latitude,
+            longitude,
+            prepareAndUploadPhoto,
+            setAppState,
+        ]
+    );
 
     return (
         <>
@@ -40,7 +104,7 @@ export const MomentCapture: React.FC<IMomentCapture> = () => {
                 onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
                         const file = e.target.files[0];
-                        void saveMoment(file);
+                        void capture(file);
                     }
                 }}
             />

@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { IMedia, MimeType } from '../interfaces/Media.interfaces';
 import { IMoment } from '../interfaces/Moment.interfaces';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { appStateRecoil, getMomentsProcessing, getSelectedMoment } from '../recoil/appState';
+import { appStateRecoil, getMomentsProcessing } from '../recoil/appState';
 import { useUploader } from './useUploader';
 import { useMoments } from './storage/useMoments';
 
@@ -11,8 +11,6 @@ export const usePrepareForUpload = () => {
     const { uploadMediaAsset } = useUploader();
 
     const { updateMoment } = useMoments();
-
-    const selectedMoment = useRecoilValue(getSelectedMoment);
 
     const setAppState = useSetRecoilState(appStateRecoil);
     const momentsProcessing = useRecoilValue(getMomentsProcessing);
@@ -39,7 +37,7 @@ export const usePrepareForUpload = () => {
                     // eslint-disable-next-line no-console
                     console.log('result mediaId:', mediaData);
 
-                    const media: IMedia[] = [...(selectedMoment?.media ?? [])];
+                    const media: IMedia[] = [...(moment?.media ?? [])];
 
                     media.push({
                         mediaId: mediaData.image.mediaId,
@@ -78,9 +76,8 @@ export const usePrepareForUpload = () => {
                         });
                     }
 
-                    if (selectedMoment) {
-                        const updatedMoment: IMoment = { ...selectedMoment, media };
-
+                    if (moment) {
+                        const updatedMoment: IMoment = { ...moment, media };
                         void updateMoment(updatedMoment);
                     }
 
@@ -89,7 +86,7 @@ export const usePrepareForUpload = () => {
                 mediaId
             );
         },
-        [momentsProcessing, selectedMoment, setAppState, updateMoment, uploadMediaAsset]
+        [momentsProcessing, setAppState, updateMoment, uploadMediaAsset]
     );
 
     return {
