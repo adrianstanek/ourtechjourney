@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Map, { NavigationControl } from 'react-map-gl';
 import { MeMarkerMB } from './MeMarkerMB';
 import useGeolocation from '../../hooks/useGeolocation';
@@ -7,7 +7,7 @@ import { CurrentPositionButton } from './CurrentPositionButton';
 import { StoryRenderer } from './StoryRenderer';
 import { MomentDetails } from './MomentDetails';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { appStateRecoil, getPlaceMode, getSelectedMoment } from '../../recoil/appState';
+import { appStateRecoil, getMapType, getPlaceMode, getSelectedMoment } from '../../recoil/appState';
 import { useStories } from '../../hooks/storage/useStories';
 import { MomentsRenderer } from './MomentsRenderer';
 import { StoryCloser } from '../Stories/StoryCloser';
@@ -17,6 +17,7 @@ import { useMoments } from '../../hooks/storage/useMoments';
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 import { IMoment } from '../../interfaces/Moment.interfaces';
+import { MapTypeToggle } from './MapTypeToggle';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -38,6 +39,8 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
     const { currentStory } = useStories();
 
     const { createMoment } = useMoments();
+
+    const mapType = useRecoilValue(getMapType);
 
     const selectedMoment = useRecoilValue(getSelectedMoment);
 
@@ -130,6 +133,12 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
         }
     };
 
+    const mapStyle = useMemo((): string => {
+        return mapType === 'satellite'
+            ? 'mapbox://styles/mapbox/satellite-streets-v12'
+            : 'mapbox://styles/mapbox/outdoors-v12';
+    }, [mapType]);
+
     return (
         <>
             {mapBoxPK && (
@@ -145,7 +154,8 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     }}
                     style={{ width: '100%', height: '100%' }}
                     // mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
-                    mapStyle="mapbox://styles/mapbox/outdoors-v12"
+                    // mapStyle="mapbox://styles/mapbox/outdoors-v12"
+                    mapStyle={mapStyle}
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
                     onTouchStart={handleMouseDown}
@@ -158,6 +168,7 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                     <MomentsRenderer />
                     <FlyToStory />
                     <StoryConnectorRenderer />
+                    <MapTypeToggle />
                 </Map>
             )}
 

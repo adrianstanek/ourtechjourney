@@ -4,6 +4,8 @@ import { IMoment } from '../interfaces/Moment.interfaces';
 import { IStory } from '../interfaces/Story.interfaces';
 import dayjs from 'dayjs';
 
+export type TMapType = 'outdoors' | 'satellite';
+
 export interface IAppState {
     headerCollapsed: boolean;
     selectedMoment: IMoment | null;
@@ -12,6 +14,7 @@ export interface IAppState {
     storageUpdate: string;
     placeMode: boolean;
     momentsProcessing: string[];
+    mapType: TMapType;
 }
 
 export const appStateRecoil = atom<IAppState>({
@@ -25,6 +28,7 @@ export const appStateRecoil = atom<IAppState>({
         storageUpdate: dayjs().toISOString(),
         placeMode: false,
         momentsProcessing: [],
+        mapType: 'outdoors',
     },
 });
 
@@ -74,5 +78,12 @@ export const getMomentsProcessing = selector<string[]>({
     key: `get-moments-processing/${nanoid()}`,
     get: ({ get }): string[] => {
         return get(appStateRecoil).momentsProcessing;
+    },
+});
+
+export const getMapType = selector<TMapType>({
+    key: `/get-map-type${nanoid()}`,
+    get: ({ get }): TMapType => {
+        return get(appStateRecoil).mapType;
     },
 });
