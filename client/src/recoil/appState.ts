@@ -15,6 +15,7 @@ export interface IAppState {
     placeMode: boolean;
     momentsProcessing: string[];
     mapType: TMapType;
+    wakeLock: boolean;
 }
 
 export const appStateRecoil = atom<IAppState>({
@@ -29,6 +30,7 @@ export const appStateRecoil = atom<IAppState>({
         placeMode: false,
         momentsProcessing: [],
         mapType: 'outdoors',
+        wakeLock: false,
     },
 });
 
@@ -85,5 +87,12 @@ export const getMapType = selector<TMapType>({
     key: `/get-map-type${nanoid()}`,
     get: ({ get }): TMapType => {
         return get(appStateRecoil).mapType;
+    },
+});
+
+export const getWakeLock = selector<boolean>({
+    key: `/get-wake-lock${nanoid()}`,
+    get: ({ get }): boolean => {
+        return get(appStateRecoil).wakeLock;
     },
 });

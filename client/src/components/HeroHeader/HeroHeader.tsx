@@ -5,6 +5,7 @@ import { appStateRecoil, getHeaderCollapsed } from '../../recoil/appState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket } from '@fortawesome/pro-duotone-svg-icons';
 import { GeoState } from '../GeoState/GeoState';
+import { WakeLockButton } from '../WakeLockButton/WakeLockButton';
 
 export interface IHeroHeader {}
 
@@ -77,8 +78,9 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                     </div>
 
                     {/* Button Bar */}
-                    <div className="relative flex flex-row items-end justify-end gap-1 self-end pr-4">
+                    <div className="relative flex flex-row items-end justify-end gap-2 self-end pr-4">
                         <GeoState />
+                        <WakeLockButton />
                     </div>
 
                     {/* Type Logo Storyfiy */}
