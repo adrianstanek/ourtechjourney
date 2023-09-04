@@ -33,11 +33,21 @@ const useGeoLocation = (): GeoLocationState => {
         });
     };
 
+    // https://w3c.github.io/geolocation-api/#dom-positionoptions-enablehighaccuracy
     useEffect(() => {
         if (navigator.geolocation) {
-            const watcher = navigator.geolocation.watchPosition(handleSuccess, handleError);
+            const watcher = navigator.geolocation.watchPosition(handleSuccess, handleError, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 5000,
+            });
+
+            // // eslint-disable-next-line no-console
+            // console.log('WATCHER update', watcher);
 
             return () => {
+                // // eslint-disable-next-line no-console
+                // console.log('CLEAR WATCHER');
                 navigator.geolocation.clearWatch(watcher);
             };
         } else {
