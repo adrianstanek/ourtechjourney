@@ -14,8 +14,6 @@ const MapBox: NextPage = () => {
     const selectedMoment = useRecoilValue(getSelectedMoment);
     const { unlocked } = useBetaCode();
 
-    console.log(unlocked);
-
     return (
         <div className="relative">
             <Head>
