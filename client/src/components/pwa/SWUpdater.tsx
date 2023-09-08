@@ -9,7 +9,9 @@ export const SWUpdater: React.FC = () => {
     const [sw, setSw] = useState<Workbox | null>(null);
 
     useEffect(() => {
-        if ('serviceWorker' in window.navigator) {
+        const isDevelopment = process.env.NODE_ENV === 'development';
+
+        if ('serviceWorker' in window.navigator && !isDevelopment) {
             const wb = new Workbox('/service-worker.js');
 
             setSw(wb);
@@ -45,8 +47,10 @@ export const SWUpdater: React.FC = () => {
     }, []);
 
     const reloadAndUpdate = useCallback(() => {
+        const isDevelopment = process.env.NODE_ENV === 'development';
+
         // Must the singelton instance of sw in state
-        if ('serviceWorker' in window.navigator && sw) {
+        if ('serviceWorker' in window.navigator && sw && !isDevelopment) {
             sw?.addEventListener('controlling', (e) => {
                 // eslint-disable-next-line no-console
                 console.log(e, 'Controlling!');
