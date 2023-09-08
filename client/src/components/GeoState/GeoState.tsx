@@ -22,7 +22,7 @@ export const GeoState: React.FC<IGeoState> = () => {
     return (
         <>
             <figure
-                className={`relative flex aspect-[1/1] h-6 w-8 items-center justify-center rounded text-sm text-white transition-all ${color}`}
+                className={`relative flex aspect-[1/1] items-center justify-center rounded px-1 py-0 text-[8px] text-white transition-all ${color}`}
             >
                 {label}
             </figure>

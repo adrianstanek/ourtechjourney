@@ -78,10 +78,12 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                     </div>
 
                     {/* Button Bar */}
-                    <div className="relative flex flex-row items-end justify-end gap-2 self-end pr-4">
-                        <GeoState />
-                        <WakeLockButton />
-                    </div>
+                    {collapsed && (
+                        <div className="relative flex flex-row items-center justify-end gap-2 self-end pr-4">
+                            <GeoState />
+                            <WakeLockButton />
+                        </div>
+                    )}
 
                     {/* Type Logo Storyfiy */}
                     <div
