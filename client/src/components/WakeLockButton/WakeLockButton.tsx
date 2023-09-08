@@ -18,10 +18,6 @@ interface WakeLock {
     release(): Promise<void>;
 }
 
-interface Navigator {
-    readonly wakeLock: WakeLock;
-}
-
 export const WakeLockButton: React.FC<IWakeLockButton> = () => {
     const wakeLock = useRecoilValue(getWakeLock);
     const setAppState = useSetRecoilState(appStateRecoil);
