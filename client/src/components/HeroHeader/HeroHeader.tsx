@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket } from '@fortawesome/pro-duotone-svg-icons';
 import { GeoState } from '../GeoState/GeoState';
 import { WakeLockButton } from '../WakeLockButton/WakeLockButton';
+import { useBetaCode } from '../../hooks/useBetaCode';
 
 export interface IHeroHeader {}
 
@@ -14,6 +15,8 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
     const setAppState = useSetRecoilState(appStateRecoil);
 
     const [isInit, setIsInit] = useState(false);
+
+    const { isUnlocked, setUnlocked } = useBetaCode();
 
     useEffect(() => {
         if (isInit) return undefined;
@@ -48,6 +51,31 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
             return { ...currVal, headerCollapsed: true };
         });
     }, [setAppState]);
+
+    const [code, setCode] = useState('');
+
+    // code: finn
+    function c1(): string {
+        const o = String.fromCharCode(102, 105, 110, 110); // "finn" as char codes
+        const manipulatedString = o
+            .split('')
+            .map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ (i % 2 === 0 ? 3 : 0)))
+            .reverse()
+            .join('');
+
+        try {
+            const base64String = btoa(manipulatedString);
+            const decodedString = atob(base64String);
+            return decodedString
+                .split('')
+                .reverse()
+                .map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ (i % 2 === 0 ? 3 : 0)))
+                .join('');
+        } catch (e) {
+            console.error('Error:', e);
+            return '';
+        }
+    }
 
     return (
         <>
@@ -112,20 +140,44 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                                 </span>
 
                                 <div className="itemc absolute bottom-14 left-0 flex w-full justify-center text-center text-xs uppercase text-secondary transition-all">
-                                    <button
-                                        className={`bg-secondary px-8 py-4 text-xl font-medium text-primary-dark ring-offset-4 ring-offset-primary hover:ring-secondary focus:outline-0 focus:ring `}
-                                        onClick={() => {
-                                            setTimeout(() => {
-                                                startJourney();
-                                            }, 450);
-                                        }}
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faRocket}
-                                            className="relative top-1 h-6 pr-2"
-                                        />
-                                        Start your Story
-                                    </button>
+                                    {isUnlocked() && (
+                                        <button
+                                            className={`bg-secondary px-8 py-4 text-xl font-medium text-primary-dark ring-offset-4 ring-offset-primary hover:ring-secondary focus:outline-0 focus:ring `}
+                                            onClick={() => {
+                                                setTimeout(() => {
+                                                    startJourney();
+                                                }, 450);
+                                            }}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faRocket}
+                                                className="relative top-1 h-6 pr-2"
+                                            />
+                                            Start your Story
+                                        </button>
+                                    )}
+
+                                    {!isUnlocked() && (
+                                        <div className="relative -top-10 flex w-full flex-col gap-1">
+                                            <span className="text-xl text-secondary">
+                                                Beta-Code
+                                            </span>
+                                            <input
+                                                className="relative mx-auto w-[200px] bg-secondary px-2 py-2 text-center text-2xl font-medium text-neutral-600 placeholder:text-lg"
+                                                placeholder="Enter Beta-Code"
+                                                type="text"
+                                                alt="beta-code"
+                                                value={code}
+                                                onChange={(e) => {
+                                                    setCode(e.target.value);
+                                                    if (c1() === e.target.value) {
+                                                        localStorage.setItem('ul', '1');
+                                                        setUnlocked(true);
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Transition>

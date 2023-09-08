@@ -1,0 +1,34 @@
+domains:
+- domain: stage.storyfiy.app
+  type: PRIMARY
+  zone: storyfiy.app
+envs:
+- key: FONTAWESOME_NPM_AUTH_TOKEN
+  scope: BUILD_TIME
+  type: SECRET
+  value: EV[1:g4mkflIBDTW2wzyE8L9xzr9yv5vibsQH:H/BEkjn0F++8pMpQIggZd9basVhFBFnXxcvZBFX07VliMgtKjSEFURGPdZiQUTj4RFWNUA==]
+- key: NEXT_PUBLIC_MAPBOX_PK
+  scope: BUILD_TIME
+  type: SECRET
+  value: sk.eyJ1IjoiYWRyaWFuc3RhbmVrIiwiYSI6ImNsbWF1dml5MTBlN3ozZnNnZ3FxYXd0eW8ifQ.cA1VRxfz--1MkAUsjEtLkw
+features:
+- enable-kata-build
+ingress:
+  rules:
+  - component:
+      name: client
+    match:
+      path:
+        prefix: /
+name: storyfiy-stage
+region: fra
+static_sites:
+- build_command: npm run export
+  environment_slug: node-js
+  github:
+    branch: develop
+    deploy_on_push: true
+    repo: adrianstanek/journeyjar
+  name: client
+  output_dir: out
+  source_dir: /client

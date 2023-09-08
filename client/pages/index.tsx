@@ -8,9 +8,13 @@ import { homePosition } from '../src/positions/positions';
 import { HeroHeader } from '../src/components/HeroHeader/HeroHeader';
 import { useRecoilValue } from 'recoil';
 import { getSelectedMoment } from '../src/recoil/appState';
+import { useBetaCode } from '../src/hooks/useBetaCode';
 
 const MapBox: NextPage = () => {
     const selectedMoment = useRecoilValue(getSelectedMoment);
+    const { unlocked } = useBetaCode();
+
+    console.log(unlocked);
 
     return (
         <div className="relative">
@@ -21,11 +25,14 @@ const MapBox: NextPage = () => {
             <HeroHeader />
 
             <Scene>
-                <div className="relative z-0 flex h-[calc(100svh-50px)] w-full">
-                    <MapBoxMap
-                        longitude={homePosition.longitude}
-                        latitude={homePosition.latitude}
-                    />
+                <div className="relative z-0 flex h-[calc(100svh-50px)] w-full" key="mpwrapper">
+                    {unlocked && (
+                        <MapBoxMap
+                            key="mp"
+                            longitude={homePosition.longitude}
+                            latitude={homePosition.latitude}
+                        />
+                    )}
                 </div>
                 {selectedMoment === null && (
                     <div className="fixed bottom-0  w-full">
