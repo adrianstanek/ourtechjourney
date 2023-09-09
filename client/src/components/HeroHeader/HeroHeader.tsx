@@ -170,7 +170,10 @@ export const HeroHeader: React.FC<IHeroHeader> = () => {
                                                 value={code}
                                                 onChange={(e) => {
                                                     setCode(e.target.value);
-                                                    if (c1() === e.target.value) {
+                                                    if (
+                                                        c1().toLowerCase() ===
+                                                        e.target.value.toLowerCase()
+                                                    ) {
                                                         localStorage.setItem('ul', '1');
                                                         setUnlocked(true);
                                                     }
