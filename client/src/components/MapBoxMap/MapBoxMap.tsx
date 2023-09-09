@@ -5,7 +5,6 @@ import useGeolocation from '../../hooks/useGeolocation';
 import { homePosition } from '../../positions/positions';
 import { CurrentPositionButton } from './CurrentPositionButton';
 import { StoryRenderer } from './StoryRenderer';
-import { MomentDetails } from './MomentDetails';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { appStateRecoil, getMapType, getPlaceMode, getSelectedMoment } from '../../recoil/appState';
 import { useStories } from '../../hooks/storage/useStories';
@@ -18,6 +17,7 @@ import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 import { IMoment } from '../../interfaces/Moment.interfaces';
 import { MapTypeToggle } from './MapTypeToggle';
+import { MomentDetailsFull } from './MomentDetailsFull';
 
 export interface IMapBoxMap {
     longitude: number;
@@ -172,7 +172,7 @@ export const MapBoxMap: React.FC<IMapBoxMap> = (props) => {
                 </Map>
             )}
 
-            <MomentDetails />
+            <MomentDetailsFull />
             <StoryCloser />
         </>
     );

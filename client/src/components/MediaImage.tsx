@@ -29,7 +29,7 @@ export const MediaImage: React.FC<IMediaImage> = (props) => {
             {(base64Url ?? media.image.url) && (
                 <>
                     <ImageCustom
-                        className={`relative z-20 aspect-[1/1] max-h-[70vh] w-full object-contain transition-all ${
+                        className={`relative z-20 h-full w-full object-contain transition-all ${
                             media.trash ? 'opacity-30' : 'opacity-100'
                         }`}
                         src={base64Url ?? media.image.url ?? ''}

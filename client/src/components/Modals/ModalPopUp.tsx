@@ -9,12 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export interface IModalPopUp extends PropsWithChildren {
     show: boolean;
     closeAction: () => void;
+    previewModeDefault?: boolean;
 }
 
 export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
-    const { show, children, closeAction } = props;
+    const { show, children, closeAction, previewModeDefault } = props;
 
-    const [previewMode, setPreviewMode] = useState(true);
+    const [previewMode, setPreviewMode] = useState(previewModeDefault ?? true);
 
     useEffect(() => {
         // Push the current state to create a new history entry
@@ -38,7 +39,9 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
     }, [closeAction]);
 
     const height = useMemo(() => {
-        return previewMode ? 'h-[calc(100svh-250px)]' : 'h-[calc(100svh-70px)]';
+        return previewMode
+            ? 'h-[calc(100svh-250px)] top-[250px]'
+            : 'h-[calc(100svh-60px)] top-[60px]';
     }, [previewMode]);
 
     return (
@@ -48,7 +51,7 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 appear={show}
                 id="test1"
                 as={'div'}
-                className={`duration-750 fixed bottom-0 left-0 z-[1000] h-max w-screen overflow-x-hidden overflow-y-scroll bg-white py-2 transition-all`}
+                className={`duration-750 fixed left-0 z-[100000000] ${height} w-screen overflow-x-hidden overflow-y-scroll bg-white transition-all`}
                 enter="transition-all ease-in-out"
                 enterFrom="opacity-0 translate-y-24"
                 enterTo="opacity-100 translate-y-0"
@@ -56,7 +59,7 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-24"
             >
-                <div className={`relative flex w-full flex-col gap-1 transition-all ${height}`}>
+                <div className={`relative flex w-full flex-col gap-1 transition-all `}>
                     {/* Fullscreen Button (Preview-Off) */}
                     <button
                         className="absolute right-1 top-1 z-50 flex h-8 w-8 flex-row items-center justify-center gap-1"
@@ -65,13 +68,13 @@ export const ModalPopUp: React.FC<IModalPopUp> = (props) => {
                         {previewMode && (
                             <FontAwesomeIcon
                                 icon={faUpRightAndDownLeftFromCenter}
-                                className="h-4 text-neutral-500"
+                                className="h-4 text-neutral-200"
                             />
                         )}
                         {!previewMode && (
                             <FontAwesomeIcon
                                 icon={faDownLeftAndUpRightToCenter}
-                                className="h-4 text-neutral-500"
+                                className="h-4 text-neutral-200"
                             />
                         )}
                     </button>

@@ -1,5 +1,4 @@
 import { atom, selector } from 'recoil';
-import { nanoid } from 'nanoid';
 import { IMoment } from '../interfaces/Moment.interfaces';
 import { IStory } from '../interfaces/Story.interfaces';
 import dayjs from 'dayjs';
@@ -20,7 +19,7 @@ export interface IAppState {
 }
 
 export const appStateRecoil = atom<IAppState>({
-    key: `app-state-state/${nanoid()}`,
+    key: `app-state-state/}`,
     default: {
         headerCollapsed: false,
         selectedMoment: null,
@@ -37,70 +36,70 @@ export const appStateRecoil = atom<IAppState>({
 });
 
 export const getHeaderCollapsed = selector<boolean>({
-    key: `/get-header-collapsed-${nanoid()}`,
+    key: `/get-header-collapsed}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).headerCollapsed;
     },
 });
 
 export const getSelectedMoment = selector<IMoment | null>({
-    key: `/get-selected-moment-${nanoid()}`,
+    key: `/get-selected-moment}`,
     get: ({ get }): IMoment | null => {
         return get(appStateRecoil).selectedMoment;
     },
 });
 
 export const getSelectedStory = selector<IStory | null>({
-    key: `/get-selected-story-${nanoid()}`,
+    key: `/get-selected-story}`,
     get: ({ get }): IStory | null => {
         return get(appStateRecoil).selectedStory;
     },
 });
 
 export const getShowStories = selector<boolean>({
-    key: `get-show-stories/${nanoid()}`,
+    key: `get-show-stories/}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).showStories;
     },
 });
 
 export const getStorageUpdate = selector<string>({
-    key: `/get-storage-update${nanoid()}`,
+    key: `/get-storage-update}`,
     get: ({ get }): string => {
         return get(appStateRecoil).storageUpdate;
     },
 });
 
 export const getPlaceMode = selector<boolean>({
-    key: `get-place-mode/${nanoid()}`,
+    key: `get-place-mode/}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).placeMode;
     },
 });
 
 export const getMomentsProcessing = selector<string[]>({
-    key: `get-moments-processing/${nanoid()}`,
+    key: `get-moments-processing/}`,
     get: ({ get }): string[] => {
         return get(appStateRecoil).momentsProcessing;
     },
 });
 
 export const getMapType = selector<TMapType>({
-    key: `/get-map-type${nanoid()}`,
+    key: `/get-map-type}`,
     get: ({ get }): TMapType => {
         return get(appStateRecoil).mapType;
     },
 });
 
 export const getWakeLock = selector<boolean>({
-    key: `/get-wake-lock${nanoid()}`,
+    key: `/get-wake-lock}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).wakeLock;
     },
 });
 
 export const getUnlocked = selector<boolean>({
-    key: `/get-unlocked-${nanoid()}`,
+    key: `/get-unlocked}`,
     get: ({ get }): boolean => {
         return get(appStateRecoil).unlocked;
     },
