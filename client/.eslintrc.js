@@ -17,6 +17,28 @@ module.exports = {
     ],
     rules: {
         'react-hooks/rules-of-hooks': 'error',
+        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-explicit-any': 'error',
+        '@typescript-eslint/no-magic-numbers': [
+            'warn',
+            {
+                ignore: [-1, 0, 1],
+                ignoreArrayIndexes: true,
+                enforceConst: true,
+                detectObjects: false,
+            },
+        ],
+        'consistent-return': 'warn',
+        'react/no-danger': 'error',
+        'max-len': ['warn', { code: 120, ignorePattern: 'className=".*"' }],
+        '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: true }],
+        'import/order': [
+            'error',
+            {
+                groups: ['builtin', 'external', 'parent', 'sibling', 'index'],
+                'newlines-between': 'always',
+            },
+        ],
         'react-hooks/exhaustive-deps': [
             'warn',
             {
@@ -24,13 +46,9 @@ module.exports = {
             },
         ],
         '@typescript-eslint/no-empty-interface': 'off',
-        'react/prop-types': 'off',
-        'react/no-danger': 'off',
+        'react/prop-types': 'off', // TS is handling this
         'react/jsx-uses-react': 'off',
-        '@next/next/no-document-import-in-page': 'off',
-        '@next/next/no-img-element': 'off',
         'react/react-in-jsx-scope': 'off',
-        'react/jsx-props-no-spreading': 'off',
         'import/no-extraneous-dependencies': [
             'error',
             {
@@ -45,11 +63,5 @@ module.exports = {
         ],
         'import/extensions': 'off',
     },
-    ignorePatterns: [
-        '.eslintrc.js',
-        'next.config.js',
-        'apollo.config.js',
-        'postcss.config.js',
-        'tailwind.config.js',
-    ],
+    ignorePatterns: ['.eslintrc.js', 'next.config.js', 'postcss.config.js', 'tailwind.config.js'],
 };

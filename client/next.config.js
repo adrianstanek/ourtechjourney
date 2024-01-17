@@ -23,59 +23,7 @@ const withPWA = require('next-pwa')({
         /middleware-runtime\.js$/,
         /middleware-runtime\.js\.map$/,
     ],
-    runtimeCaching: [
-        {
-            urlPattern: /https:\/\/api\.mapbox\.com\/v4\/mapbox\.satellite.*/,
-            method: 'GET',
-            handler: 'StaleWhileRevalidate',
-            options: {
-                cacheName: 'geo-mb-satellite',
-                expiration: {
-                    maxEntries: 3000,
-                    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-                },
-            },
-        },
-        {
-            urlPattern:
-                /https:\/\/api\.mapbox\.com\/styles\/v1\/mapbox\/outdoors\-v12\?access_token=.*/,
-            method: 'GET',
-            handler: 'StaleWhileRevalidate',
-            options: {
-                cacheName: 'geo-mb-access',
-                expiration: {
-                    maxEntries: 500,
-                    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-                },
-            },
-        },
-        {
-            urlPattern:
-                /https:\/\/api\.mapbox\.com\/v4\/mapbox\.mapbox-streets-v8,mapbox\.mapbox-terrain-v2,mapbox\.mapbox-bathymetry-v2\/.*/,
-            method: 'GET',
-            handler: 'StaleWhileRevalidate',
-            options: {
-                cacheName: 'geo-mb-streets',
-                expiration: {
-                    maxEntries: 3000,
-                    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-                },
-            },
-        },
-        {
-            urlPattern: /api\/geo\/search/,
-            method: 'GET',
-            handler: 'NetworkFirst',
-            options: {
-                cacheName: 'geo-address-search',
-                expiration: {
-                    maxEntries: 3000,
-                    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-                },
-            },
-        },
-        ...defaultRuntimeCaching,
-    ],
+    runtimeCaching: [...defaultRuntimeCaching],
 });
 
 module.exports = withPWA({
@@ -94,20 +42,14 @@ module.exports = withPWA({
     // webpack5: true,
     webpack: (config) => {
         config.resolve.fallback = { fs: false };
-
-        // config.module.rules.push({
-        //     test: /\.worker\.ts$/,
-        //     use: { loader: 'worker-loader' },
-        // });
-
         return config;
     },
     env: {
         nextImageExportOptimizer_imageFolderPath: 'public/assets',
         nextImageExportOptimizer_exportFolderPath: 'out',
-        nextImageExportOptimizer_quality: 90,
-        nextImageExportOptimizer_storePicturesInWEBP: true,
-        nextImageExportOptimizer_generateAndUseBlurImages: true,
+        nextImageExportOptimizer_quality: '90',
+        nextImageExportOptimizer_storePicturesInWEBP: 'true',
+        nextImageExportOptimizer_generateAndUseBlurImages: 'true',
     },
     serverRuntimeConfig: {},
     transpilePackages: ['next-image-export-optimizer'],

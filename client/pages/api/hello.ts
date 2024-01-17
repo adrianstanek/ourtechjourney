@@ -6,5 +6,6 @@ type Data = {
 };
 
 export default function handler(_req: NextApiRequest, res: NextApiResponse<Data>): void {
-    res.status(200).json({ name: 'John Doe' });
+    const successCode: number = 200;
+    res.status(successCode).json({ name: 'John Doe' });
 }

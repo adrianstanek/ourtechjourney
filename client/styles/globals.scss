@@ -1,88 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "font-oxanium";
-@import "font-sourceserif";
-@import "font-merrieathersans";
-@import "font-zeyada";
-@import "type";
-@import "blogStyles";
-@import "featureStyles";
-@import "headlineStyles";
-@import "gradients";
-@import "mapbox-gl/dist/mapbox-gl.css";
-@import 'swiper/swiper-bundle.css';
-//@import 'swiper/modules/pagination.scss';
-//@import 'swiper/modules/pagination.min.css';
 
 @layer components {
 }
 
 @layer utilities {
-    body {
-        @apply bg-white font-sans overflow-x-hidden;
-
-    }
-
-    .flip {
-        transform: scaleX(-1);
-    }
-
-    .gradientSuccess {
-        @apply bg-gradient-to-b from-success to-success-dark;
-    }
-
-    .gradientPrimary {
-        @apply bg-gradient-to-b from-primary to-primary-dark;
-    }
+  body {
+    //background-color: rgb(245 245 245);
+    @apply bg-neutral-100;
+  }
 }
 
 * {
-    text-rendering:              optimizeLegibility;
-    -webkit-font-smoothing:      antialiased;
-    -moz-osx-font-smoothing:     grayscale;
-    -webkit-tap-highlight-color: transparent;
-}
-
-
-a {
-    &:visited {
-    }
-
-    &:focus {
-        @apply text-white;
-    }
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: none;
-
-    @apply focus:ring-0;
-}
-
-.content {
-
-    h1 {
-    }
-
-    h2 {
-    }
-
-    strong {
-        @apply text-primary;
-    }
-
-    p {
-        @apply mb-4 leading-relaxed;
-    }
-
-    ul {
-        li {
-            list-style: circle;
-        }
-    }
-
+  outline: none;
+  @apply focus:ring-0;
 }

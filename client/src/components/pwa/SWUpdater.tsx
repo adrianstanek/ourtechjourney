@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Workbox } from 'workbox-window';
+import { Transition } from '@headlessui/react';
 
 export const SWUpdater: React.FC = () => {
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [sw, setSw] = useState<Workbox | null>(null);
 
     useEffect(() => {
-        const isDevelopment = process.env.NODE_ENV === 'development';
-
-        if ('serviceWorker' in window.navigator && !isDevelopment) {
+        if ('serviceWorker' in window.navigator) {
             const wb = new Workbox('/service-worker.js');
 
             setSw(wb);
@@ -47,10 +45,8 @@ export const SWUpdater: React.FC = () => {
     }, []);
 
     const reloadAndUpdate = useCallback(() => {
-        const isDevelopment = process.env.NODE_ENV === 'development';
-
         // Must the singelton instance of sw in state
-        if ('serviceWorker' in window.navigator && sw && !isDevelopment) {
+        if ('serviceWorker' in window.navigator && sw) {
             sw?.addEventListener('controlling', (e) => {
                 // eslint-disable-next-line no-console
                 console.log(e, 'Controlling!');
@@ -65,60 +61,45 @@ export const SWUpdater: React.FC = () => {
         }
     }, [sw]);
 
+    const border = useMemo(() => {
+        return 'shadow shadow-neutral-500 border border-primary rounded';
+    }, []);
+
+    const animation = useMemo(() => {
+        return 'opacity-75 transition-all hover:opacity-100';
+    }, []);
+
     return (
         <>
             {show && (
-                <div className="group fixed bottom-1 right-1 z-[20000] h-max w-max rounded border border-primary bg-white px-2 shadow shadow-neutral-500 transition-all">
-                    <span className="inline-flex items-center justify-center gap-x-1 text-xs text-primary">
-                        Neue Version installiert.{' '}
+                <Transition
+                    as={'div'}
+                    className={`fixed bottom-2 right-2 z-50 w-[25ßpx] bg-white p-4 px-2 ${animation} ${border}`}
+                    show={show ?? false}
+                    appear={show ?? false}
+                    enter="transition ease-in-out duration-500"
+                    enterFrom="transform translate-x-full"
+                    enterTo="transform opacity-100 translate-x-0"
+                    leave="transition ease-out duration-300"
+                    leaveFrom="transform opacity-100 translate-x-0"
+                    leaveTo="transform opacity-0 translate-x-full"
+                >
+                    <div className={`relative flex w-full flex-col gap-1`}>
+                        <span>New version available.</span>
                         <button
+                            className=""
+                            disabled={loading}
                             onClick={() => {
                                 reloadAndUpdate();
+                                setLoading(true);
                             }}
-                            className="inline underline"
+                            color={loading ? 'neutral' : 'primary'}
                         >
-                            Neu laden
+                            Reload
                         </button>
-                        <button
-                            onClick={() => {
-                                setShow(false);
-                            }}
-                            className="inline underline"
-                        >
-                            <FontAwesomeIcon
-                                icon={faXmark}
-                                className="ml-2 h-4 text-neutral-400 transition-all hover:text-primary"
-                            />
-                        </button>
-                    </span>
-                </div>
+                    </div>
+                </Transition>
             )}
-
-            {/*<Modal show={show} afterClose={() => {}} closeable={false}>*/}
-            {/*    <section className=" relative mt-10 flex h-full w-full flex-col items-center justify-center p-6 sm:flex-row">*/}
-            {/*        <div>*/}
-            {/*            <h1 className="w-full text-center font-serif text-xl text-primary sm:text-left">*/}
-            {/*                Eine neue Version ist verfügbar!*/}
-            {/*            </h1>*/}
-            {/*            <span className="mt-3 flex w-full max-w-[400px] text-center text-sm text-neutral-500 sm:text-left">*/}
-            {/*                Die App muss neu geladen werden. Dazu kannst du einfach auf den Button*/}
-            {/*                drücken. Die App wird daraufhin neustarten und das Update bereitstellen.*/}
-            {/*            </span>*/}
-            {/*        </div>*/}
-
-            {/*        <img*/}
-            {/*            src="/assets/icons/noun-happy-1603040-71D358.svg"*/}
-            {/*            className="mt-4 w-32 sm:w-52"*/}
-            {/*            alt="logo"*/}
-            {/*        />*/}
-            {/*    </section>*/}
-
-            {/*    <section className="relative flex w-full items-center justify-center gap-2">*/}
-            {/*        <button className="buttonLarge bg-success" onClick={() => reloadAndUpdate()}>*/}
-            {/*            <span>Jetzt neustarten</span>*/}
-            {/*        </button>*/}
-            {/*    </section>*/}
-            {/*</Modal>*/}
         </>
     );
 };

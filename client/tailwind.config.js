@@ -17,16 +17,16 @@ module.exports = {
         },
         extend: {
             fontFamily: {
-                sans: ['Merriweather Sans', 'sans-serif'],
-                serif: ['Merriweather Sans', 'sans-serif'],
-                display: ['Merriweather Sans', 'sans-serif'],
-                body: ['Merriweather Sans', 'sans-serif'],
+                sans: ['sans-serif'],
+                serif: ['sans-serif'],
+                display: ['sans-serif'],
+                body: ['sans-serif'],
             },
             colors: {
                 primary: {
-                    DEFAULT: '#478577',
-                    light: '#526b64',
-                    dark: '#35423f',
+                    DEFAULT: '#119DA4',
+                    light: '#4CDDE5',
+                    dark: '#0a7277',
                 },
                 secondary: {
                     DEFAULT: '#E4F9F4',

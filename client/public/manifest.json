@@ -5,10 +5,10 @@
     "scope": "/",
     "orientation": "portrait",
     "start_url": "/",
-    "name": "Storyfiy",
-    "app_name": "Storyfiy",
-    "description": "Sealed Memories, Stories Unveiled",
-    "short_name": "Storyfiy",
+    "name": "otj-playground",
+    "app_name": "otj-playground",
+    "description": "OTJ Playground",
+    "short_name": "otj-playground",
     "icons": [
         {
             "src": "/manifest/Manifest-192.png",
