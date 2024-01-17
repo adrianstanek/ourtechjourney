@@ -3,6 +3,7 @@
 fallback-*.js
 fallback-*.js.map
 
+.idea
 .idea/
 .idea/**
 
