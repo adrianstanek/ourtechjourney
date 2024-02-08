@@ -1,3 +1,7 @@
+function verse1(bottles: number) {
+    return `${bottles} bottles of beer on the wall, ${bottles} bottles of beer`;
+}
+
 describe('99 Bottles of Beer', () => {
     /*
      * Do we care about plurality? Human readability? YES
@@ -12,6 +16,12 @@ describe('99 Bottles of Beer', () => {
      * 5. If we have more than one bottle, it is 'bottles', instead of 'bottle'.
      * 6. The basic verse structure is: "X bottles of beer on the wall, X bottles of beer
      *                                   Take one down and pass it around, X-1 bottle(s) of beer on the wall"
+     *   b. The 1-case is "1 bottle of beer on the wall, 1 bottle of beer.
+     *                     Take one down and pass it around, no more bottles of beer on the wall."
      * 7. A number next the word bottle, possibly with an s (ie. bottles) for plural meanings.
      */
+    it('formats the bottle verse in plural for more than one bottle', () => {
+        const numBottles = 50;
+        expect(verse1(50)).toBe('50 bottles of beer on the wall, 50 bottles of beer');
+    });
 });
