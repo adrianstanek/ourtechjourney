@@ -1,13 +1,21 @@
 import { FULL_LYRICS } from './FULL_LYRICS';
 
+type VERSE = [string, string];
+
 function Lyrics(text: string) {
     return {
-        zero: () => text.split('\n\n').at(-1)?.split('\n') || [],
+        zero: () => (text.split('\n\n').at(-1)?.split('\n') || ['', '']) as VERSE,
+        at: (idx: number) => (text.split('\n\n').at(idx)?.split('\n') || ['', '']) as VERSE,
     };
 }
 
 function sing() {
-    return '\n\nNo more bottles of beer on the wall, no more bottles of beer.\nGo to the store and buy some more, 99 bottles of beer on the wall.';
+    const first =
+        '1 bottle of beer on the wall, 1 bottle of beer.\nTake one down and pass it around, no more bottles of beer on the wall.';
+    return (
+        first +
+        '\n\nNo more bottles of beer on the wall, no more bottles of beer.\nGo to the store and buy some more, 99 bottles of beer on the wall.'
+    );
 }
 
 describe('99 Bottles of Beer lyrics - song', () => {
@@ -17,11 +25,24 @@ describe('99 Bottles of Beer lyrics - song', () => {
     it.todo('the 2nd SENTENCE has the ACTION and NEW BOTTLES SECTION');
     it.todo("refers to a specific number of bottles in each VERSE's 1st SENTENCE");
     it.todo('decrements the number of bottles in the 2nd SENTENCE');
-    it.todo("repeats the previous verse's 2nd SENTENCE in the following VERSE's 1st SENTENCE");
+    it.todo(
+        "repeats the previous VERSE's 2nd SENTENCE RHYME in the following VERSE's 1st SENTENCE"
+    );
 
     it.todo('all non-zero VERSES decrement the number of bottles in the 2nd SENTENCE');
     it.todo('DETAIL: each SENTENCE starts uppercase');
     it.todo('DETAIL: VERSES are separated by an additional newline');
+
+    it.each([0, 1, -1])(
+        'the 1st SENTENCE has the BOTTLES SECTION and its matching RHYME (%d)',
+        (verseAt) => {
+            const verse1stSentence = Lyrics(sing()).at(verseAt)[0];
+            const firstSentenceStructure = /(.+?) on the wall, (.+)\./gi;
+            expect(verse1stSentence).toMatch(firstSentenceStructure);
+            const parts = verse1stSentence.split(' on the wall, ') as VERSE;
+            expect(parts[1]).toContain(parts[0].toLowerCase());
+        }
+    );
 
     it('styles the zero bottle BOTTLES SECTION as text: "no more bottles"', () => {
         const zeroVerse1stSentence = Lyrics(sing()).zero()[0];
