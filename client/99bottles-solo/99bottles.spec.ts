@@ -17,6 +17,12 @@ class NNBottlesLyrics {
 const Lyrics = (text: string) => new NNBottlesLyrics(text);
 
 function sing() {
+    const verses = Array(97)
+        .fill('')
+        .map((_, k) => {
+            const nr = 99 - k;
+            return `${nr} bottles of beer on the wall, ${nr} bottles of beer.\nTake one down and pass it around, ${nr - 1} bottles of beer on the wall.`;
+        });
     const twoBottle =
         '2 bottles of beer on the wall, 2 bottles of beer.\nTake one down and pass it around, 1 bottle of beer on the wall.';
     const oneBottle =
@@ -24,7 +30,7 @@ function sing() {
     const bridge =
         'No more bottles of beer on the wall, no more bottles of beer.\nGo to the store and buy some more, 99 bottles of beer on the wall.';
 
-    const verses = [twoBottle, oneBottle, bridge];
+    verses.push(twoBottle, oneBottle, bridge);
     return verses.join('\n\n');
 }
 
@@ -44,6 +50,11 @@ describe('99 Bottles of Beer lyrics - song', () => {
         const [, outro] = Lyrics(sing()).at(0)[1].split(', ');
         const [intro = '?'] = Lyrics(sing()).at(1)[0].split(', ');
         expect(outro).toContain(intro.toLowerCase());
+    });
+
+    it('has 99 verses', () => {
+        const lyrics = Lyrics(sing());
+        expect(lyrics.at(99)[0]).toContain('on the wall');
     });
 
     it.each([0, 1, -1])(
@@ -71,7 +82,7 @@ describe('99 Bottles of Beer lyrics - song', () => {
         expect(zeroVerse2ndSentence).toContain('99 bottles of beer on the wall');
     });
 
-    it.skip('Full lyrics text should match when formatted nicely', () => {
+    it('Full lyrics text should match when formatted nicely', () => {
         expect(sing()).toMatch(FULL_LYRICS);
     });
 });
