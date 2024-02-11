@@ -19,17 +19,18 @@ describe('99 Bottles of Beer lyrics - song', () => {
 
     it.todo('styles the zero bottle BOTTLES SECTION as text: "no more bottles"');
     it.todo('all non-zero VERSES decrement the number of bottles in the 2nd SENTENCE');
-    it.todo('the last VERSE with zero bottles finishes with 99 bottles in its 2nd sentence.');
     it.todo('DETAIL: each SENTENCE starts uppercase');
     it.todo('DETAIL: VERSES are separated by an additional newline');
 
     it('styles the zero bottle ACTION with a special bridge section', () => {
-        const lyrics = Lyrics(sing());
-        const zeroVerse = lyrics.zero();
-        expect(zeroVerse[0]).toMatch(
+        const zeroVerse1stSentence = Lyrics(sing()).zero()[0];
+        expect(zeroVerse1stSentence).toMatch(
             'No more bottles of beer on the wall, no more bottles of beer.'
         );
-        expect(zeroVerse[1]).toMatch(
+    });
+    it('the last VERSE with zero bottles finishes with 99 bottles in its 2nd sentence.', () => {
+        const zeroVerse2ndSentence = Lyrics(sing()).zero()[1];
+        expect(zeroVerse2ndSentence).toMatch(
             'Go to the store and buy some more, 99 bottles of beer on the wall.'
         );
     });
