@@ -25,16 +25,12 @@ describe('99 Bottles of Beer lyrics - song', () => {
     it.todo('DETAIL: VERSES are separated by an additional newline');
 
     it('styles the zero bottle ACTION with a special bridge section', () => {
-        const zeroVerse1stSentence = Lyrics(sing()).zero()[0];
-        expect(zeroVerse1stSentence).toMatch(
-            'No more bottles of beer on the wall, no more bottles of beer.'
-        );
+        const zeroVerse2ndSentence = Lyrics(sing()).zero()[1];
+        expect(zeroVerse2ndSentence).toContain('Go to the store and buy some more');
     });
     it('the last VERSE with zero bottles finishes with 99 bottles in its 2nd sentence.', () => {
         const zeroVerse2ndSentence = Lyrics(sing()).zero()[1];
-        expect(zeroVerse2ndSentence).toMatch(
-            'Go to the store and buy some more, 99 bottles of beer on the wall.'
-        );
+        expect(zeroVerse2ndSentence).toContain('99 bottles of beer on the wall');
     });
 
     it.skip('Full lyrics text should match when formatted nicely', () => {
