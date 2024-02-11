@@ -19,10 +19,14 @@ describe('99 Bottles of Beer lyrics - song', () => {
     it.todo('decrements the number of bottles in the 2nd SENTENCE');
     it.todo("repeats the previous verse's 2nd SENTENCE in the following VERSE's 1st SENTENCE");
 
-    it.todo('styles the zero bottle BOTTLES SECTION as text: "no more bottles"');
     it.todo('all non-zero VERSES decrement the number of bottles in the 2nd SENTENCE');
     it.todo('DETAIL: each SENTENCE starts uppercase');
     it.todo('DETAIL: VERSES are separated by an additional newline');
+
+    it('styles the zero bottle BOTTLES SECTION as text: "no more bottles"', () => {
+        const zeroVerse1stSentence = Lyrics(sing()).zero()[0];
+        expect(zeroVerse1stSentence).toContain('no more bottles');
+    });
 
     it('styles the zero bottle ACTION with a special bridge section', () => {
         const zeroVerse2ndSentence = Lyrics(sing()).zero()[1];
