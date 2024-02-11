@@ -25,13 +25,16 @@ describe('99 Bottles of Beer lyrics - song', () => {
     it.todo('the 2nd SENTENCE has the ACTION and NEW BOTTLES SECTION');
     it.todo("refers to a specific number of bottles in each VERSE's 1st SENTENCE");
     it.todo('decrements the number of bottles in the 2nd SENTENCE');
-    it.todo(
-        "repeats the previous VERSE's 2nd SENTENCE RHYME in the following VERSE's 1st SENTENCE"
-    );
 
     it.todo('all non-zero VERSES decrement the number of bottles in the 2nd SENTENCE');
     it.todo('DETAIL: each SENTENCE starts uppercase');
     it.todo('DETAIL: VERSES are separated by an additional newline');
+
+    it("repeats the previous VERSE's 2nd SENTENCE OUTRO in the following VERSE's 1st SENTENCE INTRO", () => {
+        const [, outro] = Lyrics(sing()).at(0)[1].split(', ');
+        const [intro = '?'] = Lyrics(sing()).at(1)[0].split(', ');
+        expect(outro).toContain(intro.toLowerCase());
+    });
 
     it.each([0, 1, -1])(
         'the 1st SENTENCE has the BOTTLES SECTION and its matching RHYME (%d)',
