@@ -2,20 +2,30 @@ import { FULL_LYRICS } from './FULL_LYRICS';
 
 type VERSE = [string, string];
 
-function Lyrics(text: string) {
-    return {
-        zero: () => (text.split('\n\n').at(-1)?.split('\n') || ['', '']) as VERSE,
-        at: (idx: number) => (text.split('\n\n').at(idx)?.split('\n') || ['', '']) as VERSE,
-    };
+class NNBottlesLyrics {
+    constructor(private text: string) {}
+
+    zero() {
+        return this.at(-1);
+    }
+
+    at(idx: number) {
+        return (this.text.split('\n\n').at(idx)?.split('\n') || ['', '']) as VERSE;
+    }
 }
 
+const Lyrics = (text: string) => new NNBottlesLyrics(text);
+
 function sing() {
-    const first =
+    const twoBottle =
+        '2 bottles of beer on the wall, 2 bottles of beer.\nTake one down and pass it around, 1 bottle of beer on the wall.';
+    const oneBottle =
         '1 bottle of beer on the wall, 1 bottle of beer.\nTake one down and pass it around, no more bottles of beer on the wall.';
-    return (
-        first +
-        '\n\nNo more bottles of beer on the wall, no more bottles of beer.\nGo to the store and buy some more, 99 bottles of beer on the wall.'
-    );
+    const bridge =
+        'No more bottles of beer on the wall, no more bottles of beer.\nGo to the store and buy some more, 99 bottles of beer on the wall.';
+
+    const verses = [twoBottle, oneBottle, bridge];
+    return verses.join('\n\n');
 }
 
 describe('99 Bottles of Beer lyrics - song', () => {
